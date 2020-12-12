@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
 import 'package:pos_app/Item.dart';
-import 'package:pos_app/ItemList.dart';
+import 'package:pos_app/ItemLists.dart';
 import 'package:pos_app/Modifiers.dart';
 import 'package:pos_app/TransactionDetails.dart';
 import 'package:pos_app/Utils/utils.dart';

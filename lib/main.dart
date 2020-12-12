@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
       ),
-      home: MasterPanelItem(),
+      home: MasterPanel(),
     );
   }
 }
