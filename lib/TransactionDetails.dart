@@ -1,0 +1,215 @@
+import 'package:flutter/material.dart';
+import 'package:pos_app/Utils/utils.dart';
+
+class TransactionDetails extends StatefulWidget{
+
+  _TransactonDetailsState createState()=>_TransactonDetailsState();
+}
+class _TransactonDetailsState extends State{
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 100),
+              width: MediaQuery.of(context).size.width-245,
+              child:   Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+
+                  Container(
+                    margin: EdgeInsets.only(left: 0,right: 5,),
+                    width: (MediaQuery.of(context).size.width/2)-25-140,
+
+                    child:   Container(
+                        margin: EdgeInsets.only(left: 0,right: 0,),
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        width: (MediaQuery.of(context).size.width/2)-105-25,
+                        color: Colors.grey.shade200,
+                        child:  FlatButton(child: Text("New Receipt",style: TextStyle(color: utils.getColorFromHex("#0D97FF"),fontSize: 35),),)
+                    ),
+
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 0,right: 0),
+                      padding: EdgeInsets.only(top: 10,bottom: 10),
+                      color: Colors.grey.shade200,
+                    width: (MediaQuery.of(context).size.width/2)-105-25,
+                    child:  FlatButton(child: Text("Issue Refund",style: TextStyle(color: utils.getColorFromHex("#0D97FF"),fontSize: 35),),)
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              margin: EdgeInsets.only(top: 50,left: 20),
+              child: Text.rich(TextSpan(
+                children: [
+
+                  TextSpan(text: "Cash Payment",style: TextStyle(fontSize: 25,color: Colors.black)),
+                  TextSpan(text: " 11/25/20 5:36 PM",style: TextStyle(fontSize: 18,color: utils.getColorFromHex("#878787")))
+
+                ]
+              ))
+            ),
+
+            Container(
+
+              width: MediaQuery.of(context).size.width,
+              child: Divider(height: 1,color: Colors.black.withOpacity(0.4),),
+              margin: EdgeInsets.only(top: 5,bottom: 5,left: 20,right: 20),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 70,
+              margin: EdgeInsets.only(left: 20,right: 20),
+              child: Stack(
+                children: [
+                  Positioned(
+                      top: 10,
+                      left: 5,
+                      child: Image(image: AssetImage("assets/images/money.png"),height: 50,width: 50,color: Colors.black,)),
+
+               Positioned(
+                   top: 20,
+                   left: 80,
+                   child: Text("Cash",style: TextStyle(color: utils.getColorFromHex("#3D3D3D"),fontSize: 25),)),
+                  Positioned(
+                      top: 20,
+                      right: 0,
+                      child: Text("${utils.localcurrency(7.30)}",style: TextStyle(color: utils.getColorFromHex("#878787"),fontSize: 25),)),
+                  Positioned(
+                      bottom: 0,
+                      child:  Container(
+
+                        width: MediaQuery.of(context).size.width,
+                    child: Divider(height: 1,color: Colors.black.withOpacity(0.4),),
+                    margin: EdgeInsets.only(top: 5,bottom: 5,left: 0,right: 0),
+                  ))
+                ],
+
+              ),
+
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 70,
+              child: Stack(
+                children: [
+                  Positioned(
+                      top: 10,
+                      left: 20,
+                      child: Image(image: AssetImage("assets/images/invoice.png"),height: 50,width: 50,color: Colors.black,)),
+
+                  Positioned(
+                      top: 20,
+                      left: 100,
+                      child: Text("Receipt #12ghb",style: TextStyle(color: utils.getColorFromHex("#3D3D3D"),fontSize: 25),)),
+
+                  Positioned(
+                      bottom: 0,
+                      child:  Container(
+
+                        width: MediaQuery.of(context).size.width,
+                        child: Divider(height: 1,color: Colors.black.withOpacity(0.4),),
+                        margin: EdgeInsets.only(top: 5,bottom: 5,left: 20,right: 20),
+                      ))
+                ],
+
+              ),
+
+            ),
+
+            Container(
+              width: MediaQuery.of(context).size.width,
+
+              margin: EdgeInsets.only(top: 50,bottom: 10,left: 20),
+                child: Text("Ticket #344",style: TextStyle(color: utils.getColorFromHex("#3D3D3D"),fontSize: 25),),
+            ),
+               Column(
+                 mainAxisAlignment: MainAxisAlignment.start,
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   _orderItem(),
+                   _orderItem(),
+                   _orderItem(),
+                   _orderItem(),
+                   _orderItem(),
+                   _orderItem(),
+
+                 ],
+               )
+
+          ],
+
+        ),
+
+
+      ),
+    );
+  }
+
+  Widget _orderItem(){
+
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 60,
+      margin: EdgeInsets.only(left: 20,right: 20,top: 5,bottom: 5),
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Container(width: 50,height: 50,
+          child:Image.asset("assets/images/fast_food.jpg",height: 50,width: 50,fit: BoxFit.cover,)),
+          ),
+          Positioned(
+              top: 5,
+              left: 70,
+              child:Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("SEVERE",style: TextStyle(fontSize: 25,color: Colors.black),),
+              Text("SERVIRSE , Combo x 2, and Mediana x 2",style: TextStyle(fontSize: 16,color: Colors.black.withOpacity(0.4)),)
+
+            ],
+
+          )),
+          Positioned(
+              top: 10,
+              right: 10,
+              child: Text("${utils.localcurrency(2.0)}",style: TextStyle(fontSize: 18,color: Colors.black.withOpacity(0.5)),)),
+          
+         Positioned(
+           bottom: 0,
+           width: MediaQuery.of(context).size.width,
+           child: Divider(
+             height: 1,
+             color: Colors.black.withOpacity(0.8),
+           ),
+
+         )
+        ],
+        
+        
+        
+      ),
+
+    );
+
+
+
+  }
+}

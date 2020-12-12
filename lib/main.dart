@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pos_app/MasterPanel.dart';
+import 'package:pos_app/MasterPanelItem.dart';
+import 'package:pos_app/MasterPanelTransaction.dart';
+import 'package:pos_app/dashboard.dart';
+import 'package:pos_app/menuDetails.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,6 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -25,8 +32,9 @@ class MyApp extends StatelessWidget {
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
+
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MasterPanelItem(),
     );
   }
 }

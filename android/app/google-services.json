@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "713944782866",
+    "firebase_url": "https://campbells-kiosk.firebaseio.com",
+    "project_id": "campbells-kiosk",
+    "storage_bucket": "campbells-kiosk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713944782866:android:731d334f4e87fc6589e0cb",
+        "android_client_info": {
+          "package_name": "com.campbells.pos_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713944782866-k8htb34nk1ashfrlq7b35euu1rgbv4rr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuXu-JiMsEWJHtwb7HKcTrvbbKI-lOkxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713944782866-k8htb34nk1ashfrlq7b35euu1rgbv4rr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "713944782866-5660muf3pd59hkcttth0omqp9uosoj97.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.campbells.prueba"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713944782866:android:ce61281ed13b6a5c89e0cb",
+        "android_client_info": {
+          "package_name": "com.campbells.prueba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713944782866-k8htb34nk1ashfrlq7b35euu1rgbv4rr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuXu-JiMsEWJHtwb7HKcTrvbbKI-lOkxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713944782866-k8htb34nk1ashfrlq7b35euu1rgbv4rr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "713944782866-5660muf3pd59hkcttth0omqp9uosoj97.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.campbells.prueba"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
