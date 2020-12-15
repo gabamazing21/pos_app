@@ -776,7 +776,7 @@ Future<void> addSubmenu()async{
       }).then((value) {
 
         Fluttertoast.showToast(
-            msg: "Food Item is  successfully updated.",
+            msg: "SubMenu is  successfully updated.",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
@@ -790,7 +790,7 @@ Future<void> addSubmenu()async{
             _menuDescription.clear();
             _pickFile=null;
          **/
-
+emptyDetail();
         setState(() {
           isloading = false;
 
@@ -841,6 +841,15 @@ Future<void> getModfierList()async{
     });
 
   }
+
+
+}
+void emptyDetail(){
+  _subMenuController.clear();
+  subMenuInSubMenu.clear();
+  modifiersInSubMenu.clear();
+  _pickFile=null;
+
 
 
 }
