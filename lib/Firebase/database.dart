@@ -145,4 +145,8 @@ static Future<List<Item>> getItems() async{
 
     return Future.delayed(Duration(seconds: 1),()=>itemlist);
   }
+
+  //TOdo Get the list of Order on Firebase and create the method that required the List of Order under Database Clss
+//Todo Also copy the Model for Order on the Previous App and Paste it inside the model of the pos app
+
 }
