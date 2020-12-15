@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>713944782866-kdnap4ejcades2qgn5vvne6u10sj467b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.713944782866-kdnap4ejcades2qgn5vvne6u10sj467b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAfdEfi_rRt_bwpZuBSsU6PCQXX7uotdTQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>713944782866</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.campbells.pos</string>
+	<key>PROJECT_ID</key>
+	<string>campbells-kiosk</string>
+	<key>STORAGE_BUCKET</key>
+	<string>campbells-kiosk.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:713944782866:ios:abd9640dcb91571789e0cb</string>
+	<key>DATABASE_URL</key>
+	<string>https://campbells-kiosk.firebaseio.com</string>
+</dict>
+</plist>

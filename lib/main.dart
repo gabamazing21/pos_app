@@ -10,10 +10,9 @@ import 'package:pos_app/UI/menuDetails.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  User user=FirebaseAuth.instance.currentUser;
-  if(user==null){
+  User user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
     FirebaseAuth.instance.signInAnonymously();
-
   }
   runApp(MyApp());
 }
@@ -25,7 +24,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -41,7 +39,6 @@ class MyApp extends StatelessWidget {
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
-
       ),
       home: MasterPanelItem(),
     );

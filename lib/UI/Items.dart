@@ -4,22 +4,18 @@ import 'package:pos_app/Firebase/database.dart';
 import 'package:pos_app/Models/Item.dart';
 import 'package:pos_app/Utils/utils.dart';
 
-class Item extends StatefulWidget{
-
-
-_ItemState createState()=>_ItemState();
-
+class Item extends StatefulWidget {
+  _ItemState createState() => _ItemState();
 }
-class _ItemState extends State{
-int _selected=0;
-List<Item> itemList=List();
-List<String> itemName=["Items","Modifiers","SubMenu"];
+
+class _ItemState extends State {
+  int _selected = 0;
+  List<Item> itemList = List();
+  List<String> itemName = ["Items", "Modifiers", "SubMenu"];
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       drawer: Drawer(
-
         child: Container(
           color: utils.getColorFromHex("#3D3D3D"),
           child: Stack(
@@ -28,24 +24,22 @@ List<String> itemName=["Items","Modifiers","SubMenu"];
                   right: 10,
                   top: 40,
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.of(context).pop();
                     },
                     child: Container(
-
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-
                           shape: BoxShape.circle,
-                          color: utils.getColorFromHex("#878787")
+                          color: utils.getColorFromHex("#878787")),
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 50,
                       ),
-                      child: Icon(Icons.close,color: Colors.white,size: 50,),
-
                     ),
                   )),
-
-
               Positioned(
                   top: 80,
                   left: 20,
@@ -54,95 +48,102 @@ List<String> itemName=["Items","Modifiers","SubMenu"];
                   child: Container(
                     child: ListView(
                       children: [
-                        ListTile(title: Text("Orders",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),),
-
-                        ListTile(title: Text("Transactions",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),),
-
-                        ListTile(title: Text("Items",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),),
-                        ListTile(title: Text("Modifiers",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),)
-
-
+                        ListTile(
+                          title: Text(
+                            "Orders",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        ListTile(
+                          title: Text("Transactions",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        ListTile(
+                          title: Text("Items",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        ListTile(
+                          title: Text("Modifiers",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        )
                       ],
-
-
                     ),
-
                   )),
-
-
-
             ],
-
-
           ),
-
-
-
         ),
       ),
-
-      appBar: AppBar(title: Text("Item",style: TextStyle(color: Colors.black),),backgroundColor: utils.getColorFromHex("#F1F1F1"),iconTheme: IconThemeData(color: Colors.black),),
-
+      appBar: AppBar(
+        title: Text(
+          "Item",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: utils.getColorFromHex("#F1F1F1"),
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
       body: Container(
-
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-
         child: ListView.builder(
-padding: EdgeInsets.all(0.0),
-         itemCount: 3,
-          itemBuilder: (BuildContext context,int index)=>_Item(itemName[index], index),
-
-
-
-
+          padding: EdgeInsets.all(0.0),
+          itemCount: 3,
+          itemBuilder: (BuildContext context, int index) =>
+              _Item(itemName[index], index),
         ),
-
       ),
     );
-
   }
 
-  Widget _Item(String text,int index){
+  Widget _Item(String text, int index) {
     return GestureDetector(
-      onTap: (){
-
-      _selected=index;
-        setState(() {
-
-        });
-      MasterDetailScaffold.of(context)
-          .detailsPaneNavigator
-          .pushNamed("ItemList?id=$text");
+      onTap: () {
+        _selected = index;
+        setState(() {});
+        MasterDetailScaffold.of(context)
+            .detailsPaneNavigator
+            .pushNamed("ItemList?id=$text");
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 59,
-        color: (_selected==index)?utils.getColorFromHex("#3D3D3D"):Colors.white,
+        height: 60,
+        color: (_selected == index)
+            ? utils.getColorFromHex("#3D3D3D")
+            : Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-                margin: EdgeInsets.only(left: 20,top: 20),
-                child: Text("${text}",style: TextStyle(fontSize: 20,color:(_selected==index) ?Colors.white:Colors.black,),)),
+                margin: EdgeInsets.only(left: 20, top: 20),
+                child: Text(
+                  "${text}",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: (_selected == index) ? Colors.white : Colors.black,
+                  ),
+                )),
             Container(
               margin: EdgeInsets.only(top: 0),
               width: MediaQuery.of(context).size.width,
-              child: Divider(color: Colors.black,),
-
+              child: Divider(
+                color: Colors.black,
+              ),
             )
-
-
           ],
-
-
         ),
-
       ),
     );
-
-
   }
-
 }
