@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
+import 'package:pos_app/Firebase/database.dart';
+import 'package:pos_app/Models/Item.dart';
 import 'package:pos_app/Utils/utils.dart';
 
 class Item extends StatefulWidget{
@@ -10,7 +12,8 @@ _ItemState createState()=>_ItemState();
 }
 class _ItemState extends State{
 int _selected=0;
-
+List<Item> itemList=List();
+List<String> itemName=["Items","Modifiers","SubMenu"];
   @override
   Widget build(BuildContext context) {
 
@@ -87,8 +90,8 @@ int _selected=0;
 
         child: ListView.builder(
 padding: EdgeInsets.all(0.0),
-         itemCount: 2,
-          itemBuilder: (BuildContext context,int index)=>_Item(index==0?"Items":"Modifiers", index),
+         itemCount: 3,
+          itemBuilder: (BuildContext context,int index)=>_Item(itemName[index], index),
 
 
 
@@ -141,4 +144,5 @@ padding: EdgeInsets.all(0.0),
 
 
   }
+
 }

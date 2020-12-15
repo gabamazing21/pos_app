@@ -10,8 +10,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
 import 'package:intl/intl.dart';
+import 'package:pos_app/Firebase/database.dart';
+import 'package:pos_app/Models/Item.dart';
 
 import 'package:pos_app/Models/Menu.dart';
+import 'package:pos_app/Models/submenu.dart';
 import 'package:pos_app/Utils/utils.dart';
 
 
@@ -24,6 +27,8 @@ class _menuDetailsState extends State{
 
 File _pickFile;
 Menu item;
+List<submenu> submenuList;
+List<Item> _itemList=List();
 bool isloading=false;
 String _menuNameError;
 String _menuPriceError;
@@ -37,7 +42,8 @@ TextEditingController _menuPromoController;
 TextEditingController _menuPriceController;
 TextEditingController _menuDescription;
 bool _iteminedit=false;
-bool visibility;
+bool visibility=true;
+List<String> selectedSubmnu=List();
 final _picker=ImagePicker();
 @override
   void initState() {
@@ -46,6 +52,7 @@ final _picker=ImagePicker();
   _menuNameController=TextEditingController();
   _menuPromoController=TextEditingController();
   _menuPriceController=TextEditingController();
+  getSubmenuList();
     super.initState();
 
 }
@@ -75,7 +82,7 @@ final _picker=ImagePicker();
               height: MediaQuery
                   .of(context)
                   .size
-                  .height - 50 - 32,
+                  .height - 50 - 32-81,
               child:
               SingleChildScrollView(
                 child: Column(
@@ -280,7 +287,7 @@ Widget enterMenuDetails(){
 
 
           Visibility(
-            visible: true,
+            visible: false,
             child: Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 10),
@@ -318,7 +325,7 @@ Widget enterMenuDetails(){
 
 
           Visibility(
-            visible: true,
+            visible: false,
             child: Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 10),
@@ -351,13 +358,41 @@ Widget enterMenuDetails(){
                   },
                     //elevation: 16,
                     style: TextStyle(color: Colors.black,fontSize: 12),),
+
                 )),
           ),
+            Visibility(
+                child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 10,
+                      left: 0,
+                      child: Text("Visibility",style: TextStyle(color: Colors.black,fontSize: 16,),),
+                    ),
+                    Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Checkbox(value: visibility, onChanged: (vale){
+                          setState(() {
+                            visibility=vale;
+                          });
 
+                        },
+                          activeColor:utils.getColorFromHex("#CB0000"),
+                          checkColor: Colors.white,
+                          focusColor:  Colors.black.withOpacity(0.3),))
+
+                  ],
+                ),
+
+            )),
 
           Container(
             margin: EdgeInsets.only(top: 10),
-            width: MediaQuery.of(context).size.width-245,
+            width: MediaQuery.of(context).size.width,
             child:   Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -365,7 +400,7 @@ Widget enterMenuDetails(){
 
                 Container(
                   margin: EdgeInsets.only(left: 0,right: 5),
-                  width: (MediaQuery.of(context).size.width/2)-25-140,
+                  width: (MediaQuery.of(context).size.width/2)-24,
                   child:  TextFormField(
                       keyboardType: TextInputType.number,
                       controller: _menuPriceController,
@@ -430,7 +465,7 @@ Widget enterMenuDetails(){
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 0,right: 0),
-                  width: (MediaQuery.of(context).size.width/2)-105-25,
+                  width: (MediaQuery.of(context).size.width/2)-24,
                   child:  TextFormField(
                       keyboardType: TextInputType.text,
                       controller: _menuPromoController,
@@ -570,34 +605,33 @@ Widget enterMenuDetails(){
 
 Widget _selectModifierSet(){
   return Container(
-    width: MediaQuery.of(context).size.width-168,
+    width: MediaQuery.of(context).size.width,
     margin: EdgeInsets.only(left: 20,right: 20,top: 10),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
 
-        Container(child: Text("Modifier set",style: TextStyle(fontSize: 16,color: Colors.black,),),),
+        Container(child: Text("SubMenu",style: TextStyle(fontSize: 16,color: Colors.black,),),),
         Container(
           margin: EdgeInsets.only(top: 10),
-          width: MediaQuery.of(context).size.width-168,
+          width: MediaQuery.of(context).size.width,
           child: Divider(height: 1.5,color: Colors.black.withOpacity(0.3),),
 
 
         ),
        Container(
         constraints: BoxConstraints(maxHeight: 300),
-         width: MediaQuery.of(context).size.width-168,
-         child: ListView(
+       //  width: MediaQuery.of(context).size.width-168,
+         width: MediaQuery.of(context).size.width,
+         child:(submenuList!=null)? ListView.builder(
            padding: EdgeInsets.all(0.0),
-           children: [
-             _modifierItem(),
-             _modifierItem(),
-             _modifierItem(),
-             _modifierItem(),
-             _modifierItem(),
-             _modifierItem(),
-             _modifierItem()
-           ],
+           itemCount: submenuList.length,
+           itemBuilder: (BuildContext context,int index)=>_subMenuItem(submenuList.elementAt(index)),
+
+         ):Container(
+           alignment: Alignment.center,
+           child: Text("Loading...",style: TextStyle(fontSize: 18,color: Colors.black),),
 
          ),
        )
@@ -614,22 +648,23 @@ Widget _selectModifierSet(){
 
 
 }
-Widget _modifierItem(){
+Widget _subMenuItem(submenu item){
   return Container(
-    width: MediaQuery.of(context).size.width-168,
+    width: MediaQuery.of(context).size.width,
     height: 50,
     margin: EdgeInsets.only(top: 10),
     child: Column(
       children: [
         Container(
-          width: MediaQuery.of(context).size.width-168,
+          width: MediaQuery.of(context).size.width,
           height: 45,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width:(MediaQuery.of(context).size.width-168-60)*.75,
+                width:(MediaQuery.of(context).size.width)*.75,
+               // width:MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -638,32 +673,37 @@ Widget _modifierItem(){
                     Container(
 
                       margin:EdgeInsets.only(left: 0),
-                      child: Text("Modifier 1",style: TextStyle(fontSize: 16,color: Colors.black,),),
+                      child: Text(item.submenuname,style: TextStyle(fontSize: 16,color: Colors.black,),),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      width: MediaQuery.of(context).size.width-168,
-                      height: 20,
+                    Visibility(
+                      visible: false,
                       child: Container(
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                            children: [
+                        margin: EdgeInsets.only(top: 5),
+                        //width: MediaQuery.of(context).size.width-168,
+                        width: MediaQuery.of(context).size.width,
+                        height: 20,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                              children: [
 
-                              Container(
-                                  margin: EdgeInsets.only(right: 2),child: Text("Rice,",style: TextStyle(fontSize: 12,color: Colors.black.withOpacity(0.6)),)),
-                              Container(
-                                  margin: EdgeInsets.only(right: 2),
-                                  child: Text("Bean,",style: TextStyle(fontSize: 12,color: Colors.black.withOpacity(0.6)),)),
-                              Container(
-                                  margin: EdgeInsets.only(right: 2),
-                                  child: Text("Salad",style: TextStyle(fontSize: 12,color: Colors.black.withOpacity(0.6)),))
+                                Container(
+                                    margin: EdgeInsets.only(right: 2),child: Text("Rice,",style: TextStyle(fontSize: 12,color: Colors.black.withOpacity(0.6)),)),
+                                Container(
+                                    margin: EdgeInsets.only(right: 2),
+                                    child: Text("Bean,",style: TextStyle(fontSize: 12,color: Colors.black.withOpacity(0.6)),)),
+                                Container(
+                                    margin: EdgeInsets.only(right: 2),
+                                    child: Text("Salad",style: TextStyle(fontSize: 12,color: Colors.black.withOpacity(0.6)),))
 
-                            ],
+                              ],
+
+                          ),
 
                         ),
 
                       ),
-
                     )
                   ],
                 ),
@@ -671,8 +711,11 @@ Widget _modifierItem(){
 
               Container(
                   margin: EdgeInsets.only(),
-                  child: Checkbox(value: true, onChanged: (value){
+                  child: Checkbox(value: selectedSubmnu.contains(item.submeuid), onChanged: (value){
 
+                    setState(() {
+                      selectedSubmnu.add(item.submeuid);
+                    });
                   },
                     activeColor:utils.getColorFromHex("#CB0000"),
                     checkColor: Colors.white,
@@ -738,7 +781,7 @@ Future<void> addMenu(){
         print("download link $value");
         FirebaseFirestore.instance.collection("menus").add({
 
-          "menu_images_url": value,
+          "imageLink": value,
           "menuName":_menuNameController.text,
           "description":_menuDescription.text,
           "price":double.parse(_menuPriceController.text),
@@ -777,6 +820,9 @@ Future<void> addMenu(){
           });
         }, onError: (error) {
           print("An error occurred");
+          setState(() {
+            isloading=false;
+          });
         });
       }, onError: (value) {
         print("error occurred  $value");
@@ -793,8 +839,19 @@ Future<void> addMenu(){
 
   }
 
+Future<void>getSubmenuList()async{
+  submenuList=await database.getAllSubMenu();
+  if(submenuList.isEmpty){
+    getSubmenuList();
 
+  }else{
 
+    setState(() {
+      
+    });
+  }
+
+}
 
 
 }

@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:pos_app/Models/Item.dart';
 import 'package:pos_app/Utils/utils.dart';
+import 'package:pos_app/Firebase/database.dart';
 
-class Modifiers extends StatefulWidget{
+class ItemsDetailList extends StatefulWidget{
 
-  _ModifierState createState()=>_ModifierState();
+  _ItemsDetailListState createState()=>_ItemsDetailListState();
 }
-class _ModifierState extends State{
-  TextEditingController _searchController=TextEditingController();
-
+class _ItemsDetailListState extends State{
+TextEditingController _searchController=TextEditingController();
+List<Item> _itemList=List();
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+getItemList();
+}
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
       appBar: AppBar(title: Text("Modifiers",style: TextStyle(fontSize: 16,color: Colors.black,)),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
@@ -49,7 +58,7 @@ class _ModifierState extends State{
               margin: EdgeInsets.only(top: 30,left: 20,right: 20),
               width: MediaQuery.of(context).size.width,
               height: 50,
-              child: FlatButton(child: Text("Add Item",style: TextStyle(fontSize: 16,color: utils.getColorFromHex("#0D97FF")),),),
+              child: FlatButton(child: Text("Add Modifiers",style: TextStyle(fontSize: 16,color: utils.getColorFromHex("#0D97FF")),),),
 
 
             ),
@@ -59,8 +68,8 @@ class _ModifierState extends State{
               height: MediaQuery.of(context).size.height-210,
               child: ListView.builder(
 
-                itemCount: 10,
-                itemBuilder: (BuildContext context,int index)=>_orderItem(),
+                itemCount: _itemList.length,
+                itemBuilder: (BuildContext context,int index)=>_orderItem(_itemList.elementAt(index)),
               ),
             )
 
@@ -74,7 +83,7 @@ class _ModifierState extends State{
 
   }
 
-  Widget _orderItem(){
+  Widget _orderItem(Item item){
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -95,7 +104,7 @@ class _ModifierState extends State{
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("SEVERE",style: TextStyle(fontSize: 25,color: Colors.black),),
+                  Text("${item.itemName}",style: TextStyle(fontSize: 25,color: Colors.black),),
 
                 ],
 
@@ -125,6 +134,18 @@ class _ModifierState extends State{
 
 
   }
+Future<void> getItemList()async{
+  _itemList=await database.getItems();
 
+  if(_itemList.isEmpty){
+
+    getItemList();
+  }else{
+
+    setState(() {
+
+    });
+  }
+}
 
 }

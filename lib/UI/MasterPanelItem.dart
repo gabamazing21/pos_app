@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
-import 'package:pos_app/Item.dart';
-import 'package:pos_app/ItemLists.dart';
-import 'package:pos_app/Modifiers.dart';
-import 'package:pos_app/TransactionDetails.dart';
+import 'package:pos_app/UI/SubMenu.dart';
+import 'package:pos_app/UI/Items.dart';
+import 'package:pos_app/UI/ItemLists.dart';
+import 'package:pos_app/UI/Modifiers.dart';
+import 'package:pos_app/UI/TransactionDetails.dart';
 import 'package:pos_app/Utils/utils.dart';
 
 class MasterPanelItem extends StatefulWidget{
@@ -38,6 +39,9 @@ Widget currentWidget;
              print("value is modifiers");
               currentWidget=Modifiers();
 
+            }else if(parameters["id"].contains("SubMenu")){
+
+              currentWidget=SubMenu();
             }
             setState(() {
 

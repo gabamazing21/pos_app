@@ -1,9 +1,15 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pos_app/Firebase/database.dart';
+import 'package:pos_app/Models/Item.dart';
 import 'package:pos_app/Models/Menu.dart';
 import 'package:pos_app/Utils/utils.dart';
+import 'package:path/path.dart' as path;
 
 class ItemList extends StatefulWidget{
 
@@ -21,13 +27,16 @@ bool isMenuNameError=true;
 bool isMenuDescriptionError=true;
 bool isMenuCategoryError=true;
 bool isMenuPriceError=true;
-bool visibility;
+bool visibility=true;
+bool isloading=false;
+List<Item> _itemList=List();
   final _picker=ImagePicker();
 TextEditingController _menuNameController;
 TextEditingController _menuPromoController;
 TextEditingController _menuPriceController;
 TextEditingController _menuDescription;
 bool addItem=false;
+
 
 @override
   void initState() {
@@ -36,6 +45,7 @@ bool addItem=false;
   _menuNameController=TextEditingController();
   _menuPromoController=TextEditingController();
   _menuPriceController=TextEditingController();
+//  getItemList();
   }
 
   @override
@@ -218,32 +228,49 @@ Widget getTopToolbar(){
                   addItem=false;
                 });
               },
-              child: Container(
+              child: GestureDetector(
+                onTap: (){
 
-                child: Icon(Icons.close, size: 30,color: Colors.black,),
+                  Navigator.of(context).pop();
+                },
+                child: Container(
 
+                  child: Icon(Icons.close, size: 30,color: Colors.black,),
+
+                ),
               ),
             )),
         Positioned(
           left: MediaQuery.of(context).size.width*.3,
           top: 17,
-          child: Text("Create Menu",style: TextStyle(fontSize: 22,color: Colors.black),),
+          child: Text("Create Item",style: TextStyle(fontSize: 22,color: Colors.black),),
         ),
         Positioned(
             right: 0,
             width: 70,
             top: 0,
             height: 50,
-            child: Container(
-              alignment: Alignment.center,
-              child: Text("Save",style: TextStyle(fontSize: 18,color: Colors.white),),
-              decoration: BoxDecoration(
+            child: GestureDetector(
+              onTap: (){
+                if(!isloading) {
+                  addMenuItem();
+                }else{
 
-                color: utils.getColorFromHex("#878787"),
+                  print("loading...");
+                }
+
+              },
+              child: Container(
+                alignment: Alignment.center,
+                child: Text("Save",style: TextStyle(fontSize: 18,color: Colors.white),),
+                decoration: BoxDecoration(
+
+                  color: utils.getColorFromHex("#878787"),
+
+                ),
+
 
               ),
-
-
             ))
 
       ],
@@ -374,7 +401,7 @@ Widget enterMenuDetails(){
 
 
         Visibility(
-          visible: true,
+          visible: false,
           child: Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 10),
@@ -412,7 +439,7 @@ Widget enterMenuDetails(){
 
 
         Visibility(
-          visible: true,
+          visible: false,
           child: Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 10),
@@ -447,6 +474,7 @@ Widget enterMenuDetails(){
                   style: TextStyle(color: Colors.black,fontSize: 12),),
               )),
         ),
+
 
 
         Container(
@@ -648,6 +676,36 @@ Widget enterMenuDetails(){
           ),
         ),
 
+        Visibility(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 10,
+                    left: 0,
+                    child: Text("Visibility",style: TextStyle(color: Colors.black,fontSize: 16,),),
+                  ),
+                  Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Checkbox(value: visibility, onChanged: (vale){
+                        setState(() {
+                          visibility=vale;
+                        });
+
+                      },
+                        activeColor:utils.getColorFromHex("#CB0000"),
+                        checkColor: Colors.white,
+                        focusColor:  Colors.black.withOpacity(0.3),))
+
+                ],
+              ),
+
+            )),
+
+
 
       ],
 
@@ -671,5 +729,80 @@ Future pickImage()async{
   });
 
 }
+  Future<void> addMenuItem(){
+
+    setState(() {
+      isloading=true;
+
+    });
+
+    var date = DateTime.now();
+    String filename =path.basename(_pickFile.path) + date.toString();
+    Reference storageReference = FirebaseStorage.instance.ref().child(
+        "uploads/$filename");
+    UploadTask uploadTask = storageReference.putFile(_pickFile);
+    TaskSnapshot taskSnapshot = uploadTask.snapshot;
+    uploadTask.then((value) {
+      value.ref.getDownloadURL().then((value)async {
+        print("download link $value");
+        FirebaseFirestore.instance.collection("Items").add({
+
+          "imageLink": value,
+          "itemName":_menuNameController.text,
+          "description":_menuDescription.text,
+          "ItemPrice":double.parse(_menuPriceController.text),
+          "promo_price":(_menuPromoController.text.isEmpty)?0:_menuPromoController.text,
+          "last_modified":DateTime.now(),
+          "created_date":DateTime.now(),
+          "subMenu":null,
+          // "category":_currentCategory.name,
+          // "category_id":_currentCategory.documentid,
+          "visible":visibility
+
+
+
+
+        }).then((value) {
+
+          Fluttertoast.showToast(
+              msg: "Food Item is  successfully updated.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: utils.getColorFromHex("#CB0000"),
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+          /**_menuPriceController.clear();
+              _menuNameController.clear();
+              _menuPromoController.clear();
+              _menuDescription.clear();
+              _pickFile=null;
+           **/
+
+          setState(() {
+            isloading = false;
+
+          });
+        }, onError: (error) {
+          print("An error occurred");
+          setState(() {
+            isloading=false;
+          });
+        });
+      }, onError: (value) {
+        print("error occurred  $value");
+
+
+        setState(() {
+          isloading = false;
+        });
+      });
+    });
+
+
+
+
+  }
 
 }

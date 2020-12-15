@@ -1,11 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pos_app/MasterPanel.dart';
-import 'package:pos_app/MasterPanelItem.dart';
-import 'package:pos_app/MasterPanelTransaction.dart';
-import 'package:pos_app/dashboard.dart';
-import 'package:pos_app/menuDetails.dart';
+import 'package:pos_app/UI/MasterPanel.dart';
+import 'package:pos_app/UI/MasterPanelItem.dart';
+import 'package:pos_app/UI/MasterPanelTransaction.dart';
+import 'package:pos_app/UI/dashboard.dart';
+import 'package:pos_app/UI/menuDetails.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  User user=FirebaseAuth.instance.currentUser;
+  if(user==null){
+    FirebaseAuth.instance.signInAnonymously();
+
+  }
   runApp(MyApp());
 }
 
@@ -34,7 +43,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
       ),
-      home: MasterPanel(),
+      home: MasterPanelItem(),
     );
   }
 }

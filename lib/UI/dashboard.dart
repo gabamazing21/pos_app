@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
+import 'package:pos_app/Firebase/database.dart';
+import 'package:pos_app/Models/Menu.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 class dashboard extends StatefulWidget{
@@ -9,7 +11,15 @@ class dashboard extends StatefulWidget{
 }
 class _dashboardState extends State{
 
+  List<Menu> allmenulist=List();
+  bool isloading=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  getMenu();
 
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -21,6 +31,7 @@ class _dashboardState extends State{
         _crossAxisCount;
     var cellHeight =206;
     var _aspectRatio = _width / cellHeight;
+
 return Scaffold(
   appBar: AppBar(title: Text("Dashboard"),backgroundColor: utils.getColorFromHex("#3D3D3D"),),
   drawer: Drawer(
@@ -104,19 +115,18 @@ body: Container(
            child: AddItem()),
       Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height-88,
+        height: MediaQuery.of(context).size.height-88-48,
         child:
-        ResponsiveGridList(
+          ResponsiveGridList(
 
 desiredItemWidth: 100,
           minSpacing: 20,
-          children: menulist.map((e) => GestureDetector(child: MenuItem(),onTap: (){
+          children: allmenulist.map((e) => GestureDetector(child: MenuItem(e),onTap: (){
             MasterDetailScaffold.of(context)
                 .detailsPaneNavigator
                 .pushNamed('menuDetails');
 
           },)).toList()
-
         ),
 
 
@@ -131,11 +141,11 @@ desiredItemWidth: 100,
 
   }
   Widget AddItem(){
-    return Container(child: FlatButton(child: Text("Add Menu",style: TextStyle(fontSize: 20,color: Colors.black,),),),);
+    return Container(child: FlatButton(child: Text("Add Menu",style: TextStyle(fontSize: 20,color: Colors.white,),),),);
 
 
   }
-  Widget MenuItem(){
+  Widget MenuItem(Menu item){
 
     return Container(
       width: 229,
@@ -149,7 +159,7 @@ desiredItemWidth: 100,
             height: 164,
             color: utils.getColorFromHex("#CC1313"),
 
-               child: Text("Item 1", maxLines: 1,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.bold),),
+               child: Text("${item.menu_name}", maxLines: 1,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.bold),),
 
 
           ),
@@ -159,7 +169,7 @@ desiredItemWidth: 100,
 
             alignment: Alignment.center,
             width: 229,
-            child: Text("Item 1",style: TextStyle(fontSize: 12,color: Colors.black),overflow: TextOverflow.ellipsis,maxLines: 1,),
+            child: Text("${item.menu_name}",style: TextStyle(fontSize: 12,color: Colors.black),overflow: TextOverflow.ellipsis,maxLines: 1,),
           )
 
         ],
@@ -171,6 +181,23 @@ desiredItemWidth: 100,
 
 
     );
+
+
+  }
+  Future<void> getMenu()async{
+    setState(() {
+      isloading=true;
+    });
+    allmenulist=await database.getMenu();
+    if(allmenulist.isEmpty){
+
+      getMenu();
+    }else{
+      setState(() {
+        isloading=false;
+      });
+
+    }
 
 
   }
