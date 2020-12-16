@@ -143,7 +143,7 @@ class _TransactionListState extends State {
                 top: 18,
                 right: 5,
                 child: Text(
-                  "${orderDetails.orderCreation}",
+                  "${utils.readTimestamp(orderDetails.orderCreation.millisecondsSinceEpoch)}",
                   style: TextStyle(fontSize: 18, color: Colors.black),
                 )),
             Positioned(
@@ -151,7 +151,7 @@ class _TransactionListState extends State {
                 left: 60,
                 width: 150,
                 child: Text(
-                  "#${orderDetails.orderId}",
+                  "${orderDetails.orderId}",
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 18, color: Colors.black),
                 )),
