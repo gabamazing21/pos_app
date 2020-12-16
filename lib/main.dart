@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_app/UI/MasterPanel.dart';
 import 'package:pos_app/UI/MasterPanelItem.dart';
 import 'package:pos_app/UI/MasterPanelTransaction.dart';
+import 'package:pos_app/UI/TransactionDetails.dart';
 import 'package:pos_app/UI/dashboard.dart';
 import 'package:pos_app/UI/menuDetails.dart';
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MasterPanelItem(),
+      home: MasterPanelTransaction(),
     );
   }
 }
