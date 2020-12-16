@@ -25,7 +25,7 @@ getModifiersList();
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: AppBar(title: Text("Modifiers",style: TextStyle(fontSize: 16,color: Colors.black,)),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
+     // appBar: AppBar(title: Text("Modifiers",style: TextStyle(fontSize: 16,color: Colors.black,)),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
 
       body:(!showEditModifiers) ?Container(
         width: MediaQuery.of(context).size.width,
@@ -78,7 +78,7 @@ getModifiersList();
 
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-210,
+              height: MediaQuery.of(context).size.height-218,
               child: ListView.builder(
 
                 itemCount:modifiersList.length,

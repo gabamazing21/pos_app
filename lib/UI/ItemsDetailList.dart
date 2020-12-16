@@ -54,13 +54,21 @@ getItemList();
               ),
             ),
 
-            Container(
-              margin: EdgeInsets.only(top: 30,left: 20,right: 20),
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              child: FlatButton(child: Text("Add Modifiers",style: TextStyle(fontSize: 16,color: utils.getColorFromHex("#0D97FF")),),),
+            GestureDetector(
+              onTap: (){
+            setState(() {
+
+            });
+
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 30,left: 20,right: 20),
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: FlatButton(child: Text("Add Modifiers",style: TextStyle(fontSize: 16,color: utils.getColorFromHex("#0D97FF")),),),
 
 
+              ),
             ),
 
             Container(

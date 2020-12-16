@@ -17,13 +17,15 @@ submenu _currentSubMenu;
 @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+  getSubmenuList();
+  super.initState();
+
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: AppBar(title: Text("SubMenu",style: TextStyle(fontSize: 16,color: Colors.black,)),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
+      //appBar: AppBar(title: Text("SubMenu",style: TextStyle(fontSize: 16,color: Colors.black,)),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
 
       body:(!showEditsubMenu) ?Container(
         width: MediaQuery.of(context).size.width,
@@ -76,7 +78,7 @@ submenu _currentSubMenu;
 
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-210,
+              height: MediaQuery.of(context).size.height-218,
               child: ListView.builder(
 
                 itemCount:subMenuList.length,

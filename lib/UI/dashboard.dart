@@ -121,10 +121,16 @@ body: Container(
 
 desiredItemWidth: 100,
           minSpacing: 20,
-          children: allmenulist.map((e) => GestureDetector(child: MenuItem(e),onTap: (){
-            MasterDetailScaffold.of(context)
-                .detailsPaneNavigator
-                .pushNamed('menuDetails');
+          children: allmenulist.map((e) => GestureDetector(child: MenuItem(e),onTap: ()async{
+//          await  MasterDetailScaffold.of(context)
+//                .detailsPaneNavigator
+//                .pushNamed('menuDetails?id=${e.id}');
+          Future.delayed(Duration(seconds: 0),(){
+//           if( Navigator.canPop(context))
+//             Navigator.pop(context);
+
+            Navigator.of(context).pushNamed("menuDetails?id=${e.id}");
+          });
 
           },)).toList()
         ),

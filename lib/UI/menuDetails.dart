@@ -20,14 +20,19 @@ import 'package:pos_app/Utils/utils.dart';
 
 class menuDetails extends StatefulWidget{
 
+String id;
 
-_menuDetailsState createState()=>_menuDetailsState();
+menuDetails(this.id);
+
+  _menuDetailsState createState()=>_menuDetailsState(id);
 }
 class _menuDetailsState extends State{
 
 File _pickFile;
-Menu item;
+Menu currentMenu;
+String id;
 List<submenu> submenuList;
+List<submenu>subMenuInMenu=List();
 List<Item> _itemList=List();
 bool isloading=false;
 String _menuNameError;
@@ -45,13 +50,21 @@ bool _iteminedit=false;
 bool visibility=true;
 List<String> selectedSubmnu=List();
 final _picker=ImagePicker();
-@override
+
+_menuDetailsState(this.id);
+
+  @override
   void initState() {
     // TODO: implement initState
   _menuDescription=TextEditingController();
   _menuNameController=TextEditingController();
   _menuPromoController=TextEditingController();
   _menuPriceController=TextEditingController();
+  if(id!=null){
+
+    getMenuDetail();
+print("value id is not null");
+  }
   getSubmenuList();
     super.initState();
 
@@ -72,7 +85,7 @@ final _picker=ImagePicker();
 
         Column(
           children: [
-            getTopToolbar(),
+
 
             Container(
               width: MediaQuery
@@ -82,7 +95,7 @@ final _picker=ImagePicker();
               height: MediaQuery
                   .of(context)
                   .size
-                  .height - 50 - 32-81,
+                  .height-7-81,
               child:
               SingleChildScrollView(
                 child: Column(
@@ -90,6 +103,25 @@ final _picker=ImagePicker();
                     getImageValue(),
                     enterMenuDetails(),
                     _selectModifierSet(),
+
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                      color: Colors.red,
+                      child: FlatButton(onPressed:(){
+                        if(!isloading) {
+                          if(id==null) {
+                            addMenu();
+                          }else{
+
+                            updateDetails();
+                          }
+                        }else{
+
+                          print("item is loading");
+                        }
+                      },child: Text("Save",style: TextStyle(fontSize: 16,color: Colors.white),),),
+                    )
                   ],
                 ),
               ),
@@ -140,7 +172,12 @@ final _picker=ImagePicker();
               child: GestureDetector(
                 onTap: (){
                  if(!isloading) {
-                   addMenu();
+                   if(id==null) {
+                     addMenu();
+                   }else{
+
+                     updateDetails();
+                   }
                  }else{
 
                    print("item is loading");
@@ -179,7 +216,7 @@ final _picker=ImagePicker();
              height: 150,
              margin: EdgeInsets.only(left: 10,right: 10,top: 10),
              decoration: BoxDecoration(
-                 image: DecorationImage(image:(_pickFile==null)?(item==null)?AssetImage('assets/images/placeholder.jpg',):NetworkImage(item.image_link):FileImage(_pickFile),fit: BoxFit.cover ,)
+                 image: DecorationImage(image:(_pickFile==null)?(currentMenu==null)?AssetImage('assets/images/placeholder.jpg',):NetworkImage(currentMenu.image_link):FileImage(_pickFile),fit: BoxFit.cover ,)
 
              ),
 
@@ -620,21 +657,27 @@ Widget _selectModifierSet(){
 
 
         ),
-       Container(
-        constraints: BoxConstraints(maxHeight: 300),
-       //  width: MediaQuery.of(context).size.width-168,
-         width: MediaQuery.of(context).size.width,
-         child:(submenuList!=null)? ListView.builder(
-           padding: EdgeInsets.all(0.0),
-           itemCount: submenuList.length,
-           itemBuilder: (BuildContext context,int index)=>_subMenuItem(submenuList.elementAt(index)),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height:50.0*subMenuInMenu.length,
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height-503-142),
+          child: ListView.builder(
+            itemCount: subMenuInMenu.length,
 
-         ):Container(
-           alignment: Alignment.center,
-           child: Text("Loading...",style: TextStyle(fontSize: 18,color: Colors.black),),
+            itemBuilder: (BuildContext context,int index)=>_subMenuItem(subMenuInMenu.elementAt(index)),),
 
-         ),
-       )
+        ),
+        GestureDetector(
+          onTap: (){
+            //showFoodList();
+              showSubMenuDetails();
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 20,top: 10),
+            child: Text("Add SubMenu",style: TextStyle(fontSize: 16,color: Colors.black.withOpacity(0.5)),),
+
+          ),
+        ),
 
 
       ],
@@ -709,19 +752,17 @@ Widget _subMenuItem(submenu item){
                 ),
               ),
 
-              Container(
-                  margin: EdgeInsets.only(),
-                  child: Checkbox(value: selectedSubmnu.contains(item.submeuid), onChanged: (value){
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    subMenuInMenu.remove(item);
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Icon(Icons.clear, color: Colors.red, size: 25,),
 
-                    setState(() {
-                      selectedSubmnu.add(item.submeuid);
-                    });
-                  },
-                    activeColor:utils.getColorFromHex("#CB0000"),
-                    checkColor: Colors.white,
-                    focusColor:  Colors.black.withOpacity(0.3),
-                  )
-
+                ),
               )
             ],
 
@@ -853,5 +894,206 @@ Future<void>getSubmenuList()async{
 
 }
 
+Future<void> getSubMenu()async{
 
+  subMenuInMenu=await database.getAllSubMenuList(currentMenu.sub_menu);
+  if(subMenuInMenu.isEmpty){
+    getSubMenu();
+
+  }else{
+
+    setState(() {
+
+    });
+  }
+
+}
+
+void showSubMenuDetails(){
+
+  showCupertinoDialog(context: context, builder: (BuildContext context)=>AlertDialog(title: Text("Sub Menu"),
+    content: subMenuList(),
+    actions: <Widget>[
+      FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: Container(
+          color: Colors.red,
+          padding: EdgeInsets.all(10),
+          child: Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      )
+    ],
+  ));
+
+}
+Widget subMenuList(){
+  double height=submenuList.length*25.0;
+
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    height: height,
+    constraints: BoxConstraints(maxHeight: 300),
+    child: ListView.separated(
+        separatorBuilder: (context, index) => Divider(
+          height: 1,
+          color: Colors.grey,
+
+        ),
+        padding: EdgeInsets.all(0.0),
+        itemCount: submenuList.length,
+        itemBuilder: (BuildContext context,index)=>GestureDetector(
+            onTap: (){
+              setState(() {
+
+                subMenuInMenu.add(submenuList.elementAt(index));
+
+              });
+
+            },
+            child: Container(child: Text("${submenuList.elementAt(index).submenuname}",style: TextStyle(fontSize: 20,color: Colors.black.withOpacity(0.6),fontWeight: FontWeight.bold),),))
+    ),
+
+  );
+}
+Future<void> getMenuDetail()async{
+    print("$id getting value for menuDetails");
+    currentMenu=await database.getMenuItem(id);
+    if(currentMenu==null){
+getMenuDetail();
+
+    }else{
+      if(currentMenu!=null){
+        print("${currentMenu.menu_name } is not null");
+        _menuDescription.text=currentMenu.decription;
+        _menuNameController.text=currentMenu.menu_name;
+        _menuPromoController.text=currentMenu.promoprice;
+        _menuPriceController.text=currentMenu.price;
+        getSubMenu();
+
+
+      }
+      setState(() {
+
+      });
+    }
+
+}
+Future<void> updateDetails()async {
+  if (_pickFile != null) {
+    setState(() {
+      isloading = true;
+    });
+
+    var date = DateTime.now();
+    String filename = path.basename(_pickFile.path) + date.toString();
+    Reference storageReference = FirebaseStorage.instance.ref().child(
+        "uploads/$filename");
+    UploadTask uploadTask = storageReference.putFile(_pickFile);
+    TaskSnapshot taskSnapshot = uploadTask.snapshot;
+    uploadTask.then((value) {
+      value.ref.getDownloadURL().then((value) async {
+        print("download link $value");
+        FirebaseFirestore.instance.collection("menus").doc(id).update({
+
+          "imageLink": value,
+          "menuName": _menuNameController.text,
+          "description": _menuDescription.text,
+          "price": double.parse(_menuPriceController.text),
+          "promo_price": (_menuPromoController.text.isEmpty)
+              ? 0
+              : _menuPromoController.text,
+          "last_modified": DateTime.now(),
+
+          "subMenu": (subMenuInMenu.isNotEmpty) ? List.generate(
+              subMenuInMenu.length, (index) =>
+          subMenuInMenu
+              .elementAt(index)
+              .submeuid) : null,
+          // "category":_currentCategory.name,
+          // "category_id":_currentCategory.documentid,
+          "visibility": visibility
+        }).then((value) {
+          Fluttertoast.showToast(
+              msg: "Menu is   updated successfully.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: utils.getColorFromHex("#CB0000"),
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+          /**_menuPriceController.clear();
+              _menuNameController.clear();
+              _menuPromoController.clear();
+              _menuDescription.clear();
+              _pickFile=null;
+           **/
+
+          setState(() {
+            isloading = false;
+          });
+        }, onError: (error) {
+          print("An error occurred");
+          setState(() {
+            isloading = false;
+          });
+        });
+      }, onError: (value) {
+        print("error occurred  $value");
+
+
+        setState(() {
+          isloading = false;
+        });
+      });
+    });
+  } else {
+    print("updating item only");
+    FirebaseFirestore.instance.collection("menus").doc(id).update({
+
+
+      "menuName": _menuNameController.text,
+      "description": _menuDescription.text,
+      "price": double.parse(_menuPriceController.text),
+      "promo_price": (_menuPromoController.text.isEmpty)
+          ? 0
+          : _menuPromoController.text,
+      "last_modified": DateTime.now(),
+
+      "subMenu": (subMenuInMenu.isNotEmpty) ? List.generate(
+          subMenuInMenu.length, (index) =>
+      subMenuInMenu
+          .elementAt(index)
+          .submeuid) : null,
+      // "category":_currentCategory.name,
+      // "category_id":_currentCategory.documentid,
+      "visibility": visibility
+    }).then((value) {
+      Fluttertoast.showToast(
+          msg: "Menu is   updated successfully.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: utils.getColorFromHex("#CB0000"),
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      /**_menuPriceController.clear();
+          _menuNameController.clear();
+          _menuPromoController.clear();
+          _menuDescription.clear();
+          _pickFile=null;
+       **/
+
+      setState(() {
+        isloading = false;
+      });
+    });
+  }
+}
 }
