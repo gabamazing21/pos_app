@@ -5,13 +5,29 @@ class Menu {
   String _image_link;
   bool _visibility;
   dynamic _price;
+  dynamic _promoprice;
+  String _decription;
+  String _id;
 
-  Menu(this._menu_name, this._sub_menu, this._image_link, this._visibility);
+  Menu(this._id,this._menu_name, this._sub_menu, this._image_link, this._visibility);
 
   String get image_link => _image_link;
 
   set image_link(String value) {
     _image_link = value;
+  }
+
+
+  String get id => _id;
+
+  set id(String value) {
+    _id = value;
+  }
+
+  dynamic get promoprice => _promoprice;
+
+  set promoprice(dynamic value) {
+    _promoprice = value;
   }
 
   List<String> get sub_menu => _sub_menu;
@@ -36,5 +52,11 @@ class Menu {
 
   set price(dynamic value) {
     _price = value;
+  }
+
+  String get decription => _decription;
+
+  set decription(String value) {
+    _decription = value;
   }
 }

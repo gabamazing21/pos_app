@@ -28,8 +28,12 @@ Widget currentWidget;
           masterPaneWidth: 250,
           initialDetailsPaneBuilder: (BuildContext context)=>ItemList(),
 
-          detailsAppBar: AppBar(title: Text("Item",),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
+          detailsAppBar: AppBar(title: Text("Item",style: TextStyle(color: Colors.black),),backgroundColor: utils.getColorFromHex("#F1F1F1"),iconTheme: IconThemeData(color: Colors.black)),
           onDetailsPaneRouteChanged: (String route, Map<String, String> parameters){
+            if(parameters==null){
+
+              return;
+            }
             print("onDetailsPanelRouteChanges $route $parameters");
             
             if(parameters["id"].contains("Items")){

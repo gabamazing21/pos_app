@@ -26,11 +26,14 @@ class database {
     List<Menu> mitem = List();
 
     menuRef().snapshots().listen((event) {
+          mitem.clear();
       event.docs.forEach((element) {
         Menu item = new Menu(
             element['menuName'],
             (element["subMenu"] != null ? List.from(element['subMenu']) : null),
             element['imageLink'],
+
+        Menu item = new Menu(element.id,element['menuName'],(element["subMenu"] != null?List.from(element['subMenu']):null), element['imageLink'],
             element['visibility']);
 
         mitem.add(item);
@@ -40,6 +43,13 @@ class database {
 
     // return Future.delayed(Duration(seconds: 1), () => mitem);
     return Future.delayed(Duration(seconds: 1), () => mitem);
+  }
+  static Future<Menu> getMenuItem(String id)async{
+    Menu item;
+    var itemref=await menuRef().doc(id).get().then((element) =>item= new Menu(element.id,element['menuName'],(element["subMenu"] != null?List.from(element['subMenu']):null), element['imageLink'],
+        element['visibility']) );
+
+    return item;
   }
 
   static Future<List<submenu>> getAllSubMenu() {
