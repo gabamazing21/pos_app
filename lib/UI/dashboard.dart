@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
 import 'package:pos_app/Firebase/database.dart';
 import 'package:pos_app/Models/Menu.dart';
+import 'package:pos_app/UI/Items.dart';
+import 'package:pos_app/UI/MasterPanel.dart';
+import 'package:pos_app/UI/MasterPanelItem.dart';
+import 'package:pos_app/UI/MasterPanelTransaction.dart';
+import 'package:pos_app/UI/slidepush.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 class dashboard extends StatefulWidget{
@@ -13,6 +18,7 @@ class _dashboardState extends State{
 
   List<Menu> allmenulist=List();
   bool isloading=false;
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -33,6 +39,7 @@ class _dashboardState extends State{
     var _aspectRatio = _width / cellHeight;
 
 return Scaffold(
+  key: _navigatorKey,
   appBar: AppBar(title: Text("Dashboard"),backgroundColor: utils.getColorFromHex("#3D3D3D"),),
   drawer: Drawer(
 
@@ -51,39 +58,75 @@ return Scaffold(
 
                   height: 50,
                   width: 50,
-            decoration: BoxDecoration(
+                  decoration: BoxDecoration(
 
-                shape: BoxShape.circle,
-                color: utils.getColorFromHex("#878787")
-            ),
-            child: Icon(Icons.close,color: Colors.white,size: 50,),
+                      shape: BoxShape.circle,
+                      color: utils.getColorFromHex("#878787")
+                  ),
+                  child: Icon(Icons.close,color: Colors.white,size: 50,),
 
-          ),
+                ),
               )),
-          
-          
+
+
           Positioned(
               top: 80,
               left: 20,
               width: MediaQuery.of(context).size.width,
               height: 300,
               child: Container(
-            child: ListView(
-              children: [
-                ListTile(title: Text("Orders",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),),
+                child: ListView(
+                  children: [
+                    GestureDetector(
+                        onTap: ()async {
+                          // Future.delayed(Duration(seconds: 1),()=>Navigator.of(context).pop());
+//                          Navigator.of(context).pushNamedAndRemoveUntil(
+//                              '/TransactionList', (
+//                              Route<dynamic> route) => false);
+                          //Navigator.of(context).pushNamed("/TransactionList");
+                          //  await  Navigator.pushNamed(context, "TransactionList");
 
-                ListTile(title: Text("Transactions",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),),
-                
-                ListTile(title: Text("Items",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),),
-                ListTile(title: Text("Modifiers",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),)
+                          //  Navigator.of(context).pop();
+//                            //    Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()));
+//                            if (Navigator.canPop(context)) {
+//                              Navigator.pop(context);
+//                              print("can still pop screen");
+//
+//                            } else {
+//                              print("no screen to pop");
+//                        Navigator.of(context).pushNamedAndRemoveUntil(
+//                            '/TransactionList', (
+//                            Route<dynamic> route) => false);
+//                           Navigator.of(context).pushNamed("/TransactionList");
+//Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()));
+//                            }
+                      //  Future.delayed(Duration.zero , (){Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()));});
+                        //  Navigator.of(context).pushNamed("menuDetails?id=Orders");
+                         // Future.delayed(Duration(seconds: 2),(){Navigator.pushNamed("/TransactionsList");});
+                          //Navigator.replace(context, oldRoute: MaterialPageRoute(builder: (BuildContext context)=>MasterPanel()), newRoute: MaterialPageRoute(builder: (BuildContext context)=>Item()));
+                        //  Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=>Item()));
+                        //Navigator.of(context).removeRoute(MaterialPageRoute(builder: (BuildContext context)=>MasterPanel()));
+                       //Navigator.pushNamedAndRemoveUntil(context, "/TransactionList", (route) => false);
+                     //     Future.delayed(Duration(seconds: 3),(){Navigator.pushNamed(context,"/remove");});
+                          //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(BuildContext context)=> MasterPanelTransaction()), (route) => false);
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelTransaction()), (route) => false);
+                        },
+                        child: ListTile(title: Text("Orders",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),)),
 
 
-              ],
+                    GestureDetector(
+                        onTap: ()async{
+
+                         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()), (route) => false);
+                        },
+                        child: ListTile(title: Text("Items",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),)),
+
+                  ],
 
 
-            ),
+                ),
 
-          )),
+              )),
 
 
 
@@ -96,6 +139,7 @@ return Scaffold(
 
     ),
   ),
+
 body: Container(
   color: Colors.black,
 
@@ -122,14 +166,14 @@ body: Container(
 desiredItemWidth: 100,
           minSpacing: 20,
           children: allmenulist.map((e) => GestureDetector(child: MenuItem(e),onTap: ()async{
-//          await  MasterDetailScaffold.of(context)
-//                .detailsPaneNavigator
-//                .pushNamed('menuDetails?id=${e.id}');
+          await  MasterDetailScaffold.of(context)
+                .detailsPaneNavigator
+                .pushNamed('menuDetails?id=${e.id}');
           Future.delayed(Duration(seconds: 0),(){
 //           if( Navigator.canPop(context))
 //             Navigator.pop(context);
 
-            Navigator.of(context).pushNamed("menuDetails?id=${e.id}");
+           // Navigator.of(context).pushNamed("menuDetails");
           });
 
           },)).toList()

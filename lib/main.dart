@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pos_app/UI/Demo.dart';
 import 'package:pos_app/UI/MasterPanel.dart';
 import 'package:pos_app/UI/MasterPanelItem.dart';
 import 'package:pos_app/UI/MasterPanelTransaction.dart';
 import 'package:pos_app/UI/TransactionDetails.dart';
 import 'package:pos_app/UI/dashboard.dart';
 import 'package:pos_app/UI/menuDetails.dart';
+import 'package:pos_app/UI/routes.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +23,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  RouteObserver<PageRoute> routeObserver=RouteObserver<PageRoute>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,7 +45,14 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MasterPanelTransaction(),
+      routes: {
+        "/TransactionList":(context)=>MasterPanelTransaction(),
+
+      },
+      onGenerateRoute: routes.generateRoute,
+      initialRoute: "/",
+
+
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/Firebase/database.dart';
 import 'package:pos_app/Models/OrderDetail.dart';
+import 'package:pos_app/Models/OrderItem.dart';
+import 'package:pos_app/Utils/tempovalue.dart';
 import 'package:pos_app/Utils/utils.dart';
 
 class TransactionDetails extends StatefulWidget {
@@ -8,10 +10,12 @@ class TransactionDetails extends StatefulWidget {
 }
 
 class _TransactonDetailsState extends State {
+  OrderDetails currentOrders;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    currentOrders=tempovalueInstance.getInstance().currentOrderDetials;
   }
 
   @override
@@ -20,7 +24,7 @@ class _TransactonDetailsState extends State {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(
+        child:(currentOrders!=null)? Column(
           children: [
             Container(
               margin: EdgeInsets.only(top: 100),
@@ -78,7 +82,7 @@ class _TransactonDetailsState extends State {
                       text: "Cash Payment",
                       style: TextStyle(fontSize: 25, color: Colors.black)),
                   TextSpan(
-                      text: " 11/25/20 5:36 PM",
+                      text: " ${utils.readTimestamp(currentOrders.orderCreation.millisecondsSinceEpoch)}",
                       style: TextStyle(
                           fontSize: 18,
                           color: utils.getColorFromHex("#878787")))
@@ -119,7 +123,7 @@ class _TransactonDetailsState extends State {
                       top: 20,
                       right: 0,
                       child: Text(
-                        "${utils.localcurrency(7.30)}",
+                        "${utils.localcurrency(currentOrders.amount)}",
                         style: TextStyle(
                             color: utils.getColorFromHex("#878787"),
                             fontSize: 25),
@@ -156,7 +160,7 @@ class _TransactonDetailsState extends State {
                       top: 20,
                       left: 100,
                       child: Text(
-                        "Receipt #12ghb",
+                        "Receipt ${currentOrders.orderId}",
                         style: TextStyle(
                             color: utils.getColorFromHex("#3D3D3D"),
                             fontSize: 25),
@@ -179,7 +183,7 @@ class _TransactonDetailsState extends State {
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 50, bottom: 10, left: 20),
               child: Text(
-                "Ticket #344",
+                "Ticket ${currentOrders.orderId}",
                 style: TextStyle(
                     color: utils.getColorFromHex("#3D3D3D"), fontSize: 25),
               ),
@@ -187,22 +191,15 @@ class _TransactonDetailsState extends State {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _orderItem(),
-                _orderItem(),
-                _orderItem(),
-                _orderItem(),
-                _orderItem(),
-                _orderItem(),
-              ],
+              children:currentOrders.product.map((e) => _orderItem(e)).toList()
             )
           ],
-        ),
+        ):Container(),
       ),
     );
   }
 
-  Widget _orderItem() {
+  Widget _orderItem(Orderitem item) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 60,
@@ -230,11 +227,11 @@ class _TransactonDetailsState extends State {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "SEVERE",
+                    "${item.orderItemname}",
                     style: TextStyle(fontSize: 25, color: Colors.black),
                   ),
                   Text(
-                    "SERVIRSE , Combo x 2, and Mediana x 2",
+                    "x ${item.quantity}",
                     style: TextStyle(
                         fontSize: 16, color: Colors.black.withOpacity(0.4)),
                   )
@@ -244,7 +241,7 @@ class _TransactonDetailsState extends State {
               top: 10,
               right: 10,
               child: Text(
-                "${utils.localcurrency(2.0)}",
+                "${utils.localcurrency(item.price)}",
                 style: TextStyle(
                     fontSize: 18, color: Colors.black.withOpacity(0.5)),
               )),

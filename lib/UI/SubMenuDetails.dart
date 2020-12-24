@@ -60,7 +60,7 @@ class _SubMenuDetailsState extends State {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            getTopToolbar(),
+
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 50 - 32 - 81 - 43,
@@ -171,6 +171,23 @@ class _SubMenuDetailsState extends State {
                       child: Divider(
                         color: Colors.black.withOpacity(0.3),
                       ),
+                    ),
+
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                      color: Colors.red,
+                      child: FlatButton(onPressed:(){
+                        if (!isloading) {
+                          if (currentsubmenu == null) {
+                            addSubmenu();
+                          } else {
+                            updateSubmenu();
+                          }
+                        } else {
+                          print("loading...");
+                        }
+                      },child: Text("Save",style: TextStyle(fontSize: 16,color: Colors.white),),),
                     )
                   ],
                 ),

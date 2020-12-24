@@ -4,6 +4,7 @@ import 'package:pos_app/Models/OrderDetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pos_app/Models/Item.dart';
 import 'package:pos_app/Models/Menu.dart';
+import 'package:pos_app/Models/OrderItem.dart';
 import 'package:pos_app/Models/modifier.dart';
 import 'package:pos_app/Models/submenu.dart';
 
@@ -179,6 +180,7 @@ class database {
           element['changeToReceived'],
           element['orderInRestaurant'],
           element['orderCompleted'],
+          List.from(element['orderItems']).map((e) => Orderitem(e[ 'orderItemId'],e['orderName'], e['orderQuantity'], e['orderPrice'])).toList(),
         );
 
         orderDetails.add(orders);

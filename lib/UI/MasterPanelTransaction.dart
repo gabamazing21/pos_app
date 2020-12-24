@@ -10,11 +10,16 @@ _MasterPanelTransactionState createState()=>_MasterPanelTransactionState();
 }
 class _MasterPanelTransactionState extends State{
 
+RouteObserver<PageRoute> routeObserver=RouteObserver<PageRoute>();
+
+
+
 
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return
+      Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -24,9 +29,13 @@ class _MasterPanelTransactionState extends State{
           detailsRoute: "TransactionDetails",
           masterPaneWidth: 250,
           initialDetailsPaneBuilder: (BuildContext context)=>TransactionDetails(),
-
+          useObserver: false,
           detailsAppBar: AppBar(title: Text(utils.localcurrency(7.30),),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
           onDetailsPaneRouteChanged: (String route, Map<String, String> parameters){
+            if(parameters==null){
+
+              return;
+            }
             print("onDetailsPanelRouteChanges $route");
             setState(() {
 

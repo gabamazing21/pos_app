@@ -53,7 +53,6 @@ return Scaffold(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-           getTopToolbar(),
         Container(
           margin: EdgeInsets.only(left: 20,right: 20,top: 20),
           width: MediaQuery.of(context).size.width,
@@ -317,6 +316,20 @@ return Scaffold(
 
          ),
 
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+          color: Colors.red,
+          child: FlatButton(onPressed:(){
+            if(!isloading) {
+              //  addMenuItem();
+              saveModifiers();
+            }else{
+
+              print("loading...");
+            }
+          },child: Text("Save",style: TextStyle(fontSize: 16,color: Colors.white),),),
         )
 
       ],

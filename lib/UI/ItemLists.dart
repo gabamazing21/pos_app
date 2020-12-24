@@ -107,8 +107,8 @@ body:(!addItem) ?Container(
         height: MediaQuery.of(context).size.height-210,
         child: ListView.builder(
 
-          itemCount: 10,
-          itemBuilder: (BuildContext context,int index)=>_orderItem(),
+          itemCount: _itemList.length,
+          itemBuilder: (BuildContext context,int index)=>_orderItem(_itemList.elementAt(index)),
         ),
       )
 
@@ -122,7 +122,7 @@ body:(!addItem) ?Container(
 
   }
 
-Widget _orderItem(){
+Widget _orderItem(Item item){
 
   return Container(
     width: MediaQuery.of(context).size.width,
@@ -143,7 +143,7 @@ Widget _orderItem(){
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("SEVERE",style: TextStyle(fontSize: 25,color: Colors.black),),
+                Text("${item.itemName}",style: TextStyle(fontSize: 25,color: Colors.black),),
 
               ],
 
@@ -151,7 +151,7 @@ Widget _orderItem(){
         Positioned(
             top: 10,
             right: 10,
-            child: Text("${utils.localcurrency(2.0)}",style: TextStyle(fontSize: 18,color: Colors.black.withOpacity(0.5)),)),
+            child: Text("${utils.localcurrency(item..itemprice)}",style: TextStyle(fontSize: 18,color: Colors.black.withOpacity(0.5)),)),
 
         Positioned(
           bottom: 0,
@@ -181,7 +181,6 @@ return Container(
 
   Column(
     children: [
-      getTopToolbar(),
 
       Container(
         width: MediaQuery.of(context).size.width,
@@ -192,7 +191,20 @@ return Container(
             children: [
               getImageValue(),
               enterMenuDetails(),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                color: Colors.red,
+                child: FlatButton(onPressed:(){
+                  if(!isloading) {
+                    addMenuItem();
+                  }else{
 
+                    print("loading...");
+                  }
+
+                },child: Text("Save",style: TextStyle(fontSize: 16,color: Colors.white),),),
+              )
             ],
           ),
         ),
@@ -803,6 +815,19 @@ Future pickImage()async{
 
 
 
+  }
+  Future<void> getItems()async{
+
+  _itemList=await database.getItems();
+  if(_itemList.isEmpty){
+
+    getItems();
+  }else{
+
+    setState(() {
+
+    });
+  }
   }
 
 }

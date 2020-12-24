@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
 import 'package:pos_app/Firebase/database.dart';
 import 'package:pos_app/Models/Item.dart';
+import 'package:pos_app/UI/MasterPanel.dart';
+import 'package:pos_app/UI/MasterPanelItem.dart';
+import 'package:pos_app/UI/MasterPanelTransaction.dart';
 import 'package:pos_app/Utils/utils.dart';
 
 class Item extends StatefulWidget {
@@ -49,8 +52,12 @@ class _ItemState extends State {
                     child: ListView(
                       children: [
                         ListTile(
+                          onTap: (){
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanel()), (route) => false);
+
+                          },
                           title: Text(
-                            "Orders",
+                            "Menus",
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.white,
@@ -58,26 +65,17 @@ class _ItemState extends State {
                           ),
                         ),
                         ListTile(
-                          title: Text("Transactions",
+                          onTap: (){
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelTransaction()), (route) => false);
+
+                          },
+                          title: Text("Orders",
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                         ),
-                        ListTile(
-                          title: Text("Items",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        ListTile(
-                          title: Text("Modifiers",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        )
+
                       ],
                     ),
                   )),

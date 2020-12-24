@@ -14,6 +14,7 @@ class MasterPanelItem extends StatefulWidget{
 class _MasterPanelItemState extends State{
 
 Widget currentWidget;
+bool _useObserver=false;
   @override
   Widget build(BuildContext context) {
 
@@ -27,11 +28,12 @@ Widget currentWidget;
           detailsRoute: "ItemList",
           masterPaneWidth: 250,
           initialDetailsPaneBuilder: (BuildContext context)=>ItemList(),
-
+          useObserver: true,
           detailsAppBar: AppBar(title: Text("Item",style: TextStyle(color: Colors.black),),backgroundColor: utils.getColorFromHex("#F1F1F1"),iconTheme: IconThemeData(color: Colors.black)),
           onDetailsPaneRouteChanged: (String route, Map<String, String> parameters){
+            print("onDetailsPanel");
             if(parameters==null){
-
+print("parameter is null");
               return;
             }
             print("onDetailsPanelRouteChanges $route $parameters");
@@ -48,7 +50,7 @@ Widget currentWidget;
               currentWidget=SubMenu();
             }
             setState(() {
-
+ _useObserver=true;
 
             });
           },

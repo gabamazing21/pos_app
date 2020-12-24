@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
+import 'package:pos_app/UI/MasterPanel.dart';
+import 'package:pos_app/UI/MasterPanelItem.dart';
+import 'package:pos_app/Utils/tempovalue.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:pos_app/Models/OrderDetail.dart';
 import 'package:pos_app/Firebase/database.dart';
@@ -56,35 +59,32 @@ class _TransactionListState extends State {
                       child: ListView(
                         children: [
                           ListTile(
+                            onTap: (){
+                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanel()), (route) => false);
+
+
+                            },
                             title: Text(
-                              "Orders",
+                              "Menus",
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
+
                           ListTile(
-                            title: Text("Transactions",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                          ListTile(
+                            onTap: (){
+                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()), (route) => false);
+
+                            },
                             title: Text("Items",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold)),
                           ),
-                          ListTile(
-                            title: Text("Modifiers",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold)),
-                          )
+
                         ],
                       ),
                     )),
@@ -105,7 +105,17 @@ class _TransactionListState extends State {
             height: MediaQuery.of(context).size.height,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) =>
-                  itemList(index, orderList.elementAt(index)),
+                  GestureDetector(
+                      onTap: (){
+                        MasterDetailScaffold.of(context)
+                            .detailsPaneNavigator
+                            .pushNamed("TransactionDetails?id=${orderList.elementAt(index).orderId}");
+                                setState(() {
+                                  _selectedIndex=index;
+                                });
+                                tempovalueInstance.getInstance().currentOrderDetials=orderList.elementAt(index);
+                      },
+                      child: itemList(index, orderList.elementAt(index))),
               itemCount: orderList.length,
             )));
   }

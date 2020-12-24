@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pos_app/Models/OrderItem.dart';
 
 class OrderDetails {
   String _userId;
   String _orderId;
   Timestamp _orderCreation;
-  // List<Orderitem> _product;
+   List<Orderitem> _product;
   dynamic _amount;
   dynamic _amountAvailable;
   dynamic _chargeToReceived;
@@ -22,7 +23,8 @@ class OrderDetails {
       this._chargeToReceived,
       // this._orderScanned,
       this._orderInrestuurant,
-      this._orderCompleted);
+      this._orderCompleted,
+      this._product);
 
   Timestamp get orderCompleted => _orderCompleted;
 
@@ -82,5 +84,11 @@ class OrderDetails {
 
   set userId(String value) {
     _userId = value;
+  }
+
+  List<Orderitem> get product => _product;
+
+  set product(List<Orderitem> value) {
+    _product = value;
   }
 }
