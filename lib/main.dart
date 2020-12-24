@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pos_app/Models/OrderDetail.dart';
 import 'package:pos_app/UI/MasterPanel.dart';
 import 'package:pos_app/UI/MasterPanelItem.dart';
 import 'package:pos_app/UI/MasterPanelTransaction.dart';
 import 'package:pos_app/UI/TransactionDetails.dart';
 import 'package:pos_app/UI/dashboard.dart';
 import 'package:pos_app/UI/menuDetails.dart';
+import 'UI/printing.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MasterPanelTransaction(),
+      home: MyPrint(null),
     );
   }
 }
