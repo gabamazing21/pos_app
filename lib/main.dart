@@ -45,12 +45,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      routes: {
-        "/TransactionList":(context)=>MasterPanelTransaction(),
-
-      },
-      onGenerateRoute: routes.generateRoute,
-      initialRoute: "/",
+      home: MasterPanel(),
 
 
     );

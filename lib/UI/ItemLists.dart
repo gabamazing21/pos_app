@@ -52,7 +52,7 @@ bool addItem=false;
   Widget build(BuildContext context) {
 return Scaffold(
 
-  //appBar: AppBar(title: Text("All Item",style: TextStyle(fontSize: 16,color: Colors.black,)),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
+  appBar: AppBar(title: Text(!addItem?"All Item":"Item Details",style: TextStyle(fontSize: 16,color: Colors.black,)),backgroundColor: utils.getColorFromHex("#F1F1F1"),),
 
 body:(!addItem) ?Container(
   width: MediaQuery.of(context).size.width,

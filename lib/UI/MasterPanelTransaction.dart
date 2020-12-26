@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
 import 'package:pos_app/UI/TransactionDetails.dart';
 import 'package:pos_app/UI/TransactionList.dart';
+import 'package:pos_app/Utils/tempovalue.dart';
 import 'package:pos_app/Utils/utils.dart';
 
 class MasterPanelTransaction extends StatefulWidget{

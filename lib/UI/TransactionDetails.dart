@@ -188,10 +188,16 @@ class _TransactonDetailsState extends State {
                     color: utils.getColorFromHex("#3D3D3D"), fontSize: 25),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:currentOrders.product.map((e) => _orderItem(e)).toList()
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 60.0*currentOrders.product.length,
+              constraints: BoxConstraints(maxHeight: 200),
+              child: ListView.builder(
+                padding: EdgeInsets.only(left: 0,right: 0,top: 0,bottom: 10),
+                itemCount: currentOrders.product.length,
+                itemBuilder: (BuildContext context,int index)=>_orderItem(currentOrders.product.elementAt(index)),
+                //children:currentOrders.product.map((e) => _orderItem(e)).toList()
+              ),
             )
           ],
         ):Container(),
