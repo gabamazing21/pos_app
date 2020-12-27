@@ -147,14 +147,15 @@ class _TransactionListState extends State {
                 left: 60,
                 child: Text(
                   "${utils.localcurrency(orderDetails.amount)}",
-                  style: TextStyle(fontSize: 20, color: Colors.black),
+                  style: TextStyle(fontSize: 14, color: Colors.black),
                 )),
             Positioned(
                 top: 18,
                 right: 5,
+                width: 100,
                 child: Text(
                   "${utils.readTimestamp(orderDetails.orderCreation.millisecondsSinceEpoch)}",
-                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  style: TextStyle(fontSize: 12, color: Colors.black),
                 )),
             Positioned(
                 top: 40,
@@ -163,7 +164,7 @@ class _TransactionListState extends State {
                 child: Text(
                   "${orderDetails.orderId}",
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  style: TextStyle(fontSize: 14, color: Colors.black),
                 )),
             Positioned(
                 bottom: 0,
@@ -184,6 +185,10 @@ class _TransactionListState extends State {
     if (orderList.isEmpty) {
       getOrderList();
     } else {
+      MasterDetailScaffold.of(context)
+          .detailsPaneNavigator
+          .pushNamed("TransactionDetails?id=${orderList.elementAt(0).orderId}");
+      tempovalueInstance.getInstance().currentOrderDetials=orderList.elementAt(0);
       setState(() {});
     }
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pos_app/Firebase/database.dart';
 import 'package:pos_app/Models/OrderDetail.dart';
 import 'package:pos_app/Models/OrderItem.dart';
-import 'package:pos_app/UI/printing.dart';
 import 'package:pos_app/Utils/tempovalue.dart';
 import 'package:pos_app/Utils/utils.dart';
 
@@ -12,219 +11,197 @@ class TransactionDetails extends StatefulWidget {
 
 class _TransactonDetailsState extends State {
   OrderDetails currentOrders;
-  bool printing = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    currentOrders = tempovalueInstance.getInstance().currentOrderDetials;
+    currentOrders=tempovalueInstance.getInstance().currentOrderDetials;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (!printing)
-          ? Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: (currentOrders != null)
-                  ? Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 100),
-                          width: MediaQuery.of(context).size.width - 245,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                  left: 0,
-                                  right: 5,
-                                ),
-                                width: (MediaQuery.of(context).size.width / 2) -
-                                    25 -
-                                    140,
-                                child: Container(
-                                    margin: EdgeInsets.only(
-                                      left: 0,
-                                      right: 0,
-                                    ),
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 10),
-                                    width: (MediaQuery.of(context).size.width /
-                                            2) -
-                                        105 -
-                                        25,
-                                    color: Colors.grey.shade200,
-                                    child: FlatButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          printing = true;
-                                        });
-                                      },
-                                      child: Text(
-                                        "New Receipt",
-                                        style: TextStyle(
-                                            color: utils
-                                                .getColorFromHex("#0D97FF"),
-                                            fontSize: 35),
-                                      ),
-                                    )),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.only(left: 0, right: 0),
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  color: Colors.grey.shade200,
-                                  width:
-                                      (MediaQuery.of(context).size.width / 2) -
-                                          105 -
-                                          25,
-                                  child: FlatButton(
-                                    child: Text(
-                                      "Issue Refund",
-                                      style: TextStyle(
-                                          color:
-                                              utils.getColorFromHex("#0D97FF"),
-                                          fontSize: 35),
-                                    ),
-                                  )),
-                            ],
-                          ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child:(currentOrders!=null)? Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 100),
+              width: MediaQuery.of(context).size.width - 245,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: 0,
+                      right: 5,
+                    ),
+                    width: (MediaQuery.of(context).size.width / 2) - 25 - 140,
+                    child: Container(
+                        margin: EdgeInsets.only(
+                          left: 0,
+                          right: 0,
                         ),
-                        Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50,
-                            margin: EdgeInsets.only(top: 50, left: 20),
-                            child: Text.rich(TextSpan(children: [
-                              TextSpan(
-                                  text: "Cash Payment",
-                                  style: TextStyle(
-                                      fontSize: 25, color: Colors.black)),
-                              TextSpan(
-                                  text:
-                                      " ${utils.readTimestamp(currentOrders.orderCreation.millisecondsSinceEpoch)}",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: utils.getColorFromHex("#878787")))
-                            ]))),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Divider(
-                            height: 1,
-                            color: Colors.black.withOpacity(0.4),
-                          ),
-                          margin: EdgeInsets.only(
-                              top: 5, bottom: 5, left: 20, right: 20),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 70,
-                          margin: EdgeInsets.only(left: 20, right: 20),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                  top: 10,
-                                  left: 5,
-                                  child: Image(
-                                    image:
-                                        AssetImage("assets/images/money.png"),
-                                    height: 50,
-                                    width: 50,
-                                    color: Colors.black,
-                                  )),
-                              Positioned(
-                                  top: 20,
-                                  left: 80,
-                                  child: Text(
-                                    "Cash",
-                                    style: TextStyle(
-                                        color: utils.getColorFromHex("#3D3D3D"),
-                                        fontSize: 25),
-                                  )),
-                              Positioned(
-                                  top: 20,
-                                  right: 0,
-                                  child: Text(
-                                    "${utils.localcurrency(currentOrders.amount)}",
-                                    style: TextStyle(
-                                        color: utils.getColorFromHex("#878787"),
-                                        fontSize: 25),
-                                  )),
-                              Positioned(
-                                  bottom: 0,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Divider(
-                                      height: 1,
-                                      color: Colors.black.withOpacity(0.4),
-                                    ),
-                                    margin: EdgeInsets.only(
-                                        top: 5, bottom: 5, left: 0, right: 0),
-                                  ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 70,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                  top: 10,
-                                  left: 20,
-                                  child: Image(
-                                    image:
-                                        AssetImage("assets/images/invoice.png"),
-                                    height: 50,
-                                    width: 50,
-                                    color: Colors.black,
-                                  )),
-                              Positioned(
-                                  top: 20,
-                                  left: 100,
-                                  child: Text(
-                                    "Receipt ${currentOrders.orderId}",
-                                    style: TextStyle(
-                                        color: utils.getColorFromHex("#3D3D3D"),
-                                        fontSize: 25),
-                                  )),
-                              Positioned(
-                                  bottom: 0,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Divider(
-                                      height: 1,
-                                      color: Colors.black.withOpacity(0.4),
-                                    ),
-                                    margin: EdgeInsets.only(
-                                        top: 5, bottom: 5, left: 20, right: 20),
-                                  ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin:
-                              EdgeInsets.only(top: 50, bottom: 10, left: 20),
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        width:
+                            (MediaQuery.of(context).size.width / 2) - 105 - 25,
+                        color: Colors.grey.shade200,
+                        child: FlatButton(
                           child: Text(
-                            "Ticket ${currentOrders.orderId}",
+                            "New Receipt",
                             style: TextStyle(
-                                color: utils.getColorFromHex("#3D3D3D"),
-                                fontSize: 25),
+                                color: utils.getColorFromHex("#0D97FF"),
+                                fontSize: 35),
                           ),
+                        )),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(left: 0, right: 0),
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      color: Colors.grey.shade200,
+                      width: (MediaQuery.of(context).size.width / 2) - 105 - 25,
+                      child: FlatButton(
+                        child: Text(
+                          "Issue Refund",
+                          style: TextStyle(
+                              color: utils.getColorFromHex("#0D97FF"),
+                              fontSize: 35),
                         ),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: currentOrders.product
-                                .map((e) => _orderItem(e))
-                                .toList())
-                      ],
-                    )
-                  : Container(),
+                      )),
+                ],
+              ),
+            ),
+            Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                margin: EdgeInsets.only(top: 50, left: 20),
+                child: Text.rich(TextSpan(children: [
+                  TextSpan(
+                      text: "Cash Payment",
+                      style: TextStyle(fontSize: 25, color: Colors.black)),
+                  TextSpan(
+                      text: " ${utils.readTimestamp(currentOrders.orderCreation.millisecondsSinceEpoch)}",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: utils.getColorFromHex("#878787")))
+                ]))),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Divider(
+                height: 1,
+                color: Colors.black.withOpacity(0.4),
+              ),
+              margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 70,
+              margin: EdgeInsets.only(left: 20, right: 20),
+              child: Stack(
+                children: [
+                  Positioned(
+                      top: 10,
+                      left: 5,
+                      child: Image(
+                        image: AssetImage("assets/images/money.png"),
+                        height: 50,
+                        width: 50,
+                        color: Colors.black,
+                      )),
+                  Positioned(
+                      top: 20,
+                      left: 80,
+                      child: Text(
+                        "Cash",
+                        style: TextStyle(
+                            color: utils.getColorFromHex("#3D3D3D"),
+                            fontSize: 25),
+                      )),
+                  Positioned(
+                      top: 20,
+                      right: 0,
+                      child: Text(
+                        "${utils.localcurrency(currentOrders.amount)}",
+                        style: TextStyle(
+                            color: utils.getColorFromHex("#878787"),
+                            fontSize: 25),
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Divider(
+                          height: 1,
+                          color: Colors.black.withOpacity(0.4),
+                        ),
+                        margin: EdgeInsets.only(
+                            top: 5, bottom: 5, left: 0, right: 0),
+                      ))
+                ],
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 70,
+              child: Stack(
+                children: [
+                  Positioned(
+                      top: 10,
+                      left: 20,
+                      child: Image(
+                        image: AssetImage("assets/images/invoice.png"),
+                        height: 50,
+                        width: 50,
+                        color: Colors.black,
+                      )),
+                  Positioned(
+                      top: 20,
+                      left: 100,
+                      child: Text(
+                        "Receipt ${currentOrders.orderId}",
+                        style: TextStyle(
+                            color: utils.getColorFromHex("#3D3D3D"),
+                            fontSize: 25),
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Divider(
+                          height: 1,
+                          color: Colors.black.withOpacity(0.4),
+                        ),
+                        margin: EdgeInsets.only(
+                            top: 5, bottom: 5, left: 20, right: 20),
+                      ))
+                ],
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(top: 50, bottom: 10, left: 20),
+              child: Text(
+                "Ticket ${currentOrders.orderId}",
+                style: TextStyle(
+                    color: utils.getColorFromHex("#3D3D3D"), fontSize: 25),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 60.0*currentOrders.product.length,
+              constraints: BoxConstraints(maxHeight: 200),
+              child: ListView.builder(
+                padding: EdgeInsets.only(left: 0,right: 0,top: 0,bottom: 10),
+                itemCount: currentOrders.product.length,
+                itemBuilder: (BuildContext context,int index)=>_orderItem(currentOrders.product.elementAt(index)),
+                //children:currentOrders.product.map((e) => _orderItem(e)).toList()
+              ),
             )
-          : MyPrint(currentOrders),
+          ],
+        ):Container(),
+      ),
     );
   }
 

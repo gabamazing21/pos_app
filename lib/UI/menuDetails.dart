@@ -72,6 +72,7 @@ print("value id is not null");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Menu Item Details"),),
       body: Container(
         width: MediaQuery
             .of(context)
