@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pos_app/Models/OrderDetail.dart';
+import 'package:pos_app/Models/OrderItem.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:printing/printing.dart';
 
@@ -46,8 +47,9 @@ class _MyPrintState extends State<MyPrint> {
           return pw.Center(
             child: pw.Column(children: [
               pw.ListView.builder(
-                  itemBuilder: (pw.Context context, int index) => _printItem(),
-                  itemCount: 10),
+                  itemBuilder: (pw.Context context, int index) =>
+                      _printItem(itemPrinting.product.elementAt(index)),
+                  itemCount: itemPrinting.product.length),
               pw.Row(children: [
                 pw.Text('Total Price  ='),
                 pw.SizedBox(width: 10),
@@ -68,13 +70,13 @@ class _MyPrintState extends State<MyPrint> {
     return pdf.save();
   }
 
-  pw.Widget _printItem() {
+  pw.Widget _printItem(Orderitem orderitem) {
     return pw.Row(children: [
-      pw.Text('Nixon Watch'),
+      pw.Text(orderitem.orderItemname),
       pw.SizedBox(width: 10),
-      pw.Text('Quantity'),
+      pw.Text('x'),
       pw.SizedBox(width: 10),
-      pw.Text('multiple'),
+      pw.Text('${orderitem.quantity}'),
       pw.SizedBox(width: 10),
       pw.Text('price'),
     ]);
