@@ -52,9 +52,12 @@ class _ItemState extends State {
                     child: ListView(
                       children: [
                         ListTile(
-                          onTap: (){
-                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanel()), (route) => false);
-
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MasterPanel()),
+                                (route) => false);
                           },
                           title: Text(
                             "Menus",
@@ -65,9 +68,12 @@ class _ItemState extends State {
                           ),
                         ),
                         ListTile(
-                          onTap: (){
-                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelTransaction()), (route) => false);
-
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MasterPanelTransaction()),
+                                (route) => false);
                           },
                           title: Text("Orders",
                               style: TextStyle(
@@ -75,7 +81,6 @@ class _ItemState extends State {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                         ),
-
                       ],
                     ),
                   )),
@@ -108,7 +113,9 @@ class _ItemState extends State {
     return GestureDetector(
       onTap: () {
         _selected = index;
-        setState(() {});
+        setState(() {
+          FocusScope.of(context).requestFocus(FocusNode());
+        });
         MasterDetailScaffold.of(context)
             .detailsPaneNavigator
             .pushNamed("ItemList?id=$text");

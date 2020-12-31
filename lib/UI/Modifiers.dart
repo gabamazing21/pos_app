@@ -23,8 +23,10 @@ class _ModifierState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
     return (!showEditModifiers)
         ? Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               title: Text("Modifiers",
                   style: TextStyle(
@@ -33,79 +35,83 @@ class _ModifierState extends State {
                   )),
               backgroundColor: utils.getColorFromHex("#F1F1F1"),
             ),
-            body: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  /** Container(
+            body: SafeArea(
+              // width: MediaQuery.of(context).size.width,
+              // height: MediaQuery.of(context).size.height,
+              child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: 50,
-                color: utils.getColorFromHex("#F1F1F1"),
-                child: Text("All Items",style: TextStyle(fontSize: 16,color: Colors.black), ),
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    /** Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  color: utils.getColorFromHex("#F1F1F1"),
+                  child: Text("All Items",style: TextStyle(fontSize: 16,color: Colors.black), ),
 
-                ),**/
+                  ),**/
 
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    padding: EdgeInsets.all(10),
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        labelText: "Search Modifiers",
-                        suffixIcon: Icon(
-                          Icons.search,
-                          size: 25,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      currentModifier = null;
-                      setState(() {
-                        showEditModifiers = true;
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+                    Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
-                      child: FlatButton(
-                        child: Text(
-                          "Add Modifiers",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: utils.getColorFromHex("#0D97FF")),
+                      padding: EdgeInsets.all(10),
+                      child: TextFormField(
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          labelText: "Search Modifiers",
+                          suffixIcon: Icon(
+                            Icons.search,
+                            size: 25,
+                          ),
+                          border: InputBorder.none,
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 218,
-                    child: ListView.builder(
-                      itemCount: modifiersList.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          GestureDetector(
-                              onTap: () {
-                                currentModifier =
-                                    modifiersList.elementAt(index);
-                                setState(() {
-                                  showEditModifiers = true;
-                                });
-                              },
-                              child:
-                                  _orderItem(modifiersList.elementAt(index))),
+                    GestureDetector(
+                      onTap: () {
+                        currentModifier = null;
+                        setState(() {
+                          showEditModifiers = true;
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        child: FlatButton(
+                          child: Text(
+                            "Add Modifiers",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: utils.getColorFromHex("#0D97FF")),
+                          ),
+                        ),
+                      ),
                     ),
-                  )
-                ],
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 218,
+                      child: ListView.builder(
+                        itemCount: modifiersList.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            GestureDetector(
+                                onTap: () {
+                                  currentModifier =
+                                      modifiersList.elementAt(index);
+                                  setState(() {
+                                    showEditModifiers = true;
+                                  });
+                                },
+                                child:
+                                    _orderItem(modifiersList.elementAt(index))),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ))
         : ModifiersDetails(currentModifier, () {
