@@ -9,7 +9,7 @@ import 'package:pos_app/UI/TransactionDetails.dart';
 import 'package:pos_app/UI/dashboard.dart';
 import 'package:pos_app/UI/menuDetails.dart';
 import 'package:pos_app/UI/routes.dart';
-
+import 'package:pos_app/UI/splashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  RouteObserver<PageRoute> routeObserver=RouteObserver<PageRoute>();
+  RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,8 +46,6 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MasterPanel(),
-
-
     );
   }
 }
