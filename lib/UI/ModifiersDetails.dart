@@ -590,6 +590,7 @@ class _ModifiersDetailsState extends State {
       setState(() {
         isloading = false;
       });
+      voidCallback();
     }, onError: (error) {
       print("An error occurred");
       setState(() {
@@ -626,6 +627,7 @@ class _ModifiersDetailsState extends State {
       setState(() {
         isloading = false;
       });
+      voidCallback();
     }, onError: (value) {
       print("An error occurred");
       setState(() {

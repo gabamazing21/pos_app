@@ -10,6 +10,7 @@ import 'package:pos_app/Models/Item.dart';
 import 'package:pos_app/Models/Menu.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:path/path.dart' as path;
+import 'package:pos_app/component/tool_bar.dart';
 
 class ItemList extends StatefulWidget {
   _ItemListState createState() => _ItemListState();
@@ -48,8 +49,8 @@ class _ItemListState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return (addItem)?Scaffold(
+          appBar: AppBar(
         title: Text(!addItem ? "All Item" : "Item Details",
             style: TextStyle(
               fontSize: 16,
@@ -124,7 +125,7 @@ class _ItemListState extends State {
               ),
           )
           : showAddItem(),
-    );
+    ):showAddItem();
   }
 
   Widget _orderItem(Item item) {
@@ -182,42 +183,56 @@ class _ItemListState extends State {
   }
 
   Widget showAddItem() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          Flexible(
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            ToolBar(
+              callback: (){
+
+                setState(() {
+                  addItem=false;
+                });
+              },
+              title: (item == null)
+                  ? 'Create Item'
+                  : 'Edit Item',
+            ),
+
+            Flexible(
 //            width: MediaQuery.of(context).size.width,
 //            height: MediaQuery.of(context).size.height - 50 - 26,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  getImageValue(),
-                  enterMenuDetails(),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                    color: Colors.red,
-                    child: FlatButton(
-                      onPressed: () {
-                        if (!isloading) {
-                          addMenuItem();
-                        } else {
-                          print("loading...");
-                        }
-                      },
-                      child: Text(
-                        "Save",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    getImageValue(),
+                    enterMenuDetails(),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                      color: Colors.red,
+                      child: FlatButton(
+                        onPressed: () {
+                          if (!isloading) {
+                            addMenuItem();
+                          } else {
+                            print("loading...");
+                          }
+                        },
+                        child: Text(
+                          "Save",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -660,6 +675,7 @@ class _ItemListState extends State {
 
           setState(() {
             isloading = false;
+            addItem=false;
           });
         }, onError: (error) {
           print("An error occurred");
