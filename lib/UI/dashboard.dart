@@ -10,7 +10,7 @@ import 'package:pos_app/UI/MasterPanelTransaction.dart';
 import 'package:pos_app/UI/slidepush.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-import 'package:pos_app/constants.dart';
+import 'package:pos_app/Utils/constants.dart';
 
 class dashboard extends StatefulWidget {
   _dashboardState createState() => _dashboardState();

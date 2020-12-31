@@ -722,6 +722,7 @@ class _SubMenuDetailsState extends State {
           isloading = false;
         });
       });
+      callback();
     }, onError: (value) {
       print("error occurred  $value");
 
@@ -796,6 +797,7 @@ class _SubMenuDetailsState extends State {
           setState(() {
             isloading = false;
           });
+       callback();
         }, onError: (error) {
           print("An error occurred");
           setState(() {
@@ -841,6 +843,7 @@ class _SubMenuDetailsState extends State {
         setState(() {
           isloading = false;
         });
+        callback();
       });
     }
   }
