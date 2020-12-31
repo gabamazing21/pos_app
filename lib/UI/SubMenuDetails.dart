@@ -72,13 +72,8 @@ class _SubMenuDetailsState extends State {
               title: currentsubmenu == null ? "Create SubMenu" : "Edit SubMenu",
             ),
             Flexible(
-              child: Column(
-                children: [
-
-                  Flexible(
-//                  width: MediaQuery.of(context).size.width,
-//                  height: MediaQuery.of(context).size.height - 50 - 32 - 81 - 43,
-                    child: SingleChildScrollView(
+              child:
+                  SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -215,11 +210,8 @@ class _SubMenuDetailsState extends State {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+            ));
+
   }
 
   Widget getTopToolbar() {
