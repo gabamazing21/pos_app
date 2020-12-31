@@ -69,148 +69,150 @@ class _SubMenuDetailsState extends State {
               callback: callback,
               title: currentsubmenu == null ? "Create SubMenu" : "Edit SubMenu",
             ),
-            Column(
-              children: [
+            Flexible(
+              child: Column(
+                children: [
 
-                Flexible(
+                  Flexible(
 //                  width: MediaQuery.of(context).size.width,
 //                  height: MediaQuery.of(context).size.height - 50 - 32 - 81 - 43,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        getImageValue(),
-                        enterMenuDetails(),
-                        //_selectModifierSet(),
-                        Container(
-                          margin: EdgeInsets.only(top: 0, left: 20),
-                          child: Text(
-                            "Modifiers",
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 0, left: 20, right: 20),
-                          child: Divider(
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50.0 * modifiersInSubMenu.length,
-                          constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height - 503 - 142),
-                          child: ListView.builder(
-                            itemCount: modifiersInSubMenu.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                MenuItem(modifiersInSubMenu.elementAt(index)),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showModifierList();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20, top: 10),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          getImageValue(),
+                          enterMenuDetails(),
+                          //_selectModifierSet(),
+                          Container(
+                            margin: EdgeInsets.only(top: 0, left: 20),
                             child: Text(
-                              "Add Modifiers",
+                              "Modifiers",
                               style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black.withOpacity(0.5)),
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-                          child: Divider(
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 0, left: 20),
-                          child: Text(
-                            "Submenu",
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 0, left: 20, right: 20),
-                          child: Divider(
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50.0 * subMenuInSubMenu.length,
-                          constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height - 503 - 142),
-                          child: ListView.builder(
-                            itemCount: subMenuInSubMenu.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                subMenuItem(subMenuInSubMenu.elementAt(index)),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showsubMenuList();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20, top: 10),
-                            child: Text(
-                              "Add Submenu",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black.withOpacity(0.5)),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.only(top: 0, left: 20, right: 20),
+                            child: Divider(
+                              color: Colors.black.withOpacity(0.3),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-                          child: Divider(
-                            color: Colors.black.withOpacity(0.3),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50.0 * modifiersInSubMenu.length,
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height - 503 - 142),
+                            child: ListView.builder(
+                              itemCount: modifiersInSubMenu.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  MenuItem(modifiersInSubMenu.elementAt(index)),
+                            ),
                           ),
-                        ),
-
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                          color: Colors.red,
-                          child: FlatButton(
-                            onPressed: () {
-                              if (!isloading) {
-                                if (currentsubmenu == null) {
-                                  addSubmenu();
-                                } else {
-                                  updateSubmenu();
-                                }
-                              } else {
-                                print("loading...");
-                              }
+                          GestureDetector(
+                            onTap: () {
+                              showModifierList();
                             },
-                            child: Text(
-                              currentsubmenu == null ? "Save" : "Update",
-                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, top: 10),
+                              child: Text(
+                                "Add Modifiers",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black.withOpacity(0.5)),
+                              ),
                             ),
                           ),
-                        )
-                      ],
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+                            child: Divider(
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 0, left: 20),
+                            child: Text(
+                              "Submenu",
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.only(top: 0, left: 20, right: 20),
+                            child: Divider(
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50.0 * subMenuInSubMenu.length,
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height - 503 - 142),
+                            child: ListView.builder(
+                              itemCount: subMenuInSubMenu.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  subMenuItem(subMenuInSubMenu.elementAt(index)),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              showsubMenuList();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, top: 10),
+                              child: Text(
+                                "Add Submenu",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black.withOpacity(0.5)),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+                            child: Divider(
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          ),
+
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                            color: Colors.red,
+                            child: FlatButton(
+                              onPressed: () {
+                                if (!isloading) {
+                                  if (currentsubmenu == null) {
+                                    addSubmenu();
+                                  } else {
+                                    updateSubmenu();
+                                  }
+                                } else {
+                                  print("loading...");
+                                }
+                              },
+                              child: Text(
+                                currentsubmenu == null ? "Save" : "Update",
+                                style: TextStyle(fontSize: 16, color: Colors.white),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

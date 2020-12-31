@@ -187,9 +187,9 @@ class _ItemListState extends State {
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 50 - 26,
+          Flexible(
+//            width: MediaQuery.of(context).size.width,
+//            height: MediaQuery.of(context).size.height - 50 - 26,
             child: SingleChildScrollView(
               child: Column(
                 children: [
