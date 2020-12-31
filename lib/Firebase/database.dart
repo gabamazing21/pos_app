@@ -61,6 +61,7 @@ class database {
   static Future<List<submenu>> getAllSubMenu() {
     List<submenu> items = List();
     subMenuRef().snapshots().listen((event) {
+      items.clear();
       event.docs.forEach((value) {
         items.add(new submenu(
             value['title'],
@@ -94,6 +95,7 @@ class database {
   static Future<List<Item>> getItems() async {
     List<Item> itemList = List();
     ItemRef().snapshots().listen((event) {
+      itemList.clear();
       event.docs.forEach((element) {
         Item item = new Item(element['itemName'], element.id,
             element['ItemPrice'], element['visible']);
@@ -131,7 +133,7 @@ class database {
   static Future<modifiers> getModifier(String id) async {
     modifiers item;
     var modifierRRef = await modifierRef().doc(id).get().then((value) => item =
-        new modifiers(id, value['modifiersName'], List.from(value["items"]), 0,
+        new modifiers(id, value['modifierName'], List.from(value["items"]), 0,
             value['checkBox']));
 
     return item;
@@ -140,8 +142,9 @@ class database {
   static Future<List<modifiers>> getAllModifier() {
     List<modifiers> items = List();
     modifierRef().snapshots().listen((event) {
+      items.clear();
       event.docs.forEach((element) {
-        modifiers item = new modifiers(element.id, element['modifiersName'],
+        modifiers item = new modifiers(element.id, element['modifierName'],
             List.from(element["items"]), 0, element['checkBox']);
         items.add(item);
       });
@@ -180,7 +183,10 @@ class database {
           element['changeToReceived'],
           element['orderInRestaurant'],
           element['orderCompleted'],
-          List.from(element['orderItems']).map((e) => Orderitem(e[ 'orderItemId'],e['orderName'], e['orderQuantity'], e['orderPrice'])).toList(),
+          List.from(element['orderItems'])
+              .map((e) => Orderitem(e['orderItemId'], e['orderName'],
+                  e['orderQuantity'], e['orderPrice']))
+              .toList(),
         );
 
         orderDetails.add(orders);

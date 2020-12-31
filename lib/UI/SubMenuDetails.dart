@@ -11,13 +11,15 @@ import 'package:pos_app/Models/modifier.dart';
 import 'package:pos_app/Models/submenu.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:path/path.dart' as path;
+import 'package:pos_app/component/tool_bar.dart';
 
 class SubMenuDetails extends StatefulWidget {
   submenu currentsubmenu;
+  VoidCallback callback;
+  SubMenuDetails({this.currentsubmenu, this.callback});
 
-  SubMenuDetails(this.currentsubmenu);
-
-  _SubMenuDetailsState createState() => _SubMenuDetailsState(currentsubmenu);
+  _SubMenuDetailsState createState() =>
+      _SubMenuDetailsState(currentsubmenu: currentsubmenu, callback: callback);
 }
 
 class _SubMenuDetailsState extends State {
@@ -34,10 +36,10 @@ class _SubMenuDetailsState extends State {
   List<submenu> submenuList = List();
   submenu currentsubmenu;
 
-  _SubMenuDetailsState(this.currentsubmenu);
+  _SubMenuDetailsState({this.currentsubmenu, this.callback});
 
   TextEditingController _subMenuController = TextEditingController();
-
+  VoidCallback callback;
   @override
   void initState() {
     // TODO: implement initState
@@ -60,7 +62,10 @@ class _SubMenuDetailsState extends State {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-
+            ToolBar(
+              callback: callback,
+              title: currentsubmenu == null ? "Create SubMenu" : "Edit SubMenu",
+            ),
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 50 - 32 - 81 - 43,
@@ -75,7 +80,7 @@ class _SubMenuDetailsState extends State {
                     Container(
                       margin: EdgeInsets.only(top: 0, left: 20),
                       child: Text(
-                        "Items",
+                        "Modifiers",
                         style: TextStyle(
                             fontSize: 24,
                             color: Colors.black,
@@ -125,7 +130,7 @@ class _SubMenuDetailsState extends State {
                     Container(
                       margin: EdgeInsets.only(top: 0, left: 20),
                       child: Text(
-                        "Items",
+                        "Submenu",
                         style: TextStyle(
                             fontSize: 24,
                             color: Colors.black,
@@ -158,7 +163,7 @@ class _SubMenuDetailsState extends State {
                       child: Container(
                         margin: EdgeInsets.only(left: 20, top: 10),
                         child: Text(
-                          "Add SubMenu",
+                          "Add Submenu",
                           style: TextStyle(
                               fontSize: 16,
                               color: Colors.black.withOpacity(0.5)),
@@ -175,19 +180,25 @@ class _SubMenuDetailsState extends State {
 
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                       color: Colors.red,
-                      child: FlatButton(onPressed:(){
-                        if (!isloading) {
-                          if (currentsubmenu == null) {
-                            addSubmenu();
+                      child: FlatButton(
+                        onPressed: () {
+                          if (!isloading) {
+                            if (currentsubmenu == null) {
+                              addSubmenu();
+                            } else {
+                              updateSubmenu();
+                            }
                           } else {
-                            updateSubmenu();
+                            print("loading...");
                           }
-                        } else {
-                          print("loading...");
-                        }
-                      },child: Text("Save",style: TextStyle(fontSize: 16,color: Colors.white),),),
+                        },
+                        child: Text(
+                          currentsubmenu == null ? "Save" : "Update",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -271,11 +282,10 @@ class _SubMenuDetailsState extends State {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 200,
-      color: utils.getColorFromHex("#F1F1F1"),
       child: Column(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 2,
+            width: 150,
             height: 150,
             margin: EdgeInsets.only(left: 10, right: 10, top: 10),
             decoration: BoxDecoration(
@@ -629,6 +639,14 @@ class _SubMenuDetailsState extends State {
     if (submenuList.isEmpty) {
       getSubMenu();
     } else {
+      if (currentsubmenu != null) {
+        print("current menu is not empty");
+        submenuList.forEach((element) {
+          if (element.submeuid.contains(currentsubmenu.submeuid)) {
+            submenuList.remove(element);
+          }
+        });
+      }
       setState(() {});
     }
   }

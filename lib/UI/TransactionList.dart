@@ -59,10 +59,12 @@ class _TransactionListState extends State {
                       child: ListView(
                         children: [
                           ListTile(
-                            onTap: (){
-                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanel()), (route) => false);
-
-
+                            onTap: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MasterPanel()),
+                                  (route) => false);
                             },
                             title: Text(
                               "Menus",
@@ -72,11 +74,13 @@ class _TransactionListState extends State {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-
                           ListTile(
-                            onTap: (){
-                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()), (route) => false);
-
+                            onTap: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MasterPanelItem()),
+                                  (route) => false);
                             },
                             title: Text("Items",
                                 style: TextStyle(
@@ -84,7 +88,6 @@ class _TransactionListState extends State {
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold)),
                           ),
-
                         ],
                       ),
                     )),
@@ -104,18 +107,17 @@ class _TransactionListState extends State {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) =>
-                  GestureDetector(
-                      onTap: (){
-                        MasterDetailScaffold.of(context)
-                            .detailsPaneNavigator
-                            .pushNamed("TransactionDetails?id=${orderList.elementAt(index).orderId}");
-                                setState(() {
-                                  _selectedIndex=index;
-                                });
-                                tempovalueInstance.getInstance().currentOrderDetials=orderList.elementAt(index);
-                      },
-                      child: itemList(index, orderList.elementAt(index))),
+              itemBuilder: (BuildContext context, int index) => GestureDetector(
+                  onTap: () {
+                    MasterDetailScaffold.of(context).detailsPaneNavigator.pushNamed(
+                        "TransactionDetails?id=${orderList.elementAt(index).orderId}");
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                    tempovalueInstance.getInstance().currentOrderDetials =
+                        orderList.elementAt(index);
+                  },
+                  child: itemList(index, orderList.elementAt(index))),
               itemCount: orderList.length,
             )));
   }
@@ -188,7 +190,8 @@ class _TransactionListState extends State {
       MasterDetailScaffold.of(context)
           .detailsPaneNavigator
           .pushNamed("TransactionDetails?id=${orderList.elementAt(0).orderId}");
-      tempovalueInstance.getInstance().currentOrderDetials=orderList.elementAt(0);
+      tempovalueInstance.getInstance().currentOrderDetials =
+          orderList.elementAt(0);
       setState(() {});
     }
   }
