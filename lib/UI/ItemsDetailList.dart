@@ -71,9 +71,9 @@ getItemList();
               ),
             ),
 
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-210,
+            Flexible(
+//              width: MediaQuery.of(context).size.width,
+//              height: MediaQuery.of(context).size.height-210,
               child: ListView.builder(
 
                 itemCount: _itemList.length,

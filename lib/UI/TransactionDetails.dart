@@ -31,54 +31,56 @@ class _TransactonDetailsState extends State {
             ? (currentOrders != null)
                 ? Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 100),
-                        width: MediaQuery.of(context).size.width - 245,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: 0,
-                                right: 5,
-                              ),
-                              width: (MediaQuery.of(context).size.width - 255),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Colors.grey.shade200,
-                                  ),
-                                  margin: EdgeInsets.only(
-                                    left: 20,
-                                    right: 20,
-                                  ),
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  width:
-                                      (MediaQuery.of(context).size.width / 2) -
-                                          105 -
-                                          25,
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        showPrint = true;
-                                      });
-                                      // MasterDetailScaffold.of(context)
-                                      //     .detailsPaneNavigator
-                                      //     .pushNamed(
-                                      //         "TransactionDetails?id=printing");
-                                    },
-                                    child: Text(
-                                      "Print Receipt",
-                                      style: TextStyle(
-                                          color:
-                                              utils.getColorFromHex("#0D97FF"),
-                                          fontSize: 35),
+                      Flexible(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 100),
+                          width: MediaQuery.of(context).size.width - 245,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 0,
+                                  right: 5,
+                                ),
+                                width: (MediaQuery.of(context).size.width - 255),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: Colors.grey.shade200,
                                     ),
-                                  )),
-                            ),
-                          ],
+                                    margin: EdgeInsets.only(
+                                      left: 20,
+                                      right: 20,
+                                    ),
+                                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                                    width:
+                                        (MediaQuery.of(context).size.width / 2) -
+                                            105 -
+                                            25,
+                                    child: FlatButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          showPrint = true;
+                                        });
+                                        // MasterDetailScaffold.of(context)
+                                        //     .detailsPaneNavigator
+                                        //     .pushNamed(
+                                        //         "TransactionDetails?id=printing");
+                                      },
+                                      child: Text(
+                                        "Print Receipt",
+                                        style: TextStyle(
+                                            color:
+                                                utils.getColorFromHex("#0D97FF"),
+                                            fontSize: 35),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Container(

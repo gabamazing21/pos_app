@@ -61,273 +61,282 @@ class _ModifiersDetailsState extends State {
                   ? 'Create Modifiers'
                   : 'Edit Modifiers',
             ),
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 30, left: 0, right: 0),
-                child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    controller: _modifiersName,
-                    style: TextStyle(color: Colors.black, fontSize: 14),
-                    onChanged: (text) {
-                      if (text.length < 2) {
-                        modifierName = "Modifiers is required";
-                        isModifierError = true;
-                        print("menu error $modifierName");
-                      } else {
-                        modifierName = null;
-                        isModifierError = false;
-                        print("menu error  $modifierName");
-                      }
-                      setState(() {});
-                    },
-                    decoration: InputDecoration(
-                        labelText: "Enter item name",
-                        hasFloatingPlaceholder: false,
-                        labelStyle: TextStyle(
-                            color: utils.getColorFromHex("#979797"),
-                            fontSize: 14),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                              color: utils.getColorFromHex("#979797")),
-                        ),
-                        errorText: modifierName,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(
-                                color: utils.getColorFromHex("#CB0000"))),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                              color: utils.getColorFromHex("#979797")),
-                        ))),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-              child: Divider(
-                color: Colors.black.withOpacity(0.3),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Text(
-                "Options",
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 0, left: 20, right: 20),
-              child: Divider(
-                color: Colors.black.withOpacity(0.3),
-              ),
-            ),
-            Visibility(
-                child: Container(
-              margin: EdgeInsets.only(left: 20, top: 5),
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 10,
-                    left: 0,
-                    child: Text(
-                      "CheckBox Option",
-                      style: TextStyle(
+
+            Column(
+
+               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  width: MediaQuery.of(context).size.width,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.only(top: 30, left: 0, right: 0),
+                    child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _modifiersName,
+                        style: TextStyle(color: Colors.black, fontSize: 14),
+                        onChanged: (text) {
+                          if (text.length < 2) {
+                            modifierName = "Modifiers is required";
+                            isModifierError = true;
+                            print("menu error $modifierName");
+                          } else {
+                            modifierName = null;
+                            isModifierError = false;
+                            print("menu error  $modifierName");
+                          }
+                          setState(() {});
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Enter item name",
+                            hasFloatingPlaceholder: false,
+                            labelStyle: TextStyle(
+                                color: utils.getColorFromHex("#979797"),
+                                fontSize: 14),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                  color: utils.getColorFromHex("#979797")),
+                            ),
+                            errorText: modifierName,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                borderSide: BorderSide(
+                                    color: utils.getColorFromHex("#CB0000"))),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                  color: utils.getColorFromHex("#979797")),
+                            ))),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                  child: Divider(
+                    color: Colors.black.withOpacity(0.3),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  child: Text(
+                    "Options",
+                    style: TextStyle(
+                        fontSize: 24,
                         color: Colors.black,
-                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 0, left: 20, right: 20),
+                  child: Divider(
+                    color: Colors.black.withOpacity(0.3),
+                  ),
+                ),
+                Visibility(
+                    child: Container(
+                  margin: EdgeInsets.only(left: 20, top: 5),
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 10,
+                        left: 0,
+                        child: Text(
+                          "CheckBox Option",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
+                      Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Checkbox(
+                            value: ischeckbox,
+                            onChanged: (vale) {
+                              setState(() {
+                                ischeckbox = vale;
+                              });
+                            },
+                            activeColor: utils.getColorFromHex("#CB0000"),
+                            checkColor: Colors.white,
+                            focusColor: Colors.black.withOpacity(0.3),
+                          ))
+                    ],
+                  ),
+                )),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 0, bottom: 10, right: 10),
+                        width: MediaQuery.of(context).size.width,
+                        height: 70,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 20, left: 20),
+                              child: Text(
+                                "Minimum Item Required",
+                                style: TextStyle(fontSize: 16, color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                                child: Row(children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (quantity > 0) {
+                                    setState(() {
+                                      quantity = quantity - 1;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  height: 36,
+                                  width: 33,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Icon(
+                                    Icons.remove,
+                                    size: 20,
+                                    color: Colors.black,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                    color: utils.getColorFromHex("#E0E0E0"),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  "${quantity}",
+                                  style:
+                                      TextStyle(fontSize: 25, color: Colors.black),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    quantity = quantity + 1;
+                                  });
+
+                                  if (quantity == 1) {
+                                  } else {}
+                                },
+                                child: Container(
+                                  height: 36,
+                                  width: 33,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                    color: utils.getColorFromHex("#FF6700"),
+                                  ),
+                                ),
+                              )
+                            ]))
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 0, left: 20, right: 20),
+                  child: Divider(
+                    color: Colors.black.withOpacity(0.3),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, left: 20),
+                  child: Text(
+                    "Items",
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 0, left: 20, right: 20),
+                  child: Divider(
+                    color: Colors.black.withOpacity(0.3),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50.0 * foodInModifiers.length,
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height - 503 - 142),
+                  child: ListView.builder(
+                    itemCount: foodInModifiers.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        MenuItem(foodInModifiers.elementAt(index)),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showFoodList();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: Text(
+                      "Add Items",
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.black.withOpacity(0.5)),
                     ),
                   ),
-                  Positioned(
-                      top: 0,
-                      right: 0,
-                      child: Checkbox(
-                        value: ischeckbox,
-                        onChanged: (vale) {
-                          setState(() {
-                            ischeckbox = vale;
-                          });
-                        },
-                        activeColor: utils.getColorFromHex("#CB0000"),
-                        checkColor: Colors.white,
-                        focusColor: Colors.black.withOpacity(0.3),
-                      ))
-                ],
-              ),
-            )),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 0, bottom: 10, right: 10),
-                    width: MediaQuery.of(context).size.width,
-                    height: 70,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 20, left: 20),
-                          child: Text(
-                            "Minimum Item Required",
-                            style: TextStyle(fontSize: 16, color: Colors.black),
-                          ),
-                        ),
-                        Container(
-                            child: Row(children: [
-                          GestureDetector(
-                            onTap: () {
-                              if (quantity > 0) {
-                                setState(() {
-                                  quantity = quantity - 1;
-                                });
-                              }
-                            },
-                            child: Container(
-                              height: 36,
-                              width: 33,
-                              margin: EdgeInsets.only(left: 10),
-                              child: Icon(
-                                Icons.remove,
-                                size: 20,
-                                color: Colors.black,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                color: utils.getColorFromHex("#E0E0E0"),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "${quantity}",
-                              style:
-                                  TextStyle(fontSize: 25, color: Colors.black),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                quantity = quantity + 1;
-                              });
-
-                              if (quantity == 1) {
-                              } else {}
-                            },
-                            child: Container(
-                              height: 36,
-                              width: 33,
-                              margin: EdgeInsets.only(left: 10),
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                color: utils.getColorFromHex("#FF6700"),
-                              ),
-                            ),
-                          )
-                        ]))
-                      ],
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+                  child: Divider(
+                    color: Colors.black.withOpacity(0.3),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  color: Colors.red,
+                  child: FlatButton(
+                    onPressed: () {
+                      if (!isloading) {
+                        //  addMenuItem();
+                        if (currentModifiers == null) {
+                          saveModifiers();
+                        } else {
+                          updateModifiers();
+                        }
+                      } else {
+                        print("loading...");
+                      }
+                    },
+                    child: Text(
+                      (currentModifiers == null) ? "Save" : "Update",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 0, left: 20, right: 20),
-              child: Divider(
-                color: Colors.black.withOpacity(0.3),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 0, left: 20),
-              child: Text(
-                "Items",
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 0, left: 20, right: 20),
-              child: Divider(
-                color: Colors.black.withOpacity(0.3),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 50.0 * foodInModifiers.length,
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height - 503 - 142),
-              child: ListView.builder(
-                itemCount: foodInModifiers.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    MenuItem(foodInModifiers.elementAt(index)),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                showFoodList();
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  "Add Items",
-                  style: TextStyle(
-                      fontSize: 16, color: Colors.black.withOpacity(0.5)),
-                ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-              child: Divider(
-                color: Colors.black.withOpacity(0.3),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              color: Colors.red,
-              child: FlatButton(
-                onPressed: () {
-                  if (!isloading) {
-                    //  addMenuItem();
-                    if (currentModifiers == null) {
-                      saveModifiers();
-                    } else {
-                      updateModifiers();
-                    }
-                  } else {
-                    print("loading...");
-                  }
-                },
-                child: Text(
-                  (currentModifiers == null) ? "Save" : "Update",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            )
           ],
         ),
       ),

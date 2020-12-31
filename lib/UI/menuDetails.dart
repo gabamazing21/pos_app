@@ -79,9 +79,9 @@ class _menuDetailsState extends State {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 7 - 81,
+            Flexible(
+             // width: MediaQuery.of(context).size.width,
+           //   height: MediaQuery.of(context).size.height - 7 - 81,
               child: SingleChildScrollView(
                 child: Column(
                   children: [

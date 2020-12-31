@@ -58,12 +58,13 @@ class _ItemListState extends State {
         backgroundColor: utils.getColorFromHex("#F1F1F1"),
       ),
       body: (!addItem)
-          ? Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  /** Container(
+          ? SingleChildScrollView(
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    /** Container(
         width: MediaQuery.of(context).size.width,
         height: 50,
         color: utils.getColorFromHex("#F1F1F1"),
@@ -71,56 +72,57 @@ class _ItemListState extends State {
 
       ),**/
 
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    padding: EdgeInsets.all(10),
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        labelText: "Search Item",
-                        suffixIcon: Icon(
-                          Icons.search,
-                          size: 25,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 30, left: 20, right: 20),
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: FlatButton(
-                      onPressed: () {
-                        setState(() {
-                          addItem = true;
-                        });
-                      },
-                      child: Text(
-                        "Add Item",
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      padding: EdgeInsets.all(10),
+                      child: TextFormField(
                         style: TextStyle(
-                            fontSize: 16,
-                            color: utils.getColorFromHex("#0D97FF")),
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          labelText: "Search Item",
+                          suffixIcon: Icon(
+                            Icons.search,
+                            size: 25,
+                          ),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 210,
-                    child: ListView.builder(
-                      itemCount: _itemList.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          _orderItem(_itemList.elementAt(index)),
+                    Container(
+                      margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            addItem = true;
+                          });
+                        },
+                        child: Text(
+                          "Add Item",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: utils.getColorFromHex("#0D97FF")),
+                        ),
+                      ),
                     ),
-                  )
-                ],
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 210,
+                      child: ListView.builder(
+                        itemCount: _itemList.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            _orderItem(_itemList.elementAt(index)),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
+          )
           : showAddItem(),
     );
   }
