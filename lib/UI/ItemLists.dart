@@ -49,7 +49,7 @@ class _ItemListState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return (addItem)?Scaffold(
+    return (!addItem)?Scaffold(
           appBar: AppBar(
         title: Text(!addItem ? "All Item" : "Item Details",
             style: TextStyle(
