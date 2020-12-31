@@ -4,7 +4,15 @@ class Item {
   dynamic _itemprice;
   bool _visibility;
   int _quantity = 0;
-  Item(this._itemName, this._itemId, this._itemprice, this._visibility);
+  String _imageLink;
+  Item(this._itemName, this._itemId, this._itemprice, this._visibility,this._imageLink);
+
+
+  String get imageLink => _imageLink;
+
+  set imageLink(String value) {
+    _imageLink = value;
+  }
 
   int get quantity => _quantity;
 
