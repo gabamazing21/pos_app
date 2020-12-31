@@ -18,7 +18,7 @@ class ItemList extends StatefulWidget {
 
 class _ItemListState extends State {
   File _pickFile;
-  Menu item = null;
+  Item item = null;
   TextEditingController _searchController = TextEditingController();
   String _menuNameError;
   String _menuPriceError;
@@ -117,7 +117,11 @@ class _ItemListState extends State {
                       child: ListView.builder(
                         itemCount: _itemList.length,
                         itemBuilder: (BuildContext context, int index) =>
-                            _orderItem(_itemList.elementAt(index)),
+                            GestureDetector(onTap: (){
+                              item=_itemList.elementAt(index);
+
+
+                            },child: _orderItem(_itemList.elementAt(index))),
                       ),
                     )
                   ],
@@ -319,7 +323,7 @@ class _ItemListState extends State {
                       ? AssetImage(
                           'assets/images/placeholder.jpg',
                         )
-                      : NetworkImage(item.image_link)
+                      : NetworkImage(item.imageLink)
                   : FileImage(_pickFile),
               fit: BoxFit.cover,
             )),

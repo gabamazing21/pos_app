@@ -78,7 +78,7 @@ class database {
   static Future<Item> getItem(String id) async {
     Item item;
     var itemref = await ItemRef().doc(id).get().then((value) => item = new Item(
-        value['itemName'], value.id, value['ItemPrice'], value['visible']));
+        value['itemName'], value.id, value['ItemPrice'], value['visible'],value['imageLink']));
 
     return item;
   }
@@ -98,7 +98,7 @@ class database {
       itemList.clear();
       event.docs.forEach((element) {
         Item item = new Item(element['itemName'], element.id,
-            element['ItemPrice'], element['visible']);
+            element['ItemPrice'], element['visible'],element['imageLink']);
         itemList.add(item);
       });
     });
