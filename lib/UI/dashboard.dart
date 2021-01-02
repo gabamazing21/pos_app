@@ -89,38 +89,23 @@ class _dashboardState extends State {
                   child: Container(
                     child: ListView(
                       children: [
+
+                       GestureDetector(
+                         onTap: (){
+                           Navigator.of(context).pushAndRemoveUntil(
+                               MaterialPageRoute(
+                                   builder: (BuildContext context) =>
+                                       MasterPanel()),
+                                   (route) => false);
+
+                         },
+                         child: ListTile(
+                           title: Text("Menu",style: KdashboardTextStyle),
+                         ),
+                       ),
+
                         GestureDetector(
                             onTap: () async {
-                              // Future.delayed(Duration(seconds: 1),()=>Navigator.of(context).pop());
-//                          Navigator.of(context).pushNamedAndRemoveUntil(
-//                              '/TransactionList', (
-//                              Route<dynamic> route) => false);
-                              //Navigator.of(context).pushNamed("/TransactionList");
-                              //  await  Navigator.pushNamed(context, "TransactionList");
-
-                              //  Navigator.of(context).pop();
-//                            //    Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()));
-//                            if (Navigator.canPop(context)) {
-//                              Navigator.pop(context);
-//                              print("can still pop screen");
-//
-//                            } else {
-//                              print("no screen to pop");
-//                        Navigator.of(context).pushNamedAndRemoveUntil(
-//                            '/TransactionList', (
-//                            Route<dynamic> route) => false);
-//                           Navigator.of(context).pushNamed("/TransactionList");
-//Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()));
-//                            }
-                              //  Future.delayed(Duration.zero , (){Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=> MasterPanelItem()));});
-                              //  Navigator.of(context).pushNamed("menuDetails?id=Orders");
-                              // Future.delayed(Duration(seconds: 2),(){Navigator.pushNamed("/TransactionsList");});
-                              //Navigator.replace(context, oldRoute: MaterialPageRoute(builder: (BuildContext context)=>MasterPanel()), newRoute: MaterialPageRoute(builder: (BuildContext context)=>Item()));
-                              //  Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context)=>Item()));
-                              //Navigator.of(context).removeRoute(MaterialPageRoute(builder: (BuildContext context)=>MasterPanel()));
-                              //Navigator.pushNamedAndRemoveUntil(context, "/TransactionList", (route) => false);
-                              //     Future.delayed(Duration(seconds: 3),(){Navigator.pushNamed(context,"/remove");});
-                              //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(BuildContext context)=> MasterPanelTransaction()), (route) => false);
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
@@ -133,6 +118,7 @@ class _dashboardState extends State {
                                 style: KdashboardTextStyle,
                               ),
                             )),
+
                         GestureDetector(
                           onTap: () async {
                             Navigator.of(context).pushAndRemoveUntil(

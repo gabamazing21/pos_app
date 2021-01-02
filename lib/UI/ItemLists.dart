@@ -119,7 +119,10 @@ class _ItemListState extends State {
                         itemBuilder: (BuildContext context, int index) =>
                             GestureDetector(onTap: (){
                               item=_itemList.elementAt(index);
+                                  addItem=true;
+                                  setState(() {
 
+                                  });
 
                             },child: _orderItem(_itemList.elementAt(index))),
                       ),
