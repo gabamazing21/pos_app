@@ -10,6 +10,7 @@ import 'package:pos_app/UI/dashboard.dart';
 import 'package:pos_app/UI/menuDetails.dart';
 import 'package:pos_app/UI/routes.dart';
 import 'package:pos_app/UI/splashScreen.dart';
+import 'UI/pass_code.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MasterPanel(),
+      home: PassCode(),
     );
   }
 }
