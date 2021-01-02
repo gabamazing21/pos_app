@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:master_detail_scaffold/master_detail_scaffold.dart';
 import 'package:pos_app/UI/MasterPanel.dart';
 import 'package:pos_app/UI/MasterPanelItem.dart';
+import 'package:pos_app/UI/MasterPanelTransaction.dart';
+import 'package:pos_app/Utils/constants.dart';
 import 'package:pos_app/Utils/tempovalue.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:pos_app/Models/OrderDetail.dart';
@@ -56,38 +58,68 @@ class _TransactionListState extends State {
                     width: MediaQuery.of(context).size.width,
                     height: 300,
                     child: Container(
-                      child: ListView(
+                      child:ListView(
                         children: [
-                          ListTile(
-                            onTap: () {
+
+                          GestureDetector(
+                            onTap: (){
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           MasterPanel()),
-                                  (route) => false);
+                                      (route) => false);
+
                             },
-                            title: Text(
-                              "Menus",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                            child: ListTile(
+                              title: Text("Menu",style: KdashboardTextStyle),
                             ),
                           ),
-                          ListTile(
-                            onTap: () {
+
+                          GestureDetector(
+                              onTap: () async {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            MasterPanelTransaction()),
+                                        (route) => false);
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  "Orders",
+                                  style: KdashboardTextStyle,
+                                ),
+                              )),
+
+                          GestureDetector(
+                            onTap: () async {
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           MasterPanelItem()),
-                                  (route) => false);
+                                      (route) => false);
                             },
-                            title: Text("Items",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold)),
+                            child: ListTile(
+                              title: Text(
+                                "Items",
+                                style: KdashboardTextStyle,
+                              ),
+                            ),
                           ),
+                          GestureDetector(
+                            onTap: () async {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MasterPanelItem()),
+                                      (route) => false);
+                            },
+                            child: ListTile(
+                              title: Text(
+                                'Passcode',
+                                style: KdashboardTextStyle,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     )),
