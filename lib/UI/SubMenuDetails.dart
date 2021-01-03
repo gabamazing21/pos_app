@@ -597,6 +597,7 @@ class _SubMenuDetailsState extends State {
               onTap: () {
                 setState(() {
                   modifiersInSubMenu.add(modifierList.elementAt(index));
+                  Navigator.of(context).pop();
                 });
               },
               child: Container(
@@ -628,7 +629,9 @@ class _SubMenuDetailsState extends State {
           itemBuilder: (BuildContext context, index) => GestureDetector(
               onTap: () {
                 setState(() {
+
                   subMenuInSubMenu.add(submenuList.elementAt(index));
+                  Navigator.of(context).pop();
                 });
               },
               child: Container(
@@ -716,15 +719,33 @@ class _SubMenuDetailsState extends State {
         setState(() {
           isloading = false;
         });
+        callback();
       }, onError: (error) {
         print("An error occurred");
         setState(() {
           isloading = false;
         });
+        Fluttertoast.showToast(
+            msg: "Unable to add SubMenu.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: utils.getColorFromHex("#CB0000"),
+            textColor: Colors.white,
+            fontSize: 16.0);
+
       });
-      callback();
+
     }, onError: (value) {
       print("error occurred  $value");
+      Fluttertoast.showToast(
+          msg: "Unable to add SubMenu.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: utils.getColorFromHex("#CB0000"),
+          textColor: Colors.white,
+          fontSize: 16.0);
 
       setState(() {
         isloading = false;
@@ -802,10 +823,29 @@ class _SubMenuDetailsState extends State {
           print("An error occurred");
           setState(() {
             isloading = false;
+
           });
+          Fluttertoast.showToast(
+              msg: "SubMenu  is  unable to updated.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: utils.getColorFromHex("#CB0000"),
+              textColor: Colors.white,
+              fontSize: 16.0);
+
         });
       }, onError: (value) {
         print("error occurred  $value");
+
+        Fluttertoast.showToast(
+            msg: "Submenu is unable to save try again..",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: utils.getColorFromHex("#CB0000"),
+            textColor: Colors.white,
+            fontSize: 16.0);
 
         setState(() {
           isloading = false;

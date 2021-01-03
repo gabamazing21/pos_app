@@ -44,7 +44,7 @@ getItemList();
                 style: TextStyle(fontSize: 16,color: Colors.black,),
                 controller: _searchController,
                 decoration: InputDecoration(
-                  labelText: "Search Modifiers",
+                  labelText: "Search Items",
                   suffixIcon: Icon(Icons.search,size: 25,),
                   border: InputBorder.none,
 
@@ -65,7 +65,7 @@ getItemList();
                 margin: EdgeInsets.only(top: 30,left: 20,right: 20),
                 width: MediaQuery.of(context).size.width,
                 height: 50,
-                child: FlatButton(child: Text("Add Modifiers",style: TextStyle(fontSize: 16,color: utils.getColorFromHex("#0D97FF")),),),
+                child: FlatButton(child: Text("Add Item",style: TextStyle(fontSize: 16,color: utils.getColorFromHex("#0D97FF")),),),
 
 
               ),
@@ -103,7 +103,7 @@ getItemList();
             left: 0,
             top: 0,
             child: Container(width: 50,height: 50,
-                child:Image.asset("assets/images/fast_food.jpg",height: 50,width: 50,fit: BoxFit.cover,)),
+                child:Image.network(item.imageLink,height: 50,width: 50,fit: BoxFit.cover,)),
           ),
           Positioned(
               top: 5,
