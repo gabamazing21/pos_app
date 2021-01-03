@@ -792,6 +792,7 @@ class _menuDetailsState extends State {
               onTap: () {
                 setState(() {
                   subMenuInMenu.add(submenuList.elementAt(index));
+                  Navigator.of(context).pop();
                 });
               },
               child: Container(
@@ -880,9 +881,26 @@ class _menuDetailsState extends State {
             setState(() {
               isloading = false;
             });
+            Fluttertoast.showToast(
+                msg: "Unable to add Menu.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: utils.getColorFromHex("#CB0000"),
+                textColor: Colors.white,
+                fontSize: 16.0);
+
           });
         }, onError: (value) {
           print("error occurred  $value");
+          Fluttertoast.showToast(
+              msg: "Unable to add Menu.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: utils.getColorFromHex("#CB0000"),
+              textColor: Colors.white,
+              fontSize: 16.0);
 
           setState(() {
             isloading = false;
@@ -925,6 +943,19 @@ class _menuDetailsState extends State {
         setState(() {
           isloading = false;
         });
+      },onError: (value){
+setState(() {
+  isloading=false;
+});
+        Fluttertoast.showToast(
+            msg: "Unable to update Menu.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: utils.getColorFromHex("#CB0000"),
+            textColor: Colors.white,
+            fontSize: 16.0);
+
       });
     }
   }

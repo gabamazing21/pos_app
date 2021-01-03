@@ -536,6 +536,7 @@ class _ModifiersDetailsState extends State {
               onTap: () {
                 setState(() {
                   foodInModifiers.add(foodlist.elementAt(index));
+                  Navigator.of(context).pop();
                 });
               },
               child: Container(

@@ -222,7 +222,12 @@ class _ItemListState extends State {
                       child: FlatButton(
                         onPressed: () {
                           if (!isloading) {
-                            addMenuItem();
+                            if(item==null) {
+                              addMenuItem();
+                            }else{
+
+                              updateItem();
+                            }
                           } else {
                             print("loading...");
                           }
@@ -288,8 +293,14 @@ class _ItemListState extends State {
               child: GestureDetector(
                 onTap: () {
                   if (!isloading) {
+                  if(item==null) {
                     addMenuItem();
+                  }else{
+
+                    updateItem();
+                  }
                   } else {
+
                     print("loading...");
                   }
                 },
@@ -697,6 +708,111 @@ class _ItemListState extends State {
         });
       });
     });
+  }
+
+
+  Future<void> updateItem()async{
+
+    setState(() {
+      isloading=true;
+    });
+    if(_pickFile!=null){
+      var date = DateTime.now();
+      String filename = path.basename(_pickFile.path) + date.toString();
+      Reference storageReference =
+      FirebaseStorage.instance.ref().child("uploads/$filename");
+      UploadTask uploadTask = storageReference.putFile(_pickFile);
+      TaskSnapshot taskSnapshot = uploadTask.snapshot;
+      uploadTask.then((value) {
+        value.ref.getDownloadURL().then((value) async {
+          print("download link $value");
+          FirebaseFirestore.instance.collection("Items").doc(item.itemId).update({
+            "imageLink": value,
+            "itemName": _menuNameController.text,
+            "description": _menuDescription.text,
+            "ItemPrice": double.parse(_menuPriceController.text),
+            "promo_price": (_menuPromoController.text.isEmpty)
+                ? 0
+                : _menuPromoController.text,
+            "last_modified": DateTime.now(),
+
+            "subMenu": null,
+            // "category":_currentCategory.name,
+            // "category_id":_currentCategory.documentid,
+            "visible": visibility
+          }).then((value) {
+            Fluttertoast.showToast(
+                msg: "Food Item is  successfully updated.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: utils.getColorFromHex("#CB0000"),
+                textColor: Colors.white,
+                fontSize: 16.0);
+            /**_menuPriceController.clear();
+                _menuNameController.clear();
+                _menuPromoController.clear();
+                _menuDescription.clear();
+                _pickFile=null;
+             **/
+
+            setState(() {
+              isloading = false;
+              addItem=false;
+            });
+          }, onError: (error) {
+            print("An error occurred");
+            setState(() {
+              isloading = false;
+            });
+          });
+        }, onError: (value) {
+          print("error occurred  $value");
+
+          setState(() {
+            isloading = false;
+          });
+        });
+      });
+
+    }else {
+      FirebaseFirestore.instance.collection("Items").doc(item.itemId).update({
+        "itemName": _menuNameController.text,
+        "description": _menuDescription.text,
+        "ItemPrice": double.parse(_menuPriceController.text),
+        "promo_price": (_menuPromoController.text.isEmpty)
+            ? 0
+            : _menuPromoController.text,
+        "last_modified": DateTime.now(),
+
+        "subMenu": null,
+        // "category":_currentCategory.name,
+        // "category_id":_currentCategory.documentid,
+        "visible": visibility
+      }).then((value) {
+        Fluttertoast.showToast(
+            msg: "Food Item is  successfully updated.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: utils.getColorFromHex("#CB0000"),
+            textColor: Colors.white,
+            fontSize: 16.0);
+        /**_menuPriceController.clear();
+            _menuNameController.clear();
+            _menuPromoController.clear();
+            _menuDescription.clear();
+            _pickFile=null;
+         **/
+
+        setState(() {
+          isloading = false;
+          addItem = false;
+        });
+      });
+    }
+
+
   }
 
   Future<void> getItems() async {
