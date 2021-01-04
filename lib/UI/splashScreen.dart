@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pos_app/UI/MasterPanel.dart';
+import 'package:pos_app/UI/createPasscode.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,5 +17,32 @@ class _SplashScreenState extends State<SplashScreen> {
         "assets/images/start_logo.png",
       ),
     ));
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    goToNext();
+  }
+
+  goToNext(){
+    FirebaseFirestore.instance.collection("passCode").get().then((value){
+
+      if(value.size==0){
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>createPasscode()));
+
+      }else{
+        String id=  value.docs.elementAt(0).id;
+        FirebaseFirestore.instance.collection("passCode").doc(id).update({
+          "lastTimeLogin":DateTime.now()
+
+        }).then((value) =>
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>MasterPanel())));
+
+      }
+
+    });
+
+
   }
 }
