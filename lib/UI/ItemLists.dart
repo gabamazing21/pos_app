@@ -131,7 +131,7 @@ class _ItemListState extends State {
                           alignment: Alignment.center,
                           child: CircularProgressIndicator(
                             value: null,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(utils.getColorFromHex("#CC1313")),
 
 
                           )

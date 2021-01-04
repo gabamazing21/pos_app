@@ -3,6 +3,7 @@ import 'package:pos_app/Firebase/database.dart';
 import 'package:pos_app/Models/submenu.dart';
 import 'package:pos_app/UI/SubMenuDetails.dart';
 import 'package:pos_app/Utils/utils.dart';
+import 'package:pos_app/Utils/constants.dart';
 
 class SubMenu extends StatefulWidget {
   _SubMenuState createState() => _SubMenuState();
@@ -106,7 +107,7 @@ class _SubMenuState extends State {
                         alignment: Alignment.center,
                         child: CircularProgressIndicator(
                           value: null,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(utils.getColorFromHex("#CC1313")),
 
 
                         )

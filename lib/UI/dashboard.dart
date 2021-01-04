@@ -37,7 +37,7 @@ class _dashboardState extends State {
         _crossAxisCount;
     var cellHeight = 206;
     var _aspectRatio = _width / cellHeight;
-
+bool isloading=true;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: utils.getColorFromHex("#CC1313"),
