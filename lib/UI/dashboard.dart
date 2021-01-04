@@ -7,6 +7,7 @@ import 'package:pos_app/UI/Items.dart';
 import 'package:pos_app/UI/MasterPanel.dart';
 import 'package:pos_app/UI/MasterPanelItem.dart';
 import 'package:pos_app/UI/MasterPanelTransaction.dart';
+import 'package:pos_app/UI/pass_code.dart';
 import 'package:pos_app/UI/slidepush.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:responsive_grid/responsive_grid.dart';
@@ -37,7 +38,7 @@ class _dashboardState extends State {
         _crossAxisCount;
     var cellHeight = 206;
     var _aspectRatio = _width / cellHeight;
-bool isloading=true;
+    bool isloading = true;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: utils.getColorFromHex("#CC1313"),
@@ -89,28 +90,36 @@ bool isloading=true;
                   child: Container(
                     child: ListView(
                       children: [
-
-                       GestureDetector(
-                         onTap: (){
-                           Navigator.of(context).pushAndRemoveUntil(
-                               MaterialPageRoute(
-                                   builder: (BuildContext context) =>
-                                       MasterPanel()),
-                                   (route) => false);
-
-                         },
-                         child: ListTile(
-                           title: Text("Menu",style: KdashboardTextStyle),
-                         ),
-                       ),
-
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PassCode(
+                                  voidCallback: () {
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                MasterPanel()),
+                                        (route) => false);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          child: ListTile(
+                            title: Text("Menu", style: KdashboardTextStyle),
+                          ),
+                        ),
                         GestureDetector(
                             onTap: () async {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MasterPanelTransaction()),
-                                  (route) => false);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      MasterPanelTransaction(),
+                                ),
+                              );
                             },
                             child: ListTile(
                               title: Text(
@@ -118,14 +127,24 @@ bool isloading=true;
                                 style: KdashboardTextStyle,
                               ),
                             )),
-
                         GestureDetector(
                           onTap: () async {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        MasterPanelItem()),
-                                (route) => false);
+                            print("clicked");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PassCode(
+                                        voidCallback: () {
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          MasterPanelItem()),
+                                                  (route) => false);
+                                        },
+                                      )),
+                            );
                           },
                           child: ListTile(
                             title: Text(
@@ -134,21 +153,6 @@ bool isloading=true;
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        MasterPanelItem()),
-                                (route) => false);
-                          },
-                          child: ListTile(
-                            title: Text(
-                              'Passcode',
-                              style: KdashboardTextStyle,
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   )),

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_app/UI/MasterPanel.dart';
+import 'package:pos_app/UI/MasterPanelTransaction.dart';
 import 'package:pos_app/UI/createPasscode.dart';
+import 'package:pos_app/Utils/tempovalue.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     ));
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -25,24 +28,24 @@ class _SplashScreenState extends State<SplashScreen> {
     goToNext();
   }
 
-  goToNext(){
-    FirebaseFirestore.instance.collection("passCode").get().then((value){
+  goToNext() {
+    FirebaseFirestore.instance.collection("passCode").get().then((value) {
+      if (value.size == 0) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => createPasscode()));
+      } else {
+        String id = value.docs.elementAt(0).id;
+        String code = value.docs.elementAt(0)['code'];
+        FirebaseFirestore.instance
+            .collection("passCode")
+            .doc(id)
+            .update({"lastTimeLogin": DateTime.now()}).then((value) {
+          tempovalueInstance.getInstance().passcode = code;
 
-      if(value.size==0){
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>createPasscode()));
-
-      }else{
-        String id=  value.docs.elementAt(0).id;
-        FirebaseFirestore.instance.collection("passCode").doc(id).update({
-          "lastTimeLogin":DateTime.now()
-
-        }).then((value) =>
-      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>MasterPanel())));
-
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => MasterPanelTransaction()));
+        });
       }
-
     });
-
-
   }
 }

@@ -8,6 +8,7 @@ import 'package:pos_app/Utils/tempovalue.dart';
 import 'package:pos_app/Utils/utils.dart';
 import 'package:pos_app/Models/OrderDetail.dart';
 import 'package:pos_app/Firebase/database.dart';
+import 'package:pos_app/UI/pass_code.dart';
 
 class TransactionList extends StatefulWidget {
   _TransactionListState createState() => _TransactionListState();
@@ -23,7 +24,7 @@ class _TransactionListState extends State {
 
   int _selectedIndex;
   List<OrderDetails> orderList = List();
-  bool isloading=true;
+  bool isloading = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,30 +59,38 @@ class _TransactionListState extends State {
                     width: MediaQuery.of(context).size.width,
                     height: 300,
                     child: Container(
-                      child:ListView(
+                      child: ListView(
                         children: [
-
                           GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MasterPanel()),
-                                      (route) => false);
-
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PassCode(
+                                    voidCallback: () {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  MasterPanel()),
+                                          (route) => false);
+                                    },
+                                  ),
+                                ),
+                              );
                             },
                             child: ListTile(
-                              title: Text("Menu",style: KdashboardTextStyle),
+                              title: Text("Menu", style: KdashboardTextStyle),
                             ),
                           ),
-
                           GestureDetector(
                               onTap: () async {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            MasterPanelTransaction()),
-                                        (route) => false);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MasterPanelTransaction(),
+                                  ),
+                                );
                               },
                               child: ListTile(
                                 title: Text(
@@ -89,14 +98,24 @@ class _TransactionListState extends State {
                                   style: KdashboardTextStyle,
                                 ),
                               )),
-
                           GestureDetector(
                             onTap: () async {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MasterPanelItem()),
-                                      (route) => false);
+                              print("clicked");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PassCode(
+                                          voidCallback: () {
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            MasterPanelItem()),
+                                                    (route) => false);
+                                          },
+                                        )),
+                              );
                             },
                             child: ListTile(
                               title: Text(
@@ -105,21 +124,6 @@ class _TransactionListState extends State {
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () async {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MasterPanelItem()),
-                                      (route) => false);
-                            },
-                            child: ListTile(
-                              title: Text(
-                                'Passcode',
-                                style: KdashboardTextStyle,
-                              ),
-                            ),
-                          )
                         ],
                       ),
                     )),
@@ -135,34 +139,36 @@ class _TransactionListState extends State {
           backgroundColor: utils.getColorFromHex("#F1F1F1"),
           iconTheme: IconThemeData(color: Colors.black),
         ),
-        body:  Container(
+        body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child:(!isloading) ?ListView.builder(
-              itemBuilder: (BuildContext context, int index) => GestureDetector(
-                  onTap: () {
-                    MasterDetailScaffold.of(context).detailsPaneNavigator.pushNamed(
-                        "TransactionDetails?id=${orderList.elementAt(index).orderId}");
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                    tempovalueInstance.getInstance().currentOrderDetials =
-                        orderList.elementAt(index);
-                  },
-                  child: itemList(index, orderList.elementAt(index))),
-              itemCount: orderList.length,
-            ): Container(
-
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  value: null,
-                  valueColor: AlwaysStoppedAnimation<Color>(utils.getColorFromHex("#CC1313")),
-
-
-                )
-            )
-
-        ));
+            child: (!isloading)
+                ? ListView.builder(
+                    itemBuilder: (BuildContext context, int index) =>
+                        GestureDetector(
+                            onTap: () {
+                              MasterDetailScaffold.of(context)
+                                  .detailsPaneNavigator
+                                  .pushNamed(
+                                      "TransactionDetails?id=${orderList.elementAt(index).orderId}");
+                              setState(() {
+                                _selectedIndex = index;
+                              });
+                              tempovalueInstance
+                                      .getInstance()
+                                      .currentOrderDetials =
+                                  orderList.elementAt(index);
+                            },
+                            child: itemList(index, orderList.elementAt(index))),
+                    itemCount: orderList.length,
+                  )
+                : Container(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      value: null,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          utils.getColorFromHex("#CC1313")),
+                    ))));
   }
 
   Widget itemList(int index, OrderDetails orderDetails) {
@@ -236,7 +242,7 @@ class _TransactionListState extends State {
       tempovalueInstance.getInstance().currentOrderDetials =
           orderList.elementAt(0);
       setState(() {
-        isloading=false;
+        isloading = false;
       });
     }
   }
