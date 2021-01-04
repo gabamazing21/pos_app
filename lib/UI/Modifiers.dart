@@ -16,6 +16,7 @@ class _ModifierState extends State {
   List<Item> foodlist = List();
   List<modifiers> modifiersList = List();
   modifiers currentModifier;
+  bool isloading=true;
   @override
   void initState() {
     getModifiersList();
@@ -87,7 +88,7 @@ class _ModifierState extends State {
                       ),
                     ),
                   ),
-                  Container(
+                  (!isloading)? Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height - 218,
                     child: ListView.builder(
@@ -104,7 +105,16 @@ class _ModifierState extends State {
                               child:
                                   _orderItem(modifiersList.elementAt(index))),
                     ),
-                  )
+                  ):Container(
+
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        value: null,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                      )
+                  ),
                 ],
               ),
             ))
@@ -176,7 +186,10 @@ class _ModifierState extends State {
     if (modifiersList.isEmpty) {
       getModifiersList();
     } else {
-      setState(() {});
+      setState(() {
+        isloading=false;
+
+      });
     }
   }
 }

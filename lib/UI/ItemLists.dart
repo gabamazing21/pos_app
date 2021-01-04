@@ -36,6 +36,7 @@ class _ItemListState extends State {
   TextEditingController _menuPriceController;
   TextEditingController _menuDescription;
   bool addItem = false;
+  bool isitemloading=true;
 
   @override
   void initState() {
@@ -111,10 +112,10 @@ class _ItemListState extends State {
                         ),
                       ),
                     ),
-                    Container(
+                   Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height - 210,
-                      child: ListView.builder(
+                      child: (isitemloading) ? ListView.builder(
                         itemCount: _itemList.length,
                         itemBuilder: (BuildContext context, int index) =>
                             GestureDetector(onTap: (){
@@ -125,7 +126,16 @@ class _ItemListState extends State {
                                   });
 
                             },child: _orderItem(_itemList.elementAt(index))),
-                      ),
+                      ): Container(
+
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            value: null,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                          )
+                      ) ,
                     )
                   ],
                 ),
@@ -820,6 +830,7 @@ class _ItemListState extends State {
     if (_itemList.isEmpty) {
       getItems();
     } else {
+      isitemloading=false;
       setState(() {});
     }
   }

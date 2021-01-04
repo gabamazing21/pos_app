@@ -32,6 +32,7 @@ class _menuDetailsState extends State {
   List<submenu> subMenuInMenu = List();
   List<Item> _itemList = List();
   bool isloading = false;
+  bool isloadingitem=true;
   String _menuNameError;
   String _menuPriceError;
   String _menuDescriptionError;
@@ -167,10 +168,19 @@ class _menuDetailsState extends State {
                 },
                 child: Container(
                   alignment: Alignment.center,
-                  child: Text(
+                  child:(!isloading) ?Text(
                     (currentMenu == null) ? "Save" : "Update",
                     style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
+                  ):Container(
+
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        value: null,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                      )),
+
                   decoration: BoxDecoration(
                     color: utils.getColorFromHex("#878787"),
                   ),
@@ -777,7 +787,7 @@ class _menuDetailsState extends State {
   Widget subMenuList() {
     double height = submenuList.length * 25.0;
 
-    return Container(
+    return (!isloadingitem)?Container(
       width: MediaQuery.of(context).size.width,
       height: height,
       constraints: BoxConstraints(maxHeight: 300),
@@ -804,6 +814,21 @@ class _menuDetailsState extends State {
                       fontWeight: FontWeight.bold),
                 ),
               ))),
+    ):Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height-300,
+      child: Container(
+
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            value: null,
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+          )
+      ),
+
+
     );
   }
 

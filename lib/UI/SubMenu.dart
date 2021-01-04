@@ -12,6 +12,7 @@ class _SubMenuState extends State {
   bool showEditsubMenu = false;
   TextEditingController _searchController;
   List<submenu> subMenuList = List();
+  bool isloading=true;
   submenu _currentSubMenu;
   @override
   void initState() {
@@ -89,7 +90,7 @@ class _SubMenuState extends State {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height - 218,
-                    child: ListView.builder(
+                    child:(!isloading)? ListView.builder(
                       itemCount: subMenuList.length,
                       itemBuilder: (BuildContext context, int index) =>
                           GestureDetector(
@@ -100,6 +101,15 @@ class _SubMenuState extends State {
                                 });
                               },
                               child: _orderItem(subMenuList.elementAt(index))),
+                    ): Container(
+
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          value: null,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                        )
                     ),
                   )
                 ],
@@ -171,6 +181,7 @@ class _SubMenuState extends State {
     if (subMenuList.isEmpty) {
       getSubmenuList();
     } else {
+      isloading=false;
       setState(() {});
     }
   }
