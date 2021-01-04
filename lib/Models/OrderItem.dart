@@ -3,7 +3,8 @@ class Orderitem {
   int _quantity;
   dynamic _price;
    String _id;
-  Orderitem(this._id,this._orderItemname, this._quantity, this._price);
+   String _orderImageLink;
+  Orderitem(this._id,this._orderItemname, this._quantity, this._price,this._orderImageLink);
 
   dynamic get price => _price;
 
@@ -27,5 +28,11 @@ class Orderitem {
 
   set id(String value) {
     _id = value;
+  }
+
+  String get orderImageLink => _orderImageLink;
+
+  set orderImageLink(String value) {
+    _orderImageLink = value;
   }
 }

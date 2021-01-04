@@ -185,7 +185,7 @@ class database {
           element['orderCompleted'],
           List.from(element['orderItems'])
               .map((e) => Orderitem(e['orderItemId'], e['orderName'],
-                  e['orderQuantity'], e['orderPrice']))
+                  e['orderQuantity'], e['orderPrice'],e['orderImageLink']))
               .toList(),
         );
 

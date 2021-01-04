@@ -157,8 +157,8 @@ class _ItemListState extends State {
             child: Container(
                 width: 50,
                 height: 50,
-                child: Image.asset(
-                  "assets/images/fast_food.jpg",
+                child: Image.network(
+                  "${item.imageLink}",
                   height: 50,
                   width: 50,
                   fit: BoxFit.cover,
