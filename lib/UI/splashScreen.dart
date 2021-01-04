@@ -1,10 +1,7 @@
-import 'dart:async';
-import 'package:passcode_screen/circle.dart';
-import 'package:passcode_screen/keyboard.dart';
-import 'package:passcode_screen/passcode_screen.dart';
-import 'package:pos_app/UI/MasterPanel.dart';
-import 'package:pos_app/UI/pass_code.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pos_app/UI/MasterPanel.dart';
+import 'package:pos_app/UI/createPasscode.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,12 +11,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 3), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MasterPanel()),
-      );
-    });
     return Center(
         child: Container(
       child: Image.asset(
@@ -27,16 +18,31 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     ));
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    goToNext();
+  }
 
-  // Future<bool> getPasscodeIsRegistered() async {
-  //   final snapshot =
-  //       await Firestore.instance.collection('passcode').getDocuments();
-  //   if (snapshot.documents.length == 0) {
-  //     //Doesn't exist
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (BuildContext context) => PassCode()),
-  //     );
-  //   } else {}
-  // }
+  goToNext(){
+    FirebaseFirestore.instance.collection("passCode").get().then((value){
+
+      if(value.size==0){
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>createPasscode()));
+
+      }else{
+        String id=  value.docs.elementAt(0).id;
+        FirebaseFirestore.instance.collection("passCode").doc(id).update({
+          "lastTimeLogin":DateTime.now()
+
+        }).then((value) =>
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>MasterPanel())));
+
+      }
+
+    });
+
+
+  }
 }
