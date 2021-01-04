@@ -208,7 +208,7 @@ class _SubMenuDetailsState extends State {
                                   TextStyle(fontSize: 16, color: Colors.white),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -629,7 +629,6 @@ class _SubMenuDetailsState extends State {
           itemBuilder: (BuildContext context, index) => GestureDetector(
               onTap: () {
                 setState(() {
-
                   subMenuInSubMenu.add(submenuList.elementAt(index));
                   Navigator.of(context).pop();
                 });
@@ -678,6 +677,17 @@ class _SubMenuDetailsState extends State {
     });
 
     var date = DateTime.now();
+    if (_pickFile == null) {
+      Fluttertoast.showToast(
+          msg: "Pick File is null",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: utils.getColorFromHex("#CB0000"),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
     String filename = path.basename(_pickFile.path) + date.toString();
     Reference storageReference =
         FirebaseStorage.instance.ref().child("uploads/$filename");
@@ -733,9 +743,7 @@ class _SubMenuDetailsState extends State {
             backgroundColor: utils.getColorFromHex("#CB0000"),
             textColor: Colors.white,
             fontSize: 16.0);
-
       });
-
     }, onError: (value) {
       print("error occurred  $value");
       Fluttertoast.showToast(
@@ -818,12 +826,11 @@ class _SubMenuDetailsState extends State {
           setState(() {
             isloading = false;
           });
-       callback();
+          callback();
         }, onError: (error) {
           print("An error occurred");
           setState(() {
             isloading = false;
-
           });
           Fluttertoast.showToast(
               msg: "SubMenu  is  unable to updated.",
@@ -833,7 +840,6 @@ class _SubMenuDetailsState extends State {
               backgroundColor: utils.getColorFromHex("#CB0000"),
               textColor: Colors.white,
               fontSize: 16.0);
-
         });
       }, onError: (value) {
         print("error occurred  $value");
