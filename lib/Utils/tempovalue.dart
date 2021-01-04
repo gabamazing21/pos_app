@@ -2,6 +2,13 @@ import 'package:pos_app/Models/OrderDetail.dart';
 
 class tempovalue {
   OrderDetails _currentOrderDetials;
+  String _passcode;
+
+  String get passcode => _passcode;
+
+  set passcode(String value) {
+    _passcode = value;
+  }
 
   OrderDetails get currentOrderDetials => _currentOrderDetials;
 
@@ -9,13 +16,11 @@ class tempovalue {
     _currentOrderDetials = value;
   }
 }
+
 class tempovalueInstance {
-  static tempovalue _instance=tempovalue();
+  static tempovalue _instance = tempovalue();
 
-  static tempovalue getInstance(){
-
+  static tempovalue getInstance() {
     return _instance;
   }
-
-
 }

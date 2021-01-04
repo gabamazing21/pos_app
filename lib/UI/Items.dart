@@ -7,6 +7,7 @@ import 'package:pos_app/UI/MasterPanelItem.dart';
 import 'package:pos_app/UI/MasterPanelTransaction.dart';
 import 'package:pos_app/Utils/constants.dart';
 import 'package:pos_app/Utils/utils.dart';
+import 'package:pos_app/UI/pass_code.dart';
 
 class Item extends StatefulWidget {
   _ItemState createState() => _ItemState();
@@ -50,30 +51,38 @@ class _ItemState extends State {
                   width: MediaQuery.of(context).size.width,
                   height: 300,
                   child: Container(
-                    child:ListView(
+                    child: ListView(
                       children: [
-
                         GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        MasterPanel()),
-                                    (route) => false);
-
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PassCode(
+                                  voidCallback: () {
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                MasterPanel()),
+                                        (route) => false);
+                                  },
+                                ),
+                              ),
+                            );
                           },
                           child: ListTile(
-                            title: Text("Menu",style: KdashboardTextStyle),
+                            title: Text("Menu", style: KdashboardTextStyle),
                           ),
                         ),
-
                         GestureDetector(
                             onTap: () async {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MasterPanelTransaction()),
-                                      (route) => false);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      MasterPanelTransaction(),
+                                ),
+                              );
                             },
                             child: ListTile(
                               title: Text(
@@ -81,14 +90,24 @@ class _ItemState extends State {
                                 style: KdashboardTextStyle,
                               ),
                             )),
-
                         GestureDetector(
                           onTap: () async {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        MasterPanelItem()),
-                                    (route) => false);
+                            print("clicked");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PassCode(
+                                        voidCallback: () {
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          MasterPanelItem()),
+                                                  (route) => false);
+                                        },
+                                      )),
+                            );
                           },
                           child: ListTile(
                             title: Text(
@@ -97,21 +116,6 @@ class _ItemState extends State {
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        MasterPanelItem()),
-                                    (route) => false);
-                          },
-                          child: ListTile(
-                            title: Text(
-                              'Passcode',
-                              style: KdashboardTextStyle,
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   )),
