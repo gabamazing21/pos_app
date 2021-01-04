@@ -23,7 +23,7 @@ class _TransactionListState extends State {
 
   int _selectedIndex;
   List<OrderDetails> orderList = List();
-
+  bool isloading=true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,10 +135,10 @@ class _TransactionListState extends State {
           backgroundColor: utils.getColorFromHex("#F1F1F1"),
           iconTheme: IconThemeData(color: Colors.black),
         ),
-        body: Container(
+        body:  Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: ListView.builder(
+            child:(!isloading) ?ListView.builder(
               itemBuilder: (BuildContext context, int index) => GestureDetector(
                   onTap: () {
                     MasterDetailScaffold.of(context).detailsPaneNavigator.pushNamed(
@@ -151,7 +151,18 @@ class _TransactionListState extends State {
                   },
                   child: itemList(index, orderList.elementAt(index))),
               itemCount: orderList.length,
-            )));
+            ): Container(
+
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(
+                  value: null,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                )
+            )
+
+        ));
   }
 
   Widget itemList(int index, OrderDetails orderDetails) {
@@ -224,7 +235,9 @@ class _TransactionListState extends State {
           .pushNamed("TransactionDetails?id=${orderList.elementAt(0).orderId}");
       tempovalueInstance.getInstance().currentOrderDetials =
           orderList.elementAt(0);
-      setState(() {});
+      setState(() {
+        isloading=false;
+      });
     }
   }
 }

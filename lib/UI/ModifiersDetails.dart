@@ -329,10 +329,20 @@ class _ModifiersDetailsState extends State {
                         print("loading...");
                       }
                     },
-                    child: Text(
+                    child: (!isloading)?Text(
                       (currentModifiers == null) ? "Save" : "Update",
                       style: TextStyle(fontSize: 16, color: Colors.white),
+                    ):Container(
+
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          value: null,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                        )
                     ),
+
                   ),
                 )
               ],
