@@ -13,6 +13,8 @@ class _createPasscode extends State{
 TextEditingController _pinVerificationController;
 bool ispinentered=false;
 bool showreEnteredpin=false;
+String firstPin;
+String secondPin;
 TextEditingController _reEnterPinVerificationController;
 @override
   void initState() {
@@ -27,7 +29,7 @@ _reEnterPinVerificationController=TextEditingController();
 
 
     return Scaffold(
-      appBar: AppBar(title: Text((!showreEnteredpin)?"Create PassCode":"Confirm Passcode"),),
+      appBar: AppBar(title: Text("PassCode"),backgroundColor: utils.getColorFromHex("#CC1313"),),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height:MediaQuery.of(context).size.height,
@@ -35,9 +37,16 @@ _reEnterPinVerificationController=TextEditingController();
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
+Container(
+  alignment: Alignment.center,
+  child: Text(!showreEnteredpin?"Enter New PassCode":"Enter Confirm PassCode ",style: TextStyle(color: Colors.black,fontSize: 16),),
+  
+),
+            
+            
             Container(
-
+              width: MediaQuery.of(context).size.width/2,
+                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: 10, left: 0),
                 child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -104,6 +113,7 @@ _reEnterPinVerificationController=TextEditingController();
                        setState(() {
                          showreEnteredpin=true;
                         ispinentered=false;
+
                        });
 
                      }else{
@@ -138,7 +148,7 @@ _reEnterPinVerificationController=TextEditingController();
 
                   child: Center(
                       child: Text(
-                        "VERIFY".toUpperCase(),
+                        (!showreEnteredpin)?"Next":"Register",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -147,19 +157,19 @@ _reEnterPinVerificationController=TextEditingController();
                 ),
               ),
               decoration: BoxDecoration(
-                  color: (ispinentered)?Colors.green.shade300:Colors.green.shade300.withOpacity(0.3),
+                  color: (ispinentered)?utils.getColorFromHex("#CB0000"):Colors.black.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.green.shade200,
-                        offset: Offset(1, -2),
-                        blurRadius: 5),
-                    BoxShadow(
-                        color: Colors.green.shade200,
-                        offset: Offset(-1, 2),
-                        blurRadius: 5)
-                  ]),
-            ),
+//                  boxShadow: [
+//                    BoxShadow(
+//                        color: Colors.green.shade200,
+//                        offset: Offset(1, -2),
+//                        blurRadius: 5),
+//                    BoxShadow(
+//                        color: Colors.green.shade200,
+//                        offset: Offset(-1, 2),
+//                        blurRadius: 5)
+//                  ]),
+            )),
 
 
           ],

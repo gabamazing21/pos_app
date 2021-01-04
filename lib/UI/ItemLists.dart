@@ -115,7 +115,7 @@ class _ItemListState extends State {
                    Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height - 210,
-                      child: (isitemloading) ? ListView.builder(
+                      child: (!isitemloading) ? ListView.builder(
                         itemCount: _itemList.length,
                         itemBuilder: (BuildContext context, int index) =>
                             GestureDetector(onTap: (){
