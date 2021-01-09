@@ -13,8 +13,9 @@ class _SubMenuState extends State {
   bool showEditsubMenu = false;
   TextEditingController _searchController;
   List<submenu> subMenuList = List();
-  bool isloading=true;
+  bool isloading = true;
   submenu _currentSubMenu;
+  bool noItemAvailable = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -91,27 +92,40 @@ class _SubMenuState extends State {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height - 218,
-                    child:(!isloading)? ListView.builder(
-                      itemCount: subMenuList.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          GestureDetector(
-                              onTap: () {
-                                _currentSubMenu = subMenuList.elementAt(index);
-                                setState(() {
-                                  showEditsubMenu = true;
-                                });
-                              },
-                              child: _orderItem(subMenuList.elementAt(index))),
-                    ): Container(
-
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          value: null,
-                          valueColor: AlwaysStoppedAnimation<Color>(utils.getColorFromHex("#CC1313")),
-
-
-                        )
-                    ),
+                    child: (!isloading)
+                        ? (!noItemAvailable)
+                            ? ListView.builder(
+                                itemCount: subMenuList.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        GestureDetector(
+                                            onTap: () {
+                                              _currentSubMenu =
+                                                  subMenuList.elementAt(index);
+                                              setState(() {
+                                                showEditsubMenu = true;
+                                              });
+                                            },
+                                            child: _orderItem(
+                                                subMenuList.elementAt(index))),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "No SubMenu yet",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              )
+                        : Container(
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                              value: null,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  utils.getColorFromHex("#CC1313")),
+                            )),
                   )
                 ],
               ),
@@ -179,10 +193,17 @@ class _SubMenuState extends State {
 
   Future<void> getSubmenuList() async {
     subMenuList = await database.getAllSubMenu();
-    if (subMenuList.isEmpty) {
-      getSubmenuList();
+    if (subMenuList != null) {
+      if (subMenuList.isEmpty) {
+        getSubmenuList();
+      } else {
+        isloading = false;
+        noItemAvailable = false;
+        setState(() {});
+      }
     } else {
-      isloading=false;
+      isloading = false;
+      noItemAvailable = true;
       setState(() {});
     }
   }

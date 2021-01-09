@@ -14,9 +14,10 @@ class _ModifierState extends State {
   TextEditingController _searchController = TextEditingController();
   bool showEditModifiers = false;
   List<Item> foodlist = List();
+  bool noItemAvailable = false;
   List<modifiers> modifiersList = List();
   modifiers currentModifier;
-  bool isloading=true;
+  bool isloading = true;
   @override
   void initState() {
     getModifiersList();
@@ -88,33 +89,48 @@ class _ModifierState extends State {
                       ),
                     ),
                   ),
-                  (!isloading)? Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 218,
-                    child: ListView.builder(
-                      itemCount: modifiersList.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          GestureDetector(
-                              onTap: () {
-                                currentModifier =
-                                    modifiersList.elementAt(index);
-                                setState(() {
-                                  showEditModifiers = true;
-                                });
-                              },
-                              child:
-                                  _orderItem(modifiersList.elementAt(index))),
-                    ),
-                  ):Container(
-
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        value: null,
-                        valueColor: AlwaysStoppedAnimation<Color>(utils.getColorFromHex("#CC1313")),
-
-
-                      )
-                  ),
+                  (!isloading)
+                      ? (!noItemAvailable)
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height - 218,
+                              child: ListView.builder(
+                                itemCount: modifiersList.length,
+                                itemBuilder: (BuildContext context,
+                                        int index) =>
+                                    GestureDetector(
+                                        onTap: () {
+                                          currentModifier =
+                                              modifiersList.elementAt(index);
+                                          setState(() {
+                                            showEditModifiers = true;
+                                          });
+                                        },
+                                        child: _orderItem(
+                                            modifiersList.elementAt(index))),
+                              ),
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height - 218,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "No Modifier Item yet",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                      : Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 218,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            value: null,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                utils.getColorFromHex("#CC1313")),
+                          )),
                 ],
               ),
             ))
@@ -183,12 +199,19 @@ class _ModifierState extends State {
   Future<void> getModifiersList() async {
     modifiersList.clear();
     modifiersList = await database.getAllModifier();
-    if (modifiersList.isEmpty) {
-      getModifiersList();
+    if (modifiersList != null) {
+      if (modifiersList.isEmpty) {
+        getModifiersList();
+      } else {
+        setState(() {
+          isloading = false;
+          noItemAvailable = false;
+        });
+      }
     } else {
       setState(() {
-        isloading=false;
-
+        isloading = false;
+        noItemAvailable = true;
       });
     }
   }

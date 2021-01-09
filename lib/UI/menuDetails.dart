@@ -32,7 +32,7 @@ class _menuDetailsState extends State {
   List<submenu> subMenuInMenu = List();
   List<Item> _itemList = List();
   bool isloading = false;
-  bool isloadingitem=true;
+  bool isloadingitem = true;
   String _menuNameError;
   String _menuPriceError;
   String _menuDescriptionError;
@@ -81,8 +81,8 @@ class _menuDetailsState extends State {
         child: Column(
           children: [
             Flexible(
-             // width: MediaQuery.of(context).size.width,
-           //   height: MediaQuery.of(context).size.height - 7 - 81,
+              // width: MediaQuery.of(context).size.width,
+              //   height: MediaQuery.of(context).size.height - 7 - 81,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -168,19 +168,18 @@ class _menuDetailsState extends State {
                 },
                 child: Container(
                   alignment: Alignment.center,
-                  child:(!isloading) ?Text(
-                    (currentMenu == null) ? "Save" : "Update",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ):Container(
-
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        value: null,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-
-
-                      )),
-
+                  child: (!isloading)
+                      ? Text(
+                          (currentMenu == null) ? "Save" : "Update",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        )
+                      : Container(
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            value: null,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )),
                   decoration: BoxDecoration(
                     color: utils.getColorFromHex("#878787"),
                   ),
@@ -696,20 +695,20 @@ class _menuDetailsState extends State {
         FirebaseFirestore.instance.collection("menus").add({
           "imageLink": value,
           "menuName": _menuNameController.text,
-          "description": _menuDescription.text,
-          "price": double.parse(_menuPriceController.text),
-          "promo_price": (_menuPromoController.text.isEmpty)
-              ? 0
-              : _menuPromoController.text,
+          // "description": _menuDescription.text,
+          // "price": double.parse(_menuPriceController.text),
+          // "promo_price": (_menuPromoController.text.isEmpty)
+          //     ? 0
+          //     : _menuPromoController.text,
           "last_modified": DateTime.now(),
           "created_date": DateTime.now(),
-          "subMenu": null,
+          "subMenu": List.generate(selectedSubmnu.lenght, (index) => selectedSubmnu.elementAt(index).),
           // "category":_currentCategory.name,
           // "category_id":_currentCategory.documentid,
           "visibility": visibility
         }).then((value) {
           Fluttertoast.showToast(
-              msg: "Food Item is  successfully updated.",
+              msg: "Menu and Food Item is  successfully updated.",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 1,
@@ -744,10 +743,12 @@ class _menuDetailsState extends State {
 
   Future<void> getSubmenuList() async {
     submenuList = await database.getAllSubMenu();
-    if (submenuList.isEmpty) {
-      getSubmenuList();
-    } else {
-      setState(() {});
+    if (submenuList != null) {
+      if (submenuList.isEmpty) {
+        getSubmenuList();
+      } else {
+        setState(() {});
+      }
     }
   }
 
@@ -787,7 +788,7 @@ class _menuDetailsState extends State {
   Widget subMenuList() {
     double height = submenuList.length * 25.0;
 
-    return (!isloadingitem)?Container(
+    return Container(
       width: MediaQuery.of(context).size.width,
       height: height,
       constraints: BoxConstraints(maxHeight: 300),
@@ -814,21 +815,6 @@ class _menuDetailsState extends State {
                       fontWeight: FontWeight.bold),
                 ),
               ))),
-    ):Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height-300,
-      child: Container(
-
-          alignment: Alignment.center,
-          child: CircularProgressIndicator(
-            value: null,
-            valueColor: AlwaysStoppedAnimation<Color>(utils.getColorFromHex("#CC1313")),
-
-
-          )
-      ),
-
-
     );
   }
 
@@ -914,7 +900,6 @@ class _menuDetailsState extends State {
                 backgroundColor: utils.getColorFromHex("#CB0000"),
                 textColor: Colors.white,
                 fontSize: 16.0);
-
           });
         }, onError: (value) {
           print("error occurred  $value");
@@ -968,10 +953,10 @@ class _menuDetailsState extends State {
         setState(() {
           isloading = false;
         });
-      },onError: (value){
-setState(() {
-  isloading=false;
-});
+      }, onError: (value) {
+        setState(() {
+          isloading = false;
+        });
         Fluttertoast.showToast(
             msg: "Unable to update Menu.",
             toastLength: Toast.LENGTH_SHORT,
@@ -980,7 +965,6 @@ setState(() {
             backgroundColor: utils.getColorFromHex("#CB0000"),
             textColor: Colors.white,
             fontSize: 16.0);
-
       });
     }
   }

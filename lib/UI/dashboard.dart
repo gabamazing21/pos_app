@@ -19,7 +19,8 @@ class dashboard extends StatefulWidget {
 
 class _dashboardState extends State {
   List<Menu> allmenulist = List();
-  bool isloading = false;
+  bool isLoading = false;
+  bool noItemAvailable = false;
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   @override
   void initState() {
@@ -164,34 +165,62 @@ class _dashboardState extends State {
         color: utils.getColorFromHex("#F1F1F1"),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 88 - 48 - 43,
-              child: ResponsiveGridList(
-                  desiredItemWidth: 100,
-                  minSpacing: 20,
-                  children: allmenulist
-                      .map((e) => GestureDetector(
-                            child: MenuItem(e),
-                            onTap: () async {
-                              print("clicked");
-                              await MasterDetailScaffold.of(context)
-                                  .detailsPaneNavigator
-                                  .pushNamed('menuDetails?id=${e.id}');
-                              Future.delayed(Duration(seconds: 0), () {
+        child: (!isLoading)
+            ? (!noItemAvailable)
+                ? Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height:
+                              MediaQuery.of(context).size.height - 88 - 48 - 43,
+                          child: ResponsiveGridList(
+                              desiredItemWidth: 100,
+                              minSpacing: 20,
+                              children: allmenulist
+                                  .map((e) => GestureDetector(
+                                        child: MenuItem(e),
+                                        onTap: () async {
+                                          print("clicked");
+                                          await MasterDetailScaffold.of(context)
+                                              .detailsPaneNavigator
+                                              .pushNamed(
+                                                  'menuDetails?id=${e.id}');
+                                          Future.delayed(Duration(seconds: 0),
+                                              () {
 //           if( Navigator.canPop(context))
 //             Navigator.pop(context);
 
-                                // Navigator.of(context).pushNamed("menuDetails");
-                              });
-                            },
-                          ))
-                      .toList()),
-            ),
-          ],
-        ),
+                                            // Navigator.of(context).pushNamed("menuDetails");
+                                          });
+                                        },
+                                      ))
+                                  .toList()),
+                        )
+                      ],
+                    ),
+                  )
+                : Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 88 - 48 - 43,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "No Menu Item yet",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+            : Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 88 - 48 - 43,
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(
+                  value: null,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      utils.getColorFromHex("#CC1313")),
+                )),
       ),
     );
   }
@@ -256,16 +285,22 @@ class _dashboardState extends State {
   }
 
   Future<void> getMenu() async {
-    setState(() {
-      isloading = true;
-    });
     allmenulist = await database.getMenu();
-    if (allmenulist.isEmpty) {
-      getMenu();
+    if (allmenulist != null) {
+      print("item is not null");
+      if (allmenulist.isEmpty) {
+        getMenu();
+      } else {
+        setState(() {
+          isLoading = false;
+          noItemAvailable = false;
+        });
+      }
     } else {
-      setState(() {
-        isloading = false;
-      });
+      print("item is nullffff");
+      isLoading = false;
+      noItemAvailable = true;
+      setState(() {});
     }
   }
 }

@@ -19,6 +19,7 @@ class ItemList extends StatefulWidget {
 class _ItemListState extends State {
   File _pickFile;
   Item item = null;
+  bool noItemAvailable = false;
   TextEditingController _searchController = TextEditingController();
   String _menuNameError;
   String _menuPriceError;
@@ -36,7 +37,7 @@ class _ItemListState extends State {
   TextEditingController _menuPriceController;
   TextEditingController _menuDescription;
   bool addItem = false;
-  bool isitemloading=true;
+  bool isitemloading = true;
 
   @override
   void initState() {
@@ -50,18 +51,18 @@ class _ItemListState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return (!addItem)?Scaffold(
-          appBar: AppBar(
-        title: Text( "All Item",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            )),
-        backgroundColor: utils.getColorFromHex("#F1F1F1"),
-      ),
-      body:
-          SingleChildScrollView(
-            child: Container(
+    return (!addItem)
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text("All Item",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  )),
+              backgroundColor: utils.getColorFromHex("#F1F1F1"),
+            ),
+            body: SingleChildScrollView(
+              child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: Column(
@@ -112,36 +113,48 @@ class _ItemListState extends State {
                         ),
                       ),
                     ),
-                   Container(
+                    Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height - 210,
-                      child: (!isitemloading) ? ListView.builder(
-                        itemCount: _itemList.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            GestureDetector(onTap: (){
-                              item=_itemList.elementAt(index);
-                                  addItem=true;
-                                  setState(() {
-
-                                  });
-
-                            },child: _orderItem(_itemList.elementAt(index))),
-                      ): Container(
-
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(
-                            value: null,
-                            valueColor: AlwaysStoppedAnimation<Color>(utils.getColorFromHex("#CC1313")),
-
-
-                          )
-                      ) ,
+                      child: (!isitemloading)
+                          ? (!noItemAvailable)
+                              ? ListView.builder(
+                                  itemCount: _itemList.length,
+                                  itemBuilder: (BuildContext context,
+                                          int index) =>
+                                      GestureDetector(
+                                          onTap: () {
+                                            item = _itemList.elementAt(index);
+                                            addItem = true;
+                                            setState(() {});
+                                          },
+                                          child: _orderItem(
+                                              _itemList.elementAt(index))),
+                                )
+                              : Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "No Item yet",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                )
+                          : Container(
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator(
+                                value: null,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    utils.getColorFromHex("#CC1313")),
+                              )),
                     )
                   ],
                 ),
               ),
-          ),
-    ):showAddItem();
+            ),
+          )
+        : showAddItem();
   }
 
   Widget _orderItem(Item item) {
@@ -206,17 +219,13 @@ class _ItemListState extends State {
         child: Column(
           children: [
             ToolBar(
-              callback: (){
-
+              callback: () {
                 setState(() {
-                  addItem=false;
+                  addItem = false;
                 });
               },
-              title: (item == null)
-                  ? 'Create Item'
-                  : 'Edit Item',
+              title: (item == null) ? 'Create Item' : 'Edit Item',
             ),
-
             Flexible(
 //            width: MediaQuery.of(context).size.width,
 //            height: MediaQuery.of(context).size.height - 50 - 26,
@@ -232,10 +241,9 @@ class _ItemListState extends State {
                       child: FlatButton(
                         onPressed: () {
                           if (!isloading) {
-                            if(item==null) {
+                            if (item == null) {
                               addMenuItem();
-                            }else{
-
+                            } else {
                               updateItem();
                             }
                           } else {
@@ -303,14 +311,12 @@ class _ItemListState extends State {
               child: GestureDetector(
                 onTap: () {
                   if (!isloading) {
-                  if(item==null) {
-                    addMenuItem();
-                  }else{
-
-                    updateItem();
-                  }
+                    if (item == null) {
+                      addMenuItem();
+                    } else {
+                      updateItem();
+                    }
                   } else {
-
                     print("loading...");
                   }
                 },
@@ -702,7 +708,7 @@ class _ItemListState extends State {
 
           setState(() {
             isloading = false;
-            addItem=false;
+            addItem = false;
           });
         }, onError: (error) {
           print("An error occurred");
@@ -720,23 +726,24 @@ class _ItemListState extends State {
     });
   }
 
-
-  Future<void> updateItem()async{
-
+  Future<void> updateItem() async {
     setState(() {
-      isloading=true;
+      isloading = true;
     });
-    if(_pickFile!=null){
+    if (_pickFile != null) {
       var date = DateTime.now();
       String filename = path.basename(_pickFile.path) + date.toString();
       Reference storageReference =
-      FirebaseStorage.instance.ref().child("uploads/$filename");
+          FirebaseStorage.instance.ref().child("uploads/$filename");
       UploadTask uploadTask = storageReference.putFile(_pickFile);
       TaskSnapshot taskSnapshot = uploadTask.snapshot;
       uploadTask.then((value) {
         value.ref.getDownloadURL().then((value) async {
           print("download link $value");
-          FirebaseFirestore.instance.collection("Items").doc(item.itemId).update({
+          FirebaseFirestore.instance
+              .collection("Items")
+              .doc(item.itemId)
+              .update({
             "imageLink": value,
             "itemName": _menuNameController.text,
             "description": _menuDescription.text,
@@ -768,7 +775,7 @@ class _ItemListState extends State {
 
             setState(() {
               isloading = false;
-              addItem=false;
+              addItem = false;
             });
           }, onError: (error) {
             print("An error occurred");
@@ -784,15 +791,13 @@ class _ItemListState extends State {
           });
         });
       });
-
-    }else {
+    } else {
       FirebaseFirestore.instance.collection("Items").doc(item.itemId).update({
         "itemName": _menuNameController.text,
         "description": _menuDescription.text,
         "ItemPrice": double.parse(_menuPriceController.text),
-        "promo_price": (_menuPromoController.text.isEmpty)
-            ? 0
-            : _menuPromoController.text,
+        "promo_price":
+            (_menuPromoController.text.isEmpty) ? 0 : _menuPromoController.text,
         "last_modified": DateTime.now(),
 
         "subMenu": null,
@@ -821,16 +826,21 @@ class _ItemListState extends State {
         });
       });
     }
-
-
   }
 
   Future<void> getItems() async {
     _itemList = await database.getItems();
-    if (_itemList.isEmpty) {
-      getItems();
+    if (_itemList != null) {
+      if (_itemList.isEmpty) {
+        getItems();
+      } else {
+        isitemloading = false;
+        noItemAvailable = false;
+        setState(() {});
+      }
     } else {
-      isitemloading=false;
+      isitemloading = false;
+      noItemAvailable = true;
       setState(() {});
     }
   }

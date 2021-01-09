@@ -25,6 +25,7 @@ class _TransactionListState extends State {
   int _selectedIndex;
   List<OrderDetails> orderList = List();
   bool isloading = true;
+  bool noItemAvailable = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,25 +144,37 @@ class _TransactionListState extends State {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: (!isloading)
-                ? ListView.builder(
-                    itemBuilder: (BuildContext context, int index) =>
-                        GestureDetector(
-                            onTap: () {
-                              MasterDetailScaffold.of(context)
-                                  .detailsPaneNavigator
-                                  .pushNamed(
-                                      "TransactionDetails?id=${orderList.elementAt(index).orderId}");
-                              setState(() {
-                                _selectedIndex = index;
-                              });
-                              tempovalueInstance
-                                      .getInstance()
-                                      .currentOrderDetials =
-                                  orderList.elementAt(index);
-                            },
-                            child: itemList(index, orderList.elementAt(index))),
-                    itemCount: orderList.length,
-                  )
+                ? (!noItemAvailable)
+                    ? ListView.builder(
+                        itemBuilder: (BuildContext context, int index) =>
+                            GestureDetector(
+                                onTap: () {
+                                  MasterDetailScaffold.of(context)
+                                      .detailsPaneNavigator
+                                      .pushNamed(
+                                          "TransactionDetails?id=${orderList.elementAt(index).orderId}");
+                                  setState(() {
+                                    _selectedIndex = index;
+                                  });
+                                  tempovalueInstance
+                                          .getInstance()
+                                          .currentOrderDetials =
+                                      orderList.elementAt(index);
+                                },
+                                child: itemList(
+                                    index, orderList.elementAt(index))),
+                        itemCount: orderList.length,
+                      )
+                    : Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "No Transaction yet",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )
                 : Container(
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
@@ -232,17 +245,23 @@ class _TransactionListState extends State {
 
   Future<void> getOrderList() async {
     orderList = await database().getOrderDetails();
-
-    if (orderList.isEmpty) {
-      getOrderList();
+    if (orderList != null) {
+      if (orderList.isEmpty) {
+        getOrderList();
+      } else {
+        MasterDetailScaffold.of(context).detailsPaneNavigator.pushNamed(
+            "TransactionDetails?id=${orderList.elementAt(0).orderId}");
+        tempovalueInstance.getInstance().currentOrderDetials =
+            orderList.elementAt(0);
+        setState(() {
+          isloading = false;
+          noItemAvailable = false;
+        });
+      }
     } else {
-      MasterDetailScaffold.of(context)
-          .detailsPaneNavigator
-          .pushNamed("TransactionDetails?id=${orderList.elementAt(0).orderId}");
-      tempovalueInstance.getInstance().currentOrderDetials =
-          orderList.elementAt(0);
       setState(() {
         isloading = false;
+        noItemAvailable = true;
       });
     }
   }

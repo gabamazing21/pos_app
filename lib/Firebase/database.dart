@@ -28,6 +28,9 @@ class database {
 
     menuRef().snapshots().listen((event) {
       mitem.clear();
+      if (event.size == 0) {
+        mitem = null;
+      }
       event.docs.forEach((element) {
         Menu item = new Menu(
             element.id,
@@ -62,6 +65,9 @@ class database {
     List<submenu> items = List();
     subMenuRef().snapshots().listen((event) {
       items.clear();
+      if (event.size == 0) {
+        items = null;
+      }
       event.docs.forEach((value) {
         items.add(new submenu(
             value['title'],
@@ -78,7 +84,11 @@ class database {
   static Future<Item> getItem(String id) async {
     Item item;
     var itemref = await ItemRef().doc(id).get().then((value) => item = new Item(
-        value['itemName'], value.id, value['ItemPrice'], value['visible'],value['imageLink']));
+        value['itemName'],
+        value.id,
+        value['ItemPrice'],
+        value['visible'],
+        value['imageLink']));
 
     return item;
   }
@@ -95,10 +105,13 @@ class database {
   static Future<List<Item>> getItems() async {
     List<Item> itemList = List();
     ItemRef().snapshots().listen((event) {
+      if (event.size == 0) {
+        itemList = null;
+      }
       itemList.clear();
       event.docs.forEach((element) {
         Item item = new Item(element['itemName'], element.id,
-            element['ItemPrice'], element['visible'],element['imageLink']);
+            element['ItemPrice'], element['visible'], element['imageLink']);
         itemList.add(item);
       });
     });
@@ -143,6 +156,9 @@ class database {
     List<modifiers> items = List();
     modifierRef().snapshots().listen((event) {
       items.clear();
+      if (event.size == 0) {
+        items = null;
+      }
       event.docs.forEach((element) {
         modifiers item = new modifiers(element.id, element['modifierName'],
             List.from(element["items"]), 0, element['checkBox']);
@@ -173,6 +189,9 @@ class database {
   Future<List<OrderDetails>> getOrderDetails() async {
     List<OrderDetails> orderDetails = List();
     orderRef().snapshots().listen((event) {
+      if (event.size == 0) {
+        orderDetails = null;
+      }
       event.docs.forEach((element) {
         OrderDetails orders = new OrderDetails(
           element['userId'],
@@ -185,7 +204,7 @@ class database {
           element['orderCompleted'],
           List.from(element['orderItems'])
               .map((e) => Orderitem(e['orderItemId'], e['orderName'],
-                  e['orderQuantity'], e['orderPrice'],e['orderImageLink']))
+                  e['orderQuantity'], e['orderPrice'], e['orderImageLink']))
               .toList(),
         );
 
