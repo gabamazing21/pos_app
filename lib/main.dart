@@ -5,6 +5,7 @@ import 'package:pos_app/UI/Demo.dart';
 import 'package:pos_app/UI/MasterPanel.dart';
 import 'package:pos_app/UI/MasterPanelItem.dart';
 import 'package:pos_app/UI/MasterPanelTransaction.dart';
+import 'package:pos_app/UI/SubMenuDetails.dart';
 import 'package:pos_app/UI/TransactionDetails.dart';
 import 'package:pos_app/UI/dashboard.dart';
 import 'package:pos_app/UI/menuDetails.dart';

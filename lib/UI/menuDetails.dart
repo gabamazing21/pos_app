@@ -105,10 +105,18 @@ class _menuDetailsState extends State {
                             print("item is loading");
                           }
                         },
-                        child: Text(
+                        child:(!isloading) ?Text(
                           (currentMenu == null) ? "Save" : "Update",
                           style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
+                        ):Container(
+
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            value: null,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                          )),
                       ),
                     )
                   ],
@@ -702,25 +710,24 @@ class _menuDetailsState extends State {
           //     : _menuPromoController.text,
           "last_modified": DateTime.now(),
           "created_date": DateTime.now(),
-          "subMenu": List.generate(selectedSubmnu.lenght, (index) => selectedSubmnu.elementAt(index).),
+          "subMenu": List.generate(subMenuInMenu.length, (index) => subMenuInMenu.elementAt(index).submeuid),
           // "category":_currentCategory.name,
           // "category_id":_currentCategory.documentid,
           "visibility": visibility
         }).then((value) {
           Fluttertoast.showToast(
-              msg: "Menu and Food Item is  successfully updated.",
+              msg: "Menu  Item is  successfully updated.",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 1,
               backgroundColor: utils.getColorFromHex("#CB0000"),
               textColor: Colors.white,
               fontSize: 16.0);
-          /**_menuPriceController.clear();
+
               _menuNameController.clear();
-              _menuPromoController.clear();
-              _menuDescription.clear();
+               subMenuInMenu.clear();
               _pickFile=null;
-           **/
+
 
           setState(() {
             isloading = false;
