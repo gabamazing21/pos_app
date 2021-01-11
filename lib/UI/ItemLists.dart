@@ -29,6 +29,7 @@ class _ItemListState extends State {
   bool isMenuCategoryError = true;
   bool isMenuPriceError = true;
   bool visibility = true;
+  bool isimageselected=false;
   bool isloading = false;
   List<Item> _itemList = List();
   final _picker = ImagePicker();
@@ -212,6 +213,12 @@ class _ItemListState extends State {
   }
 
   Widget showAddItem() {
+    if(item!=null){
+      isMenuPriceError=false;
+      isMenuNameError=false;
+      isimageselected=true;
+
+    }
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -222,6 +229,9 @@ class _ItemListState extends State {
               callback: () {
                 setState(() {
                   addItem = false;
+                  _menuNameController.clear();
+                  _menuPriceController.clear();
+                  _pickFile=null;
                 });
               },
               title: (item == null) ? 'Create Item' : 'Edit Item',
@@ -237,17 +247,20 @@ class _ItemListState extends State {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                      color: Colors.red,
+                      color:(!isMenuNameError && !isMenuPriceError && isimageselected)? Colors.red:Colors.red.withOpacity(0.3),
                       child: FlatButton(
                         onPressed: () {
-                          if (!isloading) {
-                            if (item == null) {
-                              addMenuItem();
+                          if ((!isMenuNameError && !isMenuPriceError &&
+                              isimageselected)) {
+                            if (!isloading) {
+                              if (item == null) {
+                                addMenuItem();
+                              } else {
+                                updateItem();
+                              }
                             } else {
-                              updateItem();
+                              print("loading...");
                             }
-                          } else {
-                            print("loading...");
                           }
                         },
                         child: (!isloading)?Text(
@@ -675,6 +688,13 @@ class _ItemListState extends State {
     );
     setState(() {
       _pickFile = File(_pickedFile.path);
+      if(_pickFile!=null){
+
+        isimageselected=true;
+      }else{
+        isimageselected=false;
+
+      }
     });
   }
 
@@ -702,7 +722,7 @@ class _ItemListState extends State {
               : _menuPromoController.text,
           "last_modified": DateTime.now(),
           "created_date": DateTime.now(),
-          "subMenu": null,
+
           // "category":_currentCategory.name,
           // "category_id":_currentCategory.documentid,
           "visible": visibility
@@ -715,12 +735,12 @@ class _ItemListState extends State {
               backgroundColor: utils.getColorFromHex("#CB0000"),
               textColor: Colors.white,
               fontSize: 16.0);
-          /**_menuPriceController.clear();
+          _menuPriceController.clear();
               _menuNameController.clear();
               _menuPromoController.clear();
               _menuDescription.clear();
               _pickFile=null;
-           **/
+
 
           setState(() {
             isloading = false;
@@ -769,7 +789,7 @@ class _ItemListState extends State {
                 : _menuPromoController.text,
             "last_modified": DateTime.now(),
 
-            "subMenu": null,
+
             // "category":_currentCategory.name,
             // "category_id":_currentCategory.documentid,
             "visible": visibility
@@ -825,7 +845,7 @@ class _ItemListState extends State {
             (_menuPromoController.text.isEmpty) ? 0 : _menuPromoController.text,
         "last_modified": DateTime.now(),
 
-        "subMenu": null,
+
         // "category":_currentCategory.name,
         // "category_id":_currentCategory.documentid,
         "visible": visibility

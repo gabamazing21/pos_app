@@ -35,6 +35,7 @@ class _SubMenuDetailsState extends State {
   List<submenu> subMenuInSubMenu = List();
   List<submenu> submenuList = List();
   submenu currentsubmenu;
+  bool isimageselected=false;
 
   _SubMenuDetailsState({this.currentsubmenu, this.callback});
 
@@ -46,7 +47,8 @@ class _SubMenuDetailsState extends State {
     super.initState();
     if (currentsubmenu != null) {
       _subMenuController.text = currentsubmenu.submenuname;
-
+      isSubmenuError=false;
+      isimageselected=true;
       if (currentsubmenu.subMenu != null) getSubmenuList();
       getModfierList();
     }
@@ -185,17 +187,21 @@ class _SubMenuDetailsState extends State {
                           Container(
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                            color: Colors.red,
+                            color:(!isSubmenuError && modifiersInSubMenu.isNotEmpty &&  isimageselected)? Colors.red:Colors.red.withOpacity(0.3),
                             child: FlatButton(
                               onPressed: () {
-                                if (!isloading) {
-                                  if (currentsubmenu == null) {
-                                    addSubmenu();
+                                if ((!isSubmenuError &&
+                                    modifiersInSubMenu.isNotEmpty &&
+                                    isimageselected)) {
+                                  if (!isloading) {
+                                    if (currentsubmenu == null) {
+                                      addSubmenu();
+                                    } else {
+                                      updateSubmenu();
+                                    }
                                   } else {
-                                    updateSubmenu();
+                                    print("loading...");
                                   }
-                                } else {
-                                  print("loading...");
                                 }
                               },
                               child:(!isloading) ?Text(
@@ -388,6 +394,13 @@ class _SubMenuDetailsState extends State {
     );
     setState(() {
       _pickFile = File(_pickedFile.path);
+      if(_pickFile!=null){
+
+        isimageselected=true;
+      }else{
+
+        isimageselected=false;
+      }
     });
   }
 
@@ -734,6 +747,8 @@ class _SubMenuDetailsState extends State {
             _menuDescription.clear();
             _pickFile=null;
          **/
+              _subMenuController.clear();
+        _pickFile=null;
 
         setState(() {
           isloading = false;
@@ -842,7 +857,8 @@ class _SubMenuDetailsState extends State {
               _menuDescription.clear();
               _pickFile=null;
            **/
-
+          _subMenuController.clear();
+          _pickFile=null;
           setState(() {
             isloading = false;
           });
@@ -907,7 +923,8 @@ class _SubMenuDetailsState extends State {
             _menuDescription.clear();
             _pickFile=null;
          **/
-
+        _subMenuController.clear();
+        _pickFile=null;
         setState(() {
           isloading = false;
         });

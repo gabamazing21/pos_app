@@ -137,6 +137,7 @@ class _ModifierState extends State {
         : ModifiersDetails(currentModifier, () {
             setState(() {
               showEditModifiers = false;
+              getModifiersList();
             });
           });
   }

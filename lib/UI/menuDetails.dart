@@ -36,10 +36,12 @@ class _menuDetailsState extends State {
   String _menuNameError;
   String _menuPriceError;
   String _menuDescriptionError;
-  bool isMenuNameError = true;
+  bool isMenuNameError = false;
+  bool isimageSeleted=false;
   bool isMenuDescriptionError = true;
   bool isMenuCategoryError = true;
   bool isMenuPriceError = true;
+
   TextEditingController _menuNameController;
   TextEditingController _menuPromoController;
   TextEditingController _menuPriceController;
@@ -60,6 +62,8 @@ class _menuDetailsState extends State {
     _menuPriceController = TextEditingController();
     if (id != null) {
       getMenuDetail();
+      isMenuNameError=true;
+      isimageSeleted=true;
       print("value id is not null");
     }
     getSubmenuList();
@@ -70,6 +74,7 @@ class _menuDetailsState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         title: Text((currentMenu == null)
             ? "Create Menu"
             : currentMenu.menu_name + " Details"),
@@ -92,17 +97,19 @@ class _menuDetailsState extends State {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                      color: utils.getColorFromHex("#CC1313"),
+                      color:(!isMenuNameError && isimageSeleted&& subMenuInMenu.isNotEmpty) ?utils.getColorFromHex("#CC1313"):utils.getColorFromHex("#CC1313").withOpacity(0.3),
                       child: FlatButton(
                         onPressed: () {
-                          if (!isloading) {
-                            if (id == null) {
-                              addMenu();
+                          if (!isMenuNameError && isimageSeleted && subMenuInMenu.isNotEmpty) {
+                            if (!isloading) {
+                              if (id == null) {
+                                addMenu();
+                              } else {
+                                updateDetails();
+                              }
                             } else {
-                              updateDetails();
+                              print("item is loading");
                             }
-                          } else {
-                            print("item is loading");
                           }
                         },
                         child:(!isloading) ?Text(
@@ -683,6 +690,13 @@ class _menuDetailsState extends State {
     );
     setState(() {
       _pickFile = File(_pickedFile.path);
+      if(_pickFile!=null){
+
+        isimageSeleted=true;
+      }else{
+
+        isimageSeleted=false;
+      }
     });
   }
 
@@ -793,13 +807,13 @@ class _menuDetailsState extends State {
   }
 
   Widget subMenuList() {
-    double height = submenuList.length * 25.0;
+    double height =(submenuList!=null)? submenuList.length * 25.0:50;
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: height,
       constraints: BoxConstraints(maxHeight: 300),
-      child: ListView.separated(
+      child:(submenuList!=null)? ListView.separated(
           separatorBuilder: (context, index) => Divider(
                 height: 1,
                 color: Colors.grey,
@@ -821,8 +835,11 @@ class _menuDetailsState extends State {
                       color: Colors.black.withOpacity(0.6),
                       fontWeight: FontWeight.bold),
                 ),
-              ))),
-    );
+              ))):Container(
+
+        width: MediaQuery.of(context).size.width,
+    height: 30,
+    child: Text("No submenu available",style: TextStyle(fontSize: 15,color: Colors.black),),));
   }
 
   Future<void> getMenuDetail() async {

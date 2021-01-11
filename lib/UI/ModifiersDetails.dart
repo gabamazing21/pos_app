@@ -41,6 +41,7 @@ class _ModifiersDetailsState extends State {
       ischeckbox = currentModifiers.checkboxreq;
       quantity = currentModifiers.required_item_num;
       getFoodInModifiers();
+    isModifierError=false;
     }
     getFoodlist();
   }
@@ -315,20 +316,25 @@ class _ModifiersDetailsState extends State {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                  color: Colors.red,
+                  color:(!isModifierError && foodInModifiers.isNotEmpty) ? Colors.red:Colors.red.withOpacity(0.3),
                   child: FlatButton(
                     onPressed: () {
-                      if (!isloading) {
-                        //  addMenuItem();
-                        if (currentModifiers == null) {
-                          saveModifiers();
+                      if (!isModifierError && foodInModifiers.isNotEmpty) {
+                        if (!isloading) {
+                          //  addMenuItem();
+                          if (currentModifiers == null) {
+                            saveModifiers();
+                          } else {
+                            updateModifiers();
+                          }
                         } else {
-                          updateModifiers();
+                          print("loading...");
                         }
-                      } else {
-                        print("loading...");
+                      }else{
+                        
+                        
                       }
-                    },
+                    } ,
                     child: (!isloading)?Text(
                       (currentModifiers == null) ? "Save" : "Update",
                       style: TextStyle(fontSize: 16, color: Colors.white),
@@ -594,12 +600,8 @@ class _ModifiersDetailsState extends State {
           backgroundColor: utils.getColorFromHex("#CB0000"),
           textColor: Colors.white,
           fontSize: 16.0);
-      /**_menuPriceController.clear();
-        _menuNameController.clear();
-        _menuPromoController.clear();
-        _menuDescription.clear();
-        _pickFile=null;
-     **/
+
+
       emptydetail();
       setState(() {
         isloading = false;
@@ -641,6 +643,7 @@ class _ModifiersDetailsState extends State {
       setState(() {
         isloading = false;
       });
+      emptydetail();
       voidCallback();
     }, onError: (value) {
       print("An error occurred");
