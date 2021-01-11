@@ -584,13 +584,14 @@ class _SubMenuDetailsState extends State {
   }
 
   Widget ModifiersList() {
-    double height = modifierList.length * 25.0;
+
+    double height =(modifierList!=null)? modifierList.length * 25.0:50;
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: height,
       constraints: BoxConstraints(maxHeight: 300),
-      child: ListView.separated(
+      child:(modifierList!=null)? ListView.separated(
           separatorBuilder: (context, index) => Divider(
                 height: 1,
                 color: Colors.grey,
@@ -612,18 +613,22 @@ class _SubMenuDetailsState extends State {
                       color: Colors.black.withOpacity(0.6),
                       fontWeight: FontWeight.bold),
                 ),
-              ))),
-    );
+              ))):Container(
+
+        width: MediaQuery.of(context).size.width,
+    height: 30,
+    child: Text("No modifier available",style: TextStyle(fontSize: 15,color: Colors.black),),));
   }
 
   Widget SubMenuList() {
-    double height = submenuList.length * 25.0;
+
+    double height =(submenuList!=null) ?submenuList.length * 25.0:50;
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: height,
       constraints: BoxConstraints(maxHeight: 300),
-      child: ListView.separated(
+      child:(submenuList!=null)? ListView.separated(
           separatorBuilder: (context, index) => Divider(
                 height: 1,
                 color: Colors.grey,
@@ -646,24 +651,34 @@ class _SubMenuDetailsState extends State {
                       color: Colors.black.withOpacity(0.6),
                       fontWeight: FontWeight.bold),
                 ),
-              ))),
-    );
+              ))):Container(
+
+        width: MediaQuery.of(context).size.width,
+        height: 30,
+        child: Text("No submenu available",style: TextStyle(fontSize: 15,color: Colors.black),),));
   }
 
   Future<void> getSubMenu() async {
     submenuList = await database.getAllSubMenu();
-    if (submenuList.isEmpty) {
-      getSubMenu();
-    } else {
-      if (currentsubmenu != null) {
-        print("current menu is not empty");
-        submenuList.forEach((element) {
-          if (element.submeuid.contains(currentsubmenu.submeuid)) {
-            submenuList.remove(element);
-          }
-        });
+    if(submenuList!=null) {
+      if (submenuList.isEmpty) {
+        getSubMenu();
+      } else {
+        if (currentsubmenu != null) {
+          print("current menu is not empty");
+          submenuList.forEach((element) {
+            if (element.submeuid.contains(currentsubmenu.submeuid)) {
+              submenuList.remove(element);
+            }
+          });
+        }
+        setState(() {});
       }
-      setState(() {});
+    }else{
+      setState(() {
+
+      });
+
     }
   }
 
@@ -758,11 +773,17 @@ class _SubMenuDetailsState extends State {
   }
 
   Future<void> getSubmenuList() async {
+
     subMenuInSubMenu = await database.getAllSubMenuList(currentsubmenu.subMenu);
-    if (subMenuInSubMenu.isEmpty) {
-      getSubmenuList();
-    } else {
-      setState(() {});
+    if(subMenuInSubMenu!=null) {
+      if (subMenuInSubMenu.isEmpty) {
+        getSubmenuList();
+      } else {
+        setState(() {});
+      }
+    }else{
+
+
     }
   }
 
@@ -777,6 +798,9 @@ class _SubMenuDetailsState extends State {
   }
 
   Future<void> updateSubmenu() {
+    setState(() {
+      isloading=true;
+    });
     if (_pickFile != null) {
       var date = DateTime.now();
       String filename = path.basename(_pickFile.path) + date.toString();

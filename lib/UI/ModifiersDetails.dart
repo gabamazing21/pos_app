@@ -529,13 +529,13 @@ class _ModifiersDetailsState extends State {
   }
 
   Widget FoodList() {
-    double height = foodlist.length * 25.0;
+    double height =(foodlist!=null) ?foodlist.length * 25.0:50;
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: height,
       constraints: BoxConstraints(maxHeight: 300),
-      child: ListView.separated(
+      child:(foodlist!=null) ?ListView.separated(
           separatorBuilder: (context, index) => Divider(
                 height: 1,
                 color: Colors.grey,
@@ -557,8 +557,11 @@ class _ModifiersDetailsState extends State {
                       color: Colors.black.withOpacity(0.6),
                       fontWeight: FontWeight.bold),
                 ),
-              ))),
-    );
+              ))):Container(
+
+        width: MediaQuery.of(context).size.width,
+    height: 30,
+    child: Text("No food item available",style: TextStyle(fontSize: 15,color: Colors.black),),));
   }
 
   Future<void> getFoodlist() async {

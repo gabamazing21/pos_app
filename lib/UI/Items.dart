@@ -111,7 +111,7 @@ class _ItemState extends State {
                           },
                           child: ListTile(
                             title: Text(
-                              "Items",
+                              "Activities",
                               style: KdashboardTextStyle,
                             ),
                           ),

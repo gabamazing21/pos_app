@@ -120,7 +120,7 @@ class _TransactionListState extends State {
                             },
                             child: ListTile(
                               title: Text(
-                                "Items",
+                                "Activities",
                                 style: KdashboardTextStyle,
                               ),
                             ),

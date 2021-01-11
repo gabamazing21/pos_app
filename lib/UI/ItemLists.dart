@@ -250,10 +250,18 @@ class _ItemListState extends State {
                             print("loading...");
                           }
                         },
-                        child: Text(
+                        child: (!isloading)?Text(
                           "Save",
                           style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
+                        ):Container(
+
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                              value: null,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                            )),
                       ),
                     )
                   ],
@@ -320,7 +328,7 @@ class _ItemListState extends State {
                     print("loading...");
                   }
                 },
-                child: Container(
+                child:(!isloading)? Container(
                   alignment: Alignment.center,
                   child: Text(
                     "Save",
@@ -329,7 +337,15 @@ class _ItemListState extends State {
                   decoration: BoxDecoration(
                     color: utils.getColorFromHex("#878787"),
                   ),
-                ),
+                ):Container(
+
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      value: null,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+
+                    )),
               ))
         ],
       ),
@@ -766,19 +782,28 @@ class _ItemListState extends State {
                 backgroundColor: utils.getColorFromHex("#CB0000"),
                 textColor: Colors.white,
                 fontSize: 16.0);
-            /**_menuPriceController.clear();
+            _menuPriceController.clear();
                 _menuNameController.clear();
                 _menuPromoController.clear();
                 _menuDescription.clear();
                 _pickFile=null;
-             **/
+
 
             setState(() {
               isloading = false;
               addItem = false;
             });
+
           }, onError: (error) {
             print("An error occurred");
+            Fluttertoast.showToast(
+                msg: "Unable to add  food item.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: utils.getColorFromHex("#CB0000"),
+                textColor: Colors.white,
+                fontSize: 16.0);
             setState(() {
               isloading = false;
             });
@@ -813,12 +838,12 @@ class _ItemListState extends State {
             backgroundColor: utils.getColorFromHex("#CB0000"),
             textColor: Colors.white,
             fontSize: 16.0);
-        /**_menuPriceController.clear();
+        _menuPriceController.clear();
             _menuNameController.clear();
             _menuPromoController.clear();
             _menuDescription.clear();
             _pickFile=null;
-         **/
+
 
         setState(() {
           isloading = false;
