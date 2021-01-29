@@ -701,11 +701,23 @@ class _menuDetailsState extends State {
   }
 
   Future<void> addMenu() {
+    if(_pickFile==null){
+      Fluttertoast.showToast(
+          msg: "No Image Selected",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: utils.getColorFromHex("#CB0000"),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return null;
+    }
     setState(() {
       isloading = true;
     });
 
     var date = DateTime.now();
+
     String filename = path.basename(_pickFile.path) + date.toString();
     Reference storageReference =
         FirebaseStorage.instance.ref().child("uploads/$filename");
