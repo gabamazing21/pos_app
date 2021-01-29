@@ -705,6 +705,17 @@ class _SubMenuDetailsState extends State {
   }
 
   Future<void> addSubmenu() async {
+    if(_pickFile==null){
+      Fluttertoast.showToast(
+          msg: "No Image Selected",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: utils.getColorFromHex("#CB0000"),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return null;
+    }
     setState(() {
       isloading = true;
     });
