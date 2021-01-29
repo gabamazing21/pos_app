@@ -699,6 +699,17 @@ class _ItemListState extends State {
   }
 
   Future<void> addMenuItem() {
+    if(_pickFile==null){
+      Fluttertoast.showToast(
+          msg: "No Image Selected",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: utils.getColorFromHex("#CB0000"),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return null;
+    }
     setState(() {
       isloading = true;
     });
